@@ -13,6 +13,8 @@ public abstract class Obstacle extends Entity{
 		/*
 		 * destroy this obstacle and drop item
 		 */
+		this.destroy = false;
+		drop();
 	}
 	
 	public void drop() { //u can skip this
@@ -21,6 +23,8 @@ public abstract class Obstacle extends Entity{
 		 * 
 		 * if SHOULD spawn item in this x,y;
 		 */
+		
+		
 	}
 	
 }

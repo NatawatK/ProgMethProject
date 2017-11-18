@@ -15,6 +15,8 @@ public class Player extends Entity{
 	protected boolean isProtected;
 	
 	protected Weapon weapon;
+	Bomb bomb = new Bomb();
+	
 	
 	
 	public Player(){
@@ -28,6 +30,14 @@ public class Player extends Entity{
 		 * set isprotect false
 		 * set weapon = bomb
 		 */
+		this.speed = 10;
+		this.life = 3;
+		this.score = 0;
+		this.maxBomb = 1;
+		this.bombLeft = maxBomb;
+		this.isGrabable = false;
+		this.isProtected = false;
+		this.weapon = bomb;
 	}
 	
 	public void pick(Entity object){
@@ -36,12 +46,17 @@ public class Player extends Entity{
 		 * weapon -> equip()
 		 * item -> call buff() in item
 		 */
+		if(object instanceof Weapon) equip(Weapon object);
+		if(object instanceof Item) (Item object).buff();
+		
 	}
 	
 	public void attack() {
 		/*
 		 * use current weapon
 		 */
+		
+		
 	}	
 	
 	public boolean isDestroyed() {
@@ -49,6 +64,7 @@ public class Player extends Entity{
 		/*
 		 * don't forget that this class extend entity naja
 		 */
+		if(life==0) return true;
 		return false;
 	}
 	
@@ -56,12 +72,14 @@ public class Player extends Entity{
 		/*
 		 * change current weapon to weapon u picked
 		 */
+		this.weapon = weapon;
 	}
 	
 	public void unequip(Weapon weapon) {
 		/*
 		 * set weapon back to bomb
 		 */
+		this.weapon = bomb;
 	}
 	
 	public void draw(GraphicsContext gc) {

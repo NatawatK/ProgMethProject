@@ -16,6 +16,7 @@ public class GameManager {
 		/*
 		 * initialize 
 		 */
+		gameObjectsContainer = new ArrayList<Entity>();
 	}
 	
 	
@@ -23,12 +24,18 @@ public class GameManager {
 		/*
 		 * you already know this
 		 */
+		gameObjectsContainer.add(entity);
 	}
 	
 	public void update() {
 		/*
 		 * update entity if they were destroy (also visibility)
 		 */
+		for(Entity entity : gameObjectsContainer) {
+			if(entity.isDestroyed()) {
+				
+			}
+		}
 	}
 	
 	public void pause() { //optional
