@@ -1,5 +1,7 @@
 package scene;
 
-public class GameOver{
+import javafx.scene.layout.Pane;
+
+public class GameOver extends Pane{
 
 }

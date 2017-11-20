@@ -12,16 +12,14 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-public class MainMenu extends GridPane {
+public class MainMenu extends Pane {
 	
 	public MainMenu() {
 		super();
-		
-		setHgap(20);
-		setPadding(new Insets(100,20,20,20));
 		
 		String PB = "Play";
 		Canvas PlayButton = drawButton(PB);	
@@ -31,18 +29,25 @@ public class MainMenu extends GridPane {
 		Canvas QuitButton = drawButton(QB);	
 		addCanvasEvents(QuitButton,QB);
 		
-		add(PlayButton, 0, 3);
-		add(QuitButton, 1, 3);
+		getChildren().add(PlayButton);
+		changeCenter(PlayButton, 250, 50);
+		
+		getChildren().add(QuitButton);
+		changeCenter(QuitButton, 250, 120);
 		
 	}
 	
+	public void changeCenter(Canvas canvas,double x, double y) {
+		canvas.setTranslateX(x);
+		canvas.setTranslateY(y);
+	}
 	
 	private Canvas drawButton(String name) {
 		Canvas btn = new Canvas(100,50);
 		GraphicsContext gc = btn.getGraphicsContext2D();
 		
 		gc.setFill(Color.DARKGRAY);
-		gc.fillRoundRect(0, 0, 100, 50, 20, 20);
+		gc.fillRoundRect(0, 0, 100, 50, 10, 10);
 	
 		gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
@@ -60,7 +65,7 @@ public class MainMenu extends GridPane {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		gc.setFill(Color.RED);
-		gc.fillRoundRect(0, 0, 100, 50, 20, 20);
+		gc.fillRoundRect(0, 0, 100, 50, 10, 10);
 		
 		gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
@@ -75,7 +80,7 @@ public class MainMenu extends GridPane {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		gc.setFill(Color.DARKGRAY);
-		gc.fillRoundRect(0, 0, 100, 50, 20, 20);
+		gc.fillRoundRect(0, 0, 100, 50, 10, 10);
 	
 		gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
@@ -91,7 +96,8 @@ public class MainMenu extends GridPane {
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				if(buttonName=="Play") SceneManager.gotoSelectPlayer();
+				Pane selectPlayer = new SelectPlayer();
+				if(buttonName=="Play") SceneManager.gotoSceneOf(selectPlayer);
 				if(buttonName=="Quit") Platform.exit();
 			}
 		});
