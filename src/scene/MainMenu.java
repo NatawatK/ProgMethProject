@@ -31,8 +31,8 @@ public class MainMenu extends GridPane {
 		Canvas QuitButton = drawButton(QB);	
 		addCanvasEvents(QuitButton,QB);
 		
-		add(PlayButton, 0, 3);
-		add(QuitButton, 1, 3);
+		add(PlayButton, 3, 0);
+		add(QuitButton, 3, 1);
 		
 	}
 	
@@ -44,7 +44,7 @@ public class MainMenu extends GridPane {
 		gc.setFill(Color.DARKGRAY);
 		gc.fillRoundRect(0, 0, 100, 50, 20, 20);
 	
-		gc.setFont(SceneManager.theFont);
+		//gc.setFont(SceneManager.theFont); **will get font later**
 		gc.setFill(Color.WHITE);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -62,7 +62,7 @@ public class MainMenu extends GridPane {
 		gc.setFill(Color.RED);
 		gc.fillRoundRect(0, 0, 100, 50, 20, 20);
 		
-		gc.setFont(SceneManager.theFont);
+		//gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -77,7 +77,7 @@ public class MainMenu extends GridPane {
 		gc.setFill(Color.DARKGRAY);
 		gc.fillRoundRect(0, 0, 100, 50, 20, 20);
 	
-		gc.setFont(SceneManager.theFont);
+		//gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -91,7 +91,7 @@ public class MainMenu extends GridPane {
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				if(buttonName=="Play") SceneManager.gotoSelectPlayer();
+				//if(buttonName=="Play") SceneManager.gotoSelectPlayer();
 				if(buttonName=="Quit") Platform.exit();
 			}
 		});

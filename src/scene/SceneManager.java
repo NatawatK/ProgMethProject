@@ -1,5 +1,7 @@
 package scene;
 
-public class SceneManager extend Canvas {
+import javafx.scene.canvas.Canvas;
+
+public class SceneManager extends Canvas {
 
 }

@@ -1,6 +1,6 @@
-package Model;
+package model;
 
-import SharedObject.Renderable;
+import sharedObject.Renderable;
 
 public abstract class Entity implements Renderable{
 	protected double x,y;
@@ -18,6 +18,11 @@ public abstract class Entity implements Renderable{
 	
 	public boolean isDestroyed() {
 		return destroy;
+	}
+	
+	public void destroy() {
+		this.destroy = true;
+		this.visible = false;
 	}
 
 	public int getZ() {

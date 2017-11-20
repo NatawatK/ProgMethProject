@@ -1,9 +1,11 @@
-package Model;
+package model;
+
+import java.util.Random;
 
 import javafx.scene.image.Image;
 
 public abstract class Obstacle extends Entity{
-	public final static double dropProability = 0.3;
+	public final static double dropProability = 30;
 	protected boolean Destroyable;
 	
 	protected Image sprite;
@@ -23,7 +25,13 @@ public abstract class Obstacle extends Entity{
 		 * 
 		 * if SHOULD spawn item in this x,y;
 		 */
-		
+		Random rd = new Random();
+		double x = rd.nextDouble();
+		if(x*100 <= dropProability) {
+			System.out.println("Drop");
+			
+		}
+		System.out.println(x);
 		
 	}
 	
