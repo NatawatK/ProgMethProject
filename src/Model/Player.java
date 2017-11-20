@@ -1,6 +1,8 @@
-package Model;
+package model;
 
 import javafx.scene.canvas.GraphicsContext;
+import model.weapon.*;
+import model.item.*;
 
 public class Player extends Entity{
 	
@@ -9,54 +11,34 @@ public class Player extends Entity{
 	protected double score;
 	//protected double direction;
 	
-	protected int bombLeft, bombLenght, maxBomb;
 	
-	protected boolean isGrabable;
+	
+	protected boolean hasGlove;
 	protected boolean isProtected;
 	
 	protected Weapon weapon;
-	Bomb bomb = new Bomb();
+	protected Bomb bomb;
 	
 	
 	
 	public Player(){
-		/*
-		 * set speed to 10
-		 * set life to 3
-		 * set score to 0
-		 * set maxbomb to 1 
-		 * set bomblelf = maxbomb
-		 * set isgrab false
-		 * set isprotect false
-		 * set weapon = bomb
-		 */
 		this.speed = 10;
 		this.life = 3;
 		this.score = 0;
-		this.maxBomb = 1;
-		this.bombLeft = maxBomb;
-		this.isGrabable = false;
+		this.hasGlove = false;
 		this.isProtected = false;
+		bomb = new Bomb();
 		this.weapon = bomb;
 	}
 	
 	public void pick(Entity object){
-		/*
-		 * check if obj is weapon or item
-		 * weapon -> equip()
-		 * item -> call buff() in item
-		 */
-		if(object instanceof Weapon) equip(Weapon object);
-		if(object instanceof Item) (Item object).buff();
-		
+		if(object instanceof Weapon) equip((Weapon)object);
+		if(object instanceof Item) ((Item)object).buff();
+	
 	}
 	
 	public void attack() {
-		/*
-		 * use current weapon
-		 */
-		
-		
+		weapon.launch();
 	}	
 	
 	public boolean isDestroyed() {
@@ -69,16 +51,10 @@ public class Player extends Entity{
 	}
 	
 	public void equip(Weapon weapon) {
-		/*
-		 * change current weapon to weapon u picked
-		 */
 		this.weapon = weapon;
 	}
 	
 	public void unequip(Weapon weapon) {
-		/*
-		 * set weapon back to bomb
-		 */
 		this.weapon = bomb;
 	}
 	

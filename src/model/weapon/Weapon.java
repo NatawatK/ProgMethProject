@@ -1,4 +1,6 @@
-package Model;
+package model.weapon;
+
+import model.Entity;
 
 public abstract class Weapon extends Entity{
 	

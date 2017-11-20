@@ -34,6 +34,7 @@ public class MainMenu extends Pane {
 		
 		getChildren().add(QuitButton);
 		changeCenter(QuitButton, 250, 120);
+
 		
 	}
 	
@@ -49,7 +50,7 @@ public class MainMenu extends Pane {
 		gc.setFill(Color.DARKGRAY);
 		gc.fillRoundRect(0, 0, 100, 50, 10, 10);
 	
-		gc.setFont(SceneManager.theFont);
+		//gc.setFont(SceneManager.theFont); **will get font later**
 		gc.setFill(Color.WHITE);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -67,7 +68,7 @@ public class MainMenu extends Pane {
 		gc.setFill(Color.RED);
 		gc.fillRoundRect(0, 0, 100, 50, 10, 10);
 		
-		gc.setFont(SceneManager.theFont);
+		//gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -82,7 +83,7 @@ public class MainMenu extends Pane {
 		gc.setFill(Color.DARKGRAY);
 		gc.fillRoundRect(0, 0, 100, 50, 10, 10);
 	
-		gc.setFont(SceneManager.theFont);
+		//gc.setFont(SceneManager.theFont);
 		gc.setFill(Color.WHITE);
 		gc.setTextBaseline(VPos.CENTER);
 		gc.setTextAlign(TextAlignment.CENTER);
