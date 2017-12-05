@@ -97,7 +97,7 @@ public class MainMenu extends Pane {
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				Pane selectPlayer = new SelectPlayer();
+				Pane selectPlayer = new SelectBall();
 				if(buttonName=="Play") SceneManager.gotoSceneOf(selectPlayer);
 				if(buttonName=="Quit") Platform.exit();
 			}

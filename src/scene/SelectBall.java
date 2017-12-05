@@ -9,9 +9,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.TextAlignment;
 
-public class SelectPlayer extends Pane{
+public class SelectBall extends Pane{
 	
-	public SelectPlayer() {
+	public SelectBall() {
 		super();
 		
 		String PB = "1 Player";
