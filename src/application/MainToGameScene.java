@@ -3,10 +3,12 @@ package application;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import logic.Holder;
 import scene.GameStage;
 import scene.MainMenu;
 import scene.SceneManager;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 
 
@@ -14,25 +16,19 @@ public class MainToGameScene extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
-			GameStage gameStage = new GameStage();
-			Scene scene = new Scene(gameStage);
+			GameStage game = Holder.getInstance().getGameStage();
+			Scene scene = new Scene(game,game.getGAME_WIDTH(), game.getGAME_HEIGHT());
+			primaryStage.setResizable(false);
 			primaryStage.setTitle("GameScene");
 			primaryStage.setScene(scene);
-			primaryStage.setResizable(false);
-			primaryStage.centerOnScreen();
+
+			logic.GameManager.startGame();
+
 			primaryStage.show();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		
-		AnimationTimer timer = new AnimationTimer() {
-			@Override
-			public void handle(long time) {
-				// TODO Auto-generated method stub
-				
-			}
-		};
-		timer.start();
 	}
 	
 	public static void main(String[] args) {

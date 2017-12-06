@@ -1,11 +1,13 @@
 package model;
 
-import sharedObject.Renderable;
+import javafx.scene.canvas.Canvas;
 
-public abstract class Entity implements Renderable{
+public abstract class Entity{
 	protected double x,y;
 	protected int z;
 	protected boolean visible, destroy;
+	
+	public Canvas canvas;
 	
 	public Entity() {
 		visible = true;
@@ -28,6 +30,8 @@ public abstract class Entity implements Renderable{
 	public int getZ() {
 		return z;
 	}
+	
+	abstract void draw();
 	
 	
 	
