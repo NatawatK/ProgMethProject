@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -11,104 +12,88 @@ import javafx.scene.text.TextAlignment;
 
 public class SelectBall extends Pane{
 	
+	private final double CHAR_WIDTH = 100;
+	private final double CHAR_HEIGHT = 100;
+	private Image EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
+	private Canvas EarthBoard, EarthBorder, EarthImgCanvas;
+	
+	
 	public SelectBall() {
 		super();
 		
-		String PB = "1 Player";
-		Canvas P1Button = drawButton(PB);	
-		addCanvasEvents(P1Button,PB);
+		loadImg();
 		
-		String QB = "2 Player";
-		Canvas P2Button = drawButton(QB);	
-		addCanvasEvents(P2Button,QB);
+		String Earth = "Earth";
+		EarthBoard = drawField();
+		EarthImgCanvas = drawImg(EarthImg);
+		EarthBorder = drawBorder();
+		this.addCanvasEvents(EarthBoard, EarthBorder, Earth);
 		
-//		String Char1 = "Character 1";
-//		Canvas Char1Button = drawChar();
-//		addCanvasEvents(Char1Button,Char1);
-//		
-//		String Char2 = "Character 2";
-//		Canvas Char2Button = drawChar();
-//		addCanvasEvents(Char2Button,Char2);
-		
-		getChildren().add(P1Button);
-		changeCenter(P1Button, 100, 50);
-		
-		getChildren().add(P2Button);
-		changeCenter(P2Button, 250, 50);
-		
-//		getChildren().add(Char1Button);
-//		changeCenter(Char1Button, 250, 150);
-//		
-//		getChildren().add(Char2Button);
-//		changeCenter(Char2Button, 250, 150);
+		this.changeCenter(EarthBoard, 50, 200);
+		this.changeCenter(EarthBorder, 50, 200);
+		this.changeCenter(EarthImgCanvas, 50, 200);
+		this.getChildren().addAll(EarthBoard, EarthImgCanvas, EarthBorder);
 		
 	}
 	
-	public void changeCenter(Canvas canvas,double x, double y) {
+	private void loadImg() {
+		EarthImg = new Image("Earth.png");
+		MarsImg = new Image("Mars.png");
+		MoonImg = new Image("Moon.png");
+		PlutoImg = new Image("Pluto.png");
+		SaturnImg = new Image("Saturn.png");
+		UranusImg = new Image("Uranus.png");
+	}
+	
+	private void changeCenter(Canvas canvas,double x, double y) {
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 	}
 	
-//	private Canvas drawChar() {
-//		
-//	}
-	
-	private Canvas drawButton(String name) {
-		Canvas btn = new Canvas(100,50);
-		GraphicsContext gc = btn.getGraphicsContext2D();
+	private Canvas drawBorder() {
+		Canvas canvas = new Canvas(CHAR_WIDTH, CHAR_HEIGHT);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.BLACK);
+		gc.setLineWidth(2);
+		gc.strokeRoundRect(1, 1, CHAR_WIDTH-2, CHAR_HEIGHT-2, 20, 20);
 		
-		gc.setFill(Color.DARKGRAY);
-		gc.fillRoundRect(0, 0, 150, 70, 10, 10);
-	
-		gc.setFont(SceneManager.theFont);
-		gc.setFill(Color.WHITE);
-		gc.setTextBaseline(VPos.CENTER);
-		gc.setTextAlign(TextAlignment.CENTER);
-		gc.fillText(name, 50, 25);
-		
-		return btn;
+		return canvas;
 	}
 	
-	public void drawHoverIndicator(Canvas canvas, String name) {
-		//TODO Fill Code
-		if(name=="Player 1"|| name=="Player 2") {
-			GraphicsContext gc = canvas.getGraphicsContext2D();
-			
-			gc.setFill(Color.RED);
-			gc.fillRoundRect(0, 0, 150, 70, 10, 10);
-			
-			gc.setFont(SceneManager.theFont);
-			gc.setFill(Color.WHITE);
-			gc.setTextBaseline(VPos.CENTER);
-			gc.setTextAlign(TextAlignment.CENTER);
-			gc.fillText(name, 50, 25);
-		}
-//		if(name=="Character 1")
-//		if(name=="Character 2")
-			
+	private Canvas drawField() {
+		Canvas canvas = new Canvas(CHAR_WIDTH, CHAR_HEIGHT);
+		canvas.setOpacity(0.5);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.CORNSILK);
+		gc.fillRoundRect(1, 1, CHAR_WIDTH-2, CHAR_HEIGHT-2, 20, 20);
+		
+		return canvas;
+		
+	}
+	
+	private Canvas drawImg(Image img) {
+		Canvas canvas = new Canvas(CHAR_WIDTH, CHAR_HEIGHT);
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.drawImage(img, 10, 10, CHAR_WIDTH-20, CHAR_HEIGHT-20);
+		
+		return canvas;
+	}
+	
+	public void drawHoverIndicator(Canvas canvas) {
+	//TODO Fill Code
+		canvas.setOpacity(1);
 	}
 
-	public void undrawHoverIndicator(Canvas canvas, String name) {
-		//TODO Fill Code
-		if(name=="Player 1"|| name=="Player 2") {
-			GraphicsContext gc = canvas.getGraphicsContext2D();
-			
-			gc.setFill(Color.DARKGRAY);
-			gc.fillRoundRect(0, 0, 150, 70, 10, 10);
-		
-			gc.setFont(SceneManager.theFont);
-			gc.setFill(Color.WHITE);
-			gc.setTextBaseline(VPos.CENTER);
-			gc.setTextAlign(TextAlignment.CENTER);
-			gc.fillText(name, 50, 25);
-		}
-//		if(name=="Character 1")
-//		if(name=="Character 2")
+	public void undrawHoverIndicator(Canvas canvas) {
+	//TODO Fill Code
+		canvas.setOpacity(0.5);
 	}
 	
-	private void addCanvasEvents(Canvas canvas, String buttonName) {
+	
+	
+	private void addCanvasEvents(Canvas board, Canvas border, String buttonName) {
 		//TODO Fill Code
-		canvas.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
+		border.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
@@ -120,21 +105,22 @@ public class SelectBall extends Pane{
 			}
 		});
 		
-		canvas.setOnMouseEntered(new javafx.event.EventHandler<MouseEvent>() {
+		border.setOnMouseEntered(new javafx.event.EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				drawHoverIndicator(canvas,buttonName);
+				System.out.println(1);
+				drawHoverIndicator(board);
 			}	
 		});
 		
-		canvas.setOnMouseExited(new javafx.event.EventHandler<MouseEvent>() {
+		border.setOnMouseExited(new javafx.event.EventHandler<MouseEvent>() {
 
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				undrawHoverIndicator(canvas,buttonName);
+				undrawHoverIndicator(board);
 			}
 			
 		});

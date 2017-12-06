@@ -13,7 +13,7 @@ import model.Ball;
 
 
 public class GameStage extends GridPane{
-	public final static int GAME_WIDTH = 800;
+	public final static int GAME_WIDTH = 375;
 	public final static int GAME_HEIGHT = 600;
 	
 	protected Canvas canvas ;

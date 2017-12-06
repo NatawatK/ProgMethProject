@@ -59,12 +59,12 @@ public class Ball extends CollidableEntity{
 	}
 	
 	public void checkFrame() {
-		if(y - radius > GameStage.GAME_HEIGHT) {
+		if(y + radius > GameStage.GAME_HEIGHT) {
 			System.out.println("STOP");
 			this.destroy();
 		}
 		if(y - radius < 0) direction.y *= -1;
-		if(x - radius <0 || x - radius > GameStage.GAME_WIDTH) direction.x *= -1;
+		if(x - radius <0 || x + radius > GameStage.GAME_WIDTH) direction.x *= -1;
 	}
 	
 	public void print() {

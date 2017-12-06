@@ -13,7 +13,7 @@ public class Main extends Application {
 		try {
 			SceneManager.initialize(primaryStage);
 			SceneManager.gotoMainMenu();
-			primaryStage.setTitle("Typing Game");
+			primaryStage.setTitle("Shoot!!!");
 			primaryStage.centerOnScreen();
 		} catch (Exception e) {
 			e.printStackTrace();

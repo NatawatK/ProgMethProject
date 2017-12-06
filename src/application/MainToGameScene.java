@@ -18,6 +18,7 @@ public class MainToGameScene extends Application {
 			Scene scene = new Scene(gameStage);
 			primaryStage.setTitle("GameScene");
 			primaryStage.setScene(scene);
+			primaryStage.setResizable(false);
 			primaryStage.centerOnScreen();
 			primaryStage.show();
 		} catch (Exception e) {
