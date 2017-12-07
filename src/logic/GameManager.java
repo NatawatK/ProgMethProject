@@ -21,7 +21,8 @@ public class GameManager {
 	protected static GameState nowState ;
 	
 	public static void startGame() {
-		nowState = GameState.Aim;
+		Holder.getInstance().spawnBlocks();
+		nowState = GameState.Shoot;
 		startTime = System.nanoTime();
 		AnimationTimer timer = new AnimationTimer() {
 			
@@ -40,14 +41,18 @@ public class GameManager {
 	}
 	
 	public static void update() {
+		
 		if(nowState == GameState.Aim) {
 			
 		}
 		if(nowState == GameState.Shoot) {
 			ballUpdate();
+//			if(Holder.getInstance().getBallHolder().size() <= 0)
+//				nowState = GameState.Move;
 		}
 		if(nowState == GameState.Move) {
-		
+			Holder.getInstance().getShooter().move();
+			if(Holder.getInstance().getShooter().isMoved()) nowState = GameState.Aim;
 		}
 		if(nowState == GameState.LvlUp) {
 			
@@ -55,15 +60,19 @@ public class GameManager {
 	}
 	
 	public static void ballUpdate() {
-		Holder.getInstance().ballHolder.removeIf(e -> {
+		Holder.getInstance().ballContainer.removeIf(e -> {
 				return e.isDestroyed();
 		});
 
-		for(Ball e : Holder.getInstance().ballHolder) {
+		for(Ball e : Holder.getInstance().ballContainer) {
 			e.move();
 		}
 	}
 	public static void print() {
 		System.out.println("Time  = " + System.nanoTime());
+	}
+	
+	public static void setState(GameState state) {
+		GameManager.nowState = state;
 	}
 }

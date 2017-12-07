@@ -14,13 +14,13 @@ import scene.GameStage;
 
 public class Shooter extends Entity implements Movable{
 	
-	static final long COOLDOWN = 100000000;
 	protected int maxBall;
 	protected double newX, newY;
 	protected long cooldownTimer;
 	
-	
+	protected boolean moved;
 	protected Ray shootRay;
+	
 	
 	final static double SPEED = 10;
 	
@@ -31,7 +31,8 @@ public class Shooter extends Entity implements Movable{
 		this.newX = -1;
 		this.newY = -1;
 		this.cooldownTimer = 0;
-		canvas = new Canvas(100, 100);
+		canvas = new Canvas(GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
+		moved = true;
 		draw();
 	}
 	@Override
@@ -39,12 +40,13 @@ public class Shooter extends Entity implements Movable{
 		// TODO Auto-generated method stub
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(Color.RED);
-		gc.fillRect(x-10, y-10, 20, 20);
+		gc.fillRect(x-5, y-5, 10, 10);
 		Holder.getInstance().getGameStage().getChildren().add(canvas);
+		System.out.println("Shooter Canvas Add!! " + x + " " + y);
 	}
 	public void shoot(Vector2 direction) {
 		newX = newY = -1;
-		
+		moved = false;
 		new Thread(() -> {
 			int nowBall = 0;
 			while(nowBall < maxBall) {
@@ -68,7 +70,16 @@ public class Shooter extends Entity implements Movable{
 			x += (x < newX)? SPEED : -SPEED ;
 		if(y != newY)
 			y += (y< newY)? SPEED : -SPEED ;
+		if(x == newX && y == newY) {
+			moved = true;
+		}
 	}
+	
+	public boolean isMoved() {
+		return moved;
+	}
+	
+	
 	
 	
 	

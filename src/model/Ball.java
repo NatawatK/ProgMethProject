@@ -2,6 +2,8 @@ package model;
 
 import org.dyn4j.geometry.Vector2;
 
+import javafx.geometry.Point2D;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
@@ -15,6 +17,7 @@ public class Ball extends CollidableEntity implements Movable{
 	final static Paint BALL_COLOR = Color.WHITE;
 	final static double INIT_RADIUS = 5.0;
 	
+	protected double radius;
 	private Vector2 direction;
 	private double speed;
 	
@@ -34,11 +37,12 @@ public class Ball extends CollidableEntity implements Movable{
 		this.x = x;
 		this.y = y;
 		this.direction = direction.getNormalized();
-		canvas = new Canvas(radius+50, radius+50);
+		
 		this.draw();
 	}
 	public void move() {
 		checkFrame();
+		checkCollision();
 		this.x += direction.x*speed; 
 		this.y += direction.y*speed;
 		
@@ -56,13 +60,25 @@ public class Ball extends CollidableEntity implements Movable{
 	public void destroy() {
 		this.speed = 0;
 		this.destroy = true;
-		this.visible = false;
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
 		
+	}
+	
+	public void collect() {
+		if(Holder.getInstance().getShooter().newX == -1 && Holder.getInstance().getShooter().newY == -1) {
+			Holder.getInstance().getShooter().newX = x;
+			Holder.getInstance().getShooter().newY = y;
+		}
+		else {
+			this.direction = (x < Holder.getInstance().getShooter().newX)? new Vector2().right(): new Vector2().left();
+		}
+		destroy();
+			
 	}
 	@Override
 	public void draw() {
 		// TODO Auto-generated method stub
+		canvas = new Canvas(radius*2, radius*2);
 		canvas.setTranslateX(x - radius);
 		canvas.setTranslateY(y - radius);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -76,25 +92,76 @@ public class Ball extends CollidableEntity implements Movable{
 	
 
 	@Override
-	public void onCollision() {
+	public void onCollision(CollidableEntity other) {
 		// TODO Auto-generated method stub
+		if(other instanceof Block == false) return;
+		
+		int ballLeft = (int) this.getRect().getMinX();
+        int ballHeight = (int) this.getRect().getHeight();
+        int ballWidth = (int) this.getRect().getWidth();
+        int ballTop = (int) this.getRect().getMinY();
+//        System.out.println(ballLeft + " " + ballHeight + " " + ballWidth + " " + ballTop);
+        Point2D PointRight = new Point2D(ballLeft + ballWidth + 1, ballTop);
+        Point2D PointLeft = new Point2D(ballLeft - 1, ballTop);
+        Point2D PointTop = new Point2D(ballLeft, ballTop - 1);
+        Point2D PointBottom = new Point2D(ballLeft, ballTop + ballHeight + 1);
+        System.out.print("Bounce!! ");
+        if (!other.isDestroyed()) {
+        	System.out.println("Checking");
+            if (other.getRect().contains(PointRight)) {
+//                ball.setXDir(-1);
+                direction.x = -1;
+
+                System.out.println("Right");
+            } else if (other.getRect().contains(PointLeft)) {
+//                ball.setXDir(1);
+            	direction.x = 1;
+
+            	System.out.println("Left");
+            }
+
+            if (other.getRect().contains(PointTop)) {
+//                ball.setYDir(1);
+            	direction.y = 1;
+            	System.out.println("Top");
+            } else if (other.getRect().contains(PointBottom)) {
+//                ball.setYDir(-1);
+                direction.y = -1;
+                System.out.println("Bottom");
+            }
+
+        
+        }
 		
 	}
-	
-	public void checkFrame() {
-		if(y + radius > GameStage.GAME_HEIGHT) {
-			System.out.println("STOP");
-			this.destroy();
-			
+	public void checkCollision() {
+		for(Block e : Holder.getInstance().getBlockContainer()) {
+			if(e.getRect().intersects(this.getRect())) {
+				System.out.println("hit!!");
+				onCollision(e);
+				e.onCollision(this);
+			}
+				
 		}
-
+	}
+	public void checkFrame() {
+		if(y + radius >= GameStage.GAME_HEIGHT) {
+			collect();
+		}
 		if(y - radius <= 0) direction.y *= -1;
 		if(x - radius <=0 || x + radius >= GameStage.GAME_WIDTH) direction.x *= -1;
 
 	}
 	
+	
 	public void print() {
 		System.out.println(x + "," +y);
+	}
+
+	@Override
+	public Rectangle2D getRect() {
+		// TODO Auto-generated method stub
+		return new Rectangle2D(x-radius, y-radius, 2*radius, 2*radius);
 	}
 	
 	

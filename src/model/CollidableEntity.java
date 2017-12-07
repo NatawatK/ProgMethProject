@@ -1,6 +1,9 @@
 package model;
 
+import javafx.geometry.Rectangle2D;
+
 public abstract class CollidableEntity extends Entity {
-	protected double radius;
-	public abstract void onCollision();
+	
+	public abstract void onCollision(CollidableEntity other);
+	public abstract Rectangle2D getRect();
 }

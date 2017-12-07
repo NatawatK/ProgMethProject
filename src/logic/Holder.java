@@ -2,45 +2,68 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import model.Ball;
+import model.Block;
 import model.Entity;
-import model.ShootPath;
 import model.Shooter;
 import scene.GameStage;
 
 
 public class Holder {
 	
-	private static final Holder instance = new Holder();
+	private static Holder instance = new Holder();
 	
-	protected Shooter shooter;
+	
 	protected GameStage gameStage;
-	protected List<Ball> ballHolder;
-	
+	protected Shooter shooter;
+	protected List<Ball> ballContainer;
+	protected List<Block> blockContainer;
 	
 	public Holder() {
 		this.gameStage = new GameStage();
-		this.shooter = new Shooter();
-		ballHolder = new ArrayList<Ball>();
-		
+		ballContainer = new ArrayList<Ball>();
+		blockContainer = new ArrayList<Block>();
 	}
 	
+	public void setShooter(Shooter shooter) {
+		this.shooter = shooter;
+	}
+
 	public static Holder getInstance () {
 		return instance;
 	}
 	
-	public void add(Entity entity) {
-		if(entity instanceof Ball) {
-			ballHolder.add((Ball)entity);
-			gameStage.getChildren().add(entity.canvas);
-			System.out.println("Ball added  " + System.nanoTime());
+	public void spawnBlocks() {
+		int N_BLOCKS = 7;
+		double blockSize = GameStage.GAME_WIDTH/N_BLOCKS;
+		double SPAWN_RATE = 70;
+		
+		for(int i = 0 ;i<= N_BLOCKS; i++) {
+			if(new Random().nextDouble()*100 <= SPAWN_RATE)
+				this.add(new Block(blockSize*i, 100 ,blockSize ,blockSize));
 		}
 	}
 	
+	public void add(Entity entity) {
+		if(entity instanceof Ball) {
+			Holder.getInstance().ballContainer.add((Ball)entity);
+			Holder.getInstance().gameStage.getChildren().add(entity.canvas);
+			System.out.println("Ball added  " + System.nanoTime());
+		}
+		if(entity instanceof Block) {
+			blockContainer.add((Block)entity);
+			gameStage.getChildren().add(entity.canvas);
+			System.out.println("Block added  " + System.nanoTime());
+		}
+	}
+	
+	
+	
 	public void remove(Entity entity) {
 		if(entity instanceof Ball) {
-			ballHolder.remove(entity);
+			ballContainer.remove(entity);
 		}
 	}
 
@@ -52,8 +75,12 @@ public class Holder {
 		return gameStage;
 	}
 
-	public List<Ball> getBallHolder() {
-		return ballHolder;
+	public List<Ball> getBallContainer() {
+		return ballContainer;
+	}
+
+	public List<Block> getBlockContainer() {
+		return blockContainer;
 	}
 	
 	

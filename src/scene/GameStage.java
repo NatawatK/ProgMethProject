@@ -11,8 +11,10 @@ import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.Screen;
+import logic.GameManager;
 import logic.Holder;
 import model.Ball;
+import model.Shooter;
 
 
 
@@ -30,13 +32,14 @@ public class GameStage extends Pane{
 		});
 		this.setOnMouseClicked(E -> {
 			if(E.getButton() == MouseButton.PRIMARY) {
+				Holder.getInstance().setShooter(new Shooter());
 				Vector2 direction = new Vector2(GAME_WIDTH/2,GAME_HEIGHT-10,E.getSceneX(), E.getSceneY());
 				Holder.getInstance().getShooter().shoot(direction);
 				System.out.println("Shoot to" + E.getSceneX() + " " + E.getSceneY());
-				
+//				GameManager.setState(GameManager.GameState.Shoot);
 			}
 			if(E.getButton() == MouseButton.SECONDARY) {
-				for(Ball e : Holder.getInstance().getBallHolder())
+				for(Ball e : Holder.getInstance().getBallContainer())
 					e.down();
 				System.out.println("Retrieve!");
 			}
@@ -45,8 +48,8 @@ public class GameStage extends Pane{
 		});
 		
 		this.setOnKeyPressed(E -> {
-			if(E.getCode() == KeyCode.BACK_SPACE) {
-				for(Ball e : Holder.getInstance().getBallHolder())
+			if(E.getCode() == KeyCode.SPACE) {
+				for(Ball e : Holder.getInstance().getBallContainer())
 					e.down();
 				System.out.println("Retrieve!");
 			}
