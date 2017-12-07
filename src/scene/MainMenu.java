@@ -16,12 +16,16 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.FontPosture;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 
 public class MainMenu extends Pane {
 	
 	private final double BTN_WIDTH = 100;
 	private final double BTN_HEIGHT = 100;
+	public static final Font headFont = Font.loadFont("file:res/fonts/SPACEBAR.ttf",50);
 	private Canvas PlayBtn;
 	private Canvas QuitBtn;
 	private Canvas MenuBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
@@ -31,16 +35,28 @@ public class MainMenu extends Pane {
 	public MainMenu() {
 		super();
 		
-		
 		MenuImg = new Image("MainBG.jpg");
 		PlayBtn1 = new Image("PlayBtn1.png");
 		PlayBtn2 = new Image("PlayBtn2.png");
-		
 		
 		GraphicsContext gc = MenuBG.getGraphicsContext2D();
 		gc.drawImage(MenuImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 		gc.drawImage(Earth, 0, 0, 30, 30);
 		getChildren().add(MenuBG);
+		
+		Canvas MainLabel = new Canvas(400,300);
+		GraphicsContext gc2 = MainLabel.getGraphicsContext2D();
+		
+		gc2.setFont(headFont);
+		gc2.setFill(Color.WHITE);
+		gc2.setTextBaseline(VPos.CENTER);
+		gc2.setTextAlign(TextAlignment.CENTER);
+		gc2.fillText("LOST\nSTAR", 200, 150);
+		gc2.strokeText("LOST\nSTAR", 200, 150);
+		
+		
+		changeCenter(MainLabel, 0, 0);
+		getChildren().add(MainLabel);
 
 		PlayBtn = drawButton(PlayBtn1);	
 		addCanvasEvents(PlayBtn, "Play", PlayBtn1, PlayBtn2);
@@ -69,53 +85,6 @@ public class MainMenu extends Pane {
 		gc.drawImage(img, 0, 0, BTN_WIDTH,BTN_HEIGHT);
 	}
 	
-//	private Canvas drawButton(String name) {
-//		Canvas btn = new Canvas(200,200);
-//		GraphicsContext gc = btn.getGraphicsContext2D();
-//		
-//		gc.setFill(Color.WHITE);
-//		gc.fillRoundRect(0, 0, 200, 50, 10, 10);
-//	
-//		//gc.setFont(SceneManager.theFont); **will get font later**
-//		gc.setFill(Color.WHITE);
-//		gc.setTextBaseline(VPos.CENTER);
-//		gc.setTextAlign(TextAlignment.CENTER);
-//		gc.fillText(name, 100, 25);
-//		
-//		return btn;
-//		
-//
-//	}
-//	
-//	public void drawHoverIndicator(Canvas canvas, String name) {
-//		//TODO Fill Code
-//		GraphicsContext gc = canvas.getGraphicsContext2D();
-//		
-//		gc.setFill(Color.RED);
-//		gc.fillRoundRect(0, 0, 200, 50, 10, 10);
-//		
-//		//gc.setFont(SceneManager.theFont);
-//		gc.setFill(Color.WHITE);
-//		gc.setTextBaseline(VPos.CENTER);
-//		gc.setTextAlign(TextAlignment.CENTER);
-//		gc.fillText(name, 100, 25);
-//			
-//	}
-//
-//	public void undrawHoverIndicator(Canvas canvas, String name) {
-//		//TODO Fill Code
-//		GraphicsContext gc = canvas.getGraphicsContext2D();
-//		
-//		gc.setFill(Color.DARKGRAY);
-//		gc.fillRoundRect(0, 0, 200, 50, 10, 10);
-//	
-//		//gc.setFont(SceneManager.theFont);
-//		gc.setFill(Color.WHITE);
-//		gc.setTextBaseline(VPos.CENTER);
-//		gc.setTextAlign(TextAlignment.CENTER);
-//		gc.fillText(name, 100, 25);
-//	}
-	
 	private void addCanvasEvents(Canvas canvas, String buttonName, Image img1, Image img2) {
 		//TODO Fill Code
 		canvas.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
@@ -123,8 +92,8 @@ public class MainMenu extends Pane {
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				Pane selectPlayer = new SelectBall();
-				if(buttonName=="Play") SceneManager.gotoSceneOf(selectPlayer);
+				Pane selectBall = new SelectBall();
+				if(buttonName=="Play") SceneManager.gotoSceneOf(selectBall);
 				if(buttonName=="Quit") Platform.exit();
 			}
 		});

@@ -25,16 +25,6 @@ public class SceneManager{
 		//TODO Fill Code
 		primaryStage.setScene(mainMenuScene);
 	}
-//	
-//	public static void gotoGameStage() {
-//		//TODO Fill Code
-//
-//	}
-//	
-//	public static void gotoSelectPlayer() {
-//		//TODO Fill Code
-//
-//	}
 	
 	public static void gotoSceneOf(Pane pane) {
 		//TODO Fill Code
