@@ -78,6 +78,11 @@ public class Shooter extends Entity implements Movable{
 	public boolean isMoved() {
 		return moved;
 	}
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
 	
 	
 	

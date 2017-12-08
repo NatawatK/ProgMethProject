@@ -7,6 +7,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import logic.Holder;
 
 public class Block extends CollidableEntity{
 	
@@ -18,12 +19,13 @@ public class Block extends CollidableEntity{
 	protected Paint color;
 	
 	public Block(double x, double y, double width, double height) {
-		this.life = new Random().nextInt(10);
+		this.life = new Random().nextInt(10) +3;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.color = Color.GREENYELLOW;
+		canvas = new Canvas(width, height);
 		
 		draw();
 	}
@@ -37,16 +39,17 @@ public class Block extends CollidableEntity{
 		System.out.println("---------");
 		this.life -= 1;
 		if(this.life <= 0) this.destroy();
+		draw();
 	}
 
 	@Override
 	protected void draw() {
 		// TODO Auto-generated method stub
-		canvas = new Canvas(width, height);
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(color);
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, width, height);
 		gc.setStroke(color);
 		gc.strokeRect(0, 0, width, height);
 		gc.setFill(Color.WHITE);
@@ -61,6 +64,7 @@ public class Block extends CollidableEntity{
 	public void destroy() {
 		// TODO Auto-generated method stub
 		this.destroy = true;
+		Holder.getInstance().getGameStage().getChildren().remove(canvas);
 	}
 
 }
