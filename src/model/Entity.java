@@ -19,7 +19,7 @@ public abstract class Entity{
 	
 	abstract public void destroy();
 	
-	abstract void draw();
+	protected abstract void draw();
 	
 	
 	

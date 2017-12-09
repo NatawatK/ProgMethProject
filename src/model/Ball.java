@@ -1,5 +1,7 @@
 package model;
 
+import java.util.Random;
+
 import org.dyn4j.geometry.Vector2;
 
 import javafx.geometry.Point2D;
@@ -10,6 +12,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import logic.GameManager;
 import logic.Holder;
+import model.powerUp.PowerUp;
 import scene.GameStage;
 
 public class Ball extends CollidableEntity implements Movable{
@@ -62,7 +65,7 @@ public class Ball extends CollidableEntity implements Movable{
 		this.speed = 0;
 		this.destroy = true;
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
-		System.out.print("*");
+//		System.out.print("*");
 	}
 	
 	public void collect() {
@@ -72,7 +75,6 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	@Override
 	public void draw() {
-		// TODO Auto-generated method stub
 		canvas = new Canvas(radius*2, radius*2);
 		canvas.setTranslateX(x - radius);
 		canvas.setTranslateY(y - radius);
@@ -80,8 +82,6 @@ public class Ball extends CollidableEntity implements Movable{
 		gc.setFill(BALL_COLOR);
 
 		gc.fillOval(0, 0, 2*radius, 2*radius);
-//		gc.setStroke(Color.RED);
-//		gc.strokeRect(0, 0, radius*2, radius*2);
 	}
 	
 	
@@ -89,54 +89,60 @@ public class Ball extends CollidableEntity implements Movable{
 	@Override
 	public void onCollision(CollidableEntity other) {
 		// TODO Auto-generated method stub
-		if(other instanceof Block == false) return;
+		if(other instanceof Block) {
+			int ballLeft = (int) this.getRect().getMinX();
+	        int ballHeight = (int) this.getRect().getHeight();
+	        int ballWidth = (int) this.getRect().getWidth();
+	        int ballTop = (int) this.getRect().getMinY();
+
+	        Point2D PointRight = new Point2D(ballLeft + ballWidth + 1, ballTop);
+	        Point2D PointLeft = new Point2D(ballLeft - 1, ballTop);
+	        Point2D PointTop = new Point2D(ballLeft, ballTop - 1);
+	        Point2D PointBottom = new Point2D(ballLeft, ballTop + ballHeight + 1);
+
+	        if (!other.isDestroyed()) {
+	            if (other.getRect().contains(PointRight)) {
+	//                ball.setXDir(-1);
+	                direction.x = -1;
+	//                direction.x *= -1;
+//	                System.out.println("Right");
+	            } else if (other.getRect().contains(PointLeft)) {
+	//                ball.setXDir(1);
+	            	direction.x = 1;
+	//            	direction.x *= -1;
+//	            	System.out.println("Left");
+	            }
+	
+	            if (other.getRect().contains(PointTop)) {
+	//                ball.setYDir(1);
+	            	direction.y = 1;
+//	            	System.out.println("Top");
+	            } else if (other.getRect().contains(PointBottom)) {
+	//                ball.setYDir(-1);
+	                direction.y = -1;
+//	                System.out.println("Bottom");
+	            }     
+	        }
+		}
 		
-		int ballLeft = (int) this.getRect().getMinX();
-        int ballHeight = (int) this.getRect().getHeight();
-        int ballWidth = (int) this.getRect().getWidth();
-        int ballTop = (int) this.getRect().getMinY();
-//        System.out.println(ballLeft + " " + ballHeight + " " + ballWidth + " " + ballTop);
-        Point2D PointRight = new Point2D(ballLeft + ballWidth + 1, ballTop);
-        Point2D PointLeft = new Point2D(ballLeft - 1, ballTop);
-        Point2D PointTop = new Point2D(ballLeft, ballTop - 1);
-        Point2D PointBottom = new Point2D(ballLeft, ballTop + ballHeight + 1);
-        System.out.print("Bounce!! ");
-        if (!other.isDestroyed()) {
-        	System.out.println("Checking");
-            if (other.getRect().contains(PointRight)) {
-//                ball.setXDir(-1);
-                direction.x = -1;
-//                direction.x *= -1;
-                System.out.println("Right");
-            } else if (other.getRect().contains(PointLeft)) {
-//                ball.setXDir(1);
-            	direction.x = 1;
-//            	direction.x *= -1;
-            	System.out.println("Left");
-            }
-
-            if (other.getRect().contains(PointTop)) {
-//                ball.setYDir(1);
-            	direction.y = 1;
-            	System.out.println("Top");
-            } else if (other.getRect().contains(PointBottom)) {
-//                ball.setYDir(-1);
-                direction.y = -1;
-                System.out.println("Bottom");
-            }
-
-        
-        }
+		
 		
 	}
 	public void checkCollision() {
 		for(Block e : Holder.getInstance().getBlockContainer()) {
+			if(e.isDestroyed()) continue;
 			if(e.getRect().intersects(this.getRect())) {
-				System.out.println("hit!!");
+				onCollision(e);
+				e.onCollision(this);
+			}		
+		}
+		for(PowerUp e: Holder.getInstance().getPowerUpContainer()) {
+			if(e.isDestroyed()) continue;
+			if(e.getRect().intersects(this.getRect())) {
+				System.out.println("Hit " + e.getClass());
 				onCollision(e);
 				e.onCollision(this);
 			}
-				
 		}
 	}
 	public void checkFrame() {
@@ -159,6 +165,12 @@ public class Ball extends CollidableEntity implements Movable{
 		return new Rectangle2D(x-radius, y-radius, 2*radius, 2*radius);
 	}
 	
+	public void randomDirection() {
+		float x = new Random().nextFloat() - 0.5f;
+		float y = new Random().nextFloat()*-1 /2;
+		direction = new Vector2(x,y);
+		direction.normalize();
+	}
 	
 	
 }

@@ -24,41 +24,13 @@ import model.Shooter;
 public class GameStage extends Pane{
 	public final static double GAME_WIDTH = 375 ;
 	public final static double GAME_HEIGHT = 600;
+	public final static double LOSE_LINE = GAME_HEIGHT - 50;
 	protected static Canvas canvas ;
 	
 	public GameStage() {
 		this.Initialize();
+		this.setEvent();
 		
-		
-		this.setOnMouseMoved(E -> {
-			Holder.getInstance().getAimLine().aimTo(E.getSceneX(), E.getSceneY());
-		});
-		this.setOnMouseClicked(E -> {
-			if(E.getButton() == MouseButton.PRIMARY) {
-				Holder.getInstance().getShooter().shoot();
-				System.out.println("Shoot to" + E.getSceneX() + " " + E.getSceneY());
-//				GameManager.setState(GameManager.GameState.Shoot);
-			}
-			if(E.getButton() == MouseButton.SECONDARY) {
-				for(Ball e : Holder.getInstance().getBallContainer())
-					e.down();
-				System.out.println("Retrieve!");
-			}
-			if(E.getButton() == MouseButton.MIDDLE) {
-				GameManager.setState(GameState.LvlUp);
-				System.out.println("Lvl Up!!");
-			}
-			
-			//testBall(ball);
-		});
-		
-		this.setOnKeyPressed(E -> {
-			if(E.getCode() == KeyCode.SPACE) {
-				for(Ball e : Holder.getInstance().getBallContainer())
-					e.down();
-				System.out.println("Retrieve!");
-			}
-		});
 	}
 	
 	private void Initialize() {
@@ -77,6 +49,29 @@ public class GameStage extends Pane{
 		gc.fillText("BBTAN", 290, 600);
 	}
 	
+	private void setEvent() {
+		this.setOnMouseMoved(E -> {
+			if(GameManager.getCurrentState() == GameState.aim) {
+				Holder.getInstance().getAimLine().aimTo(E.getSceneX(), E.getSceneY());
+				Holder.getInstance().getAimLine().setVisible(true);
+			}
+			else 
+				Holder.getInstance().getAimLine().setVisible(false);
+		});
+		this.setOnMouseClicked(E -> {
+			if(E.getButton() == MouseButton.SECONDARY) { Holder.getInstance().getShooter().retrieve();}
+			if(GameManager.getCurrentState() != GameState.aim ) return ;
+			if(E.getButton() == MouseButton.PRIMARY) {
+				GameManager.shoot();
+				System.out.println("Shoot to : " + E.getSceneX() + " " + E.getSceneY());
+			}
+			
+			
+		});
+		
+		this.setOnKeyPressed(E -> System.out.println(E.toString()));
+		this.requestFocus();
+	}
 	public double getGAME_WIDTH() {
 		return GAME_WIDTH;
 	}

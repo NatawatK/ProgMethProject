@@ -11,7 +11,7 @@ import javafx.scene.text.Font;
 import logic.GameManager;
 import logic.Holder;
 
-public class Block extends CollidableEntity{
+public class Block extends CollidableEntity implements Movable{
 	
 	private static final Font font = new Font("res/font/spacebar.ttf",20);
 	private static final double LINE_WIDTH = 3;
@@ -22,8 +22,8 @@ public class Block extends CollidableEntity{
 	
 	protected Paint color;
 	
-	public Block(double x, double y, double width, double height) {
-		this.life = new Random().nextInt(10) +3;
+	public Block(double x, double y, double width, double height, int life) {
+		this.life = life;
 		this.x = x;
 		this.y = y;
 		this.width = width;
@@ -40,13 +40,12 @@ public class Block extends CollidableEntity{
 	}
 	
 	public void decreaseLife() {
-		System.out.println("---------");
 		this.life -= 1;
 		if(this.life <= 0) this.destroy();
 		draw();
 	}
 	
-	public void down() {
+	public void move() {
 		this.y += GameManager.BLOCK_SIZE;
 		canvas.setTranslateY(y);
 	}
@@ -79,6 +78,10 @@ public class Block extends CollidableEntity{
 		// TODO Auto-generated method stub
 		this.destroy = true;
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
+	}
+	
+	public double getBottom() {
+		return this.y+this.height;
 	}
 
 }

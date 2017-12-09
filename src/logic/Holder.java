@@ -8,7 +8,9 @@ import model.AimLine;
 import model.Ball;
 import model.Block;
 import model.Entity;
+import model.Movable;
 import model.Shooter;
+import model.powerUp.PowerUp;
 import scene.GameStage;
 
 
@@ -21,7 +23,7 @@ public class Holder {
 	
 	protected List<Ball> ballContainer;
 	protected List<Block> blockContainer;
-	
+	protected List<PowerUp> powerUpContainer;
 	
 	private Shooter shooter;
 	private AimLine aimLine;
@@ -29,8 +31,9 @@ public class Holder {
 	
 	public Holder() {
 		this.gameStage = new GameStage();
-		ballContainer = new ArrayList<Ball>();
-		blockContainer = new ArrayList<Block>();
+		ballContainer = new ArrayList<>();
+		blockContainer = new ArrayList<>();
+		powerUpContainer = new ArrayList<>();
 	}
 	
 	public static Holder getInstance () {
@@ -48,16 +51,26 @@ public class Holder {
 		if(entity instanceof Ball) {
 			Holder.getInstance().ballContainer.add((Ball)entity);
 			Holder.getInstance().gameStage.getChildren().add(entity.canvas);
-			System.out.println("Ball added  " + System.nanoTime());
+//			System.out.println("Ball added  " + System.nanoTime());
 		}
 		if(entity instanceof Block) {
 			blockContainer.add((Block)entity);
 			gameStage.getChildren().add(entity.canvas);
-			System.out.println("Block added  " + System.nanoTime());
+//			System.out.println("Block added  " + System.nanoTime());
+		}
+		
+		if(entity instanceof PowerUp) {
+			powerUpContainer.add((PowerUp)entity);
+			gameStage.getChildren().add(entity.canvas);
+//			System.out.println("PowerUp added  " + System.nanoTime());
 		}
 	}
 	
-	
+	public void clearObject() {
+		ballContainer.removeIf(e -> { return e.isDestroyed(); });
+		blockContainer.removeIf(e -> { return e.isDestroyed(); });
+		powerUpContainer.removeIf(e ->{ return e.isDestroyed(); } );
+	}
 	
 	public void remove(Entity entity) {
 		if(entity instanceof Ball) {
@@ -85,6 +98,11 @@ public class Holder {
 		return aimLine;
 	}
 
+	public List<PowerUp> getPowerUpContainer() {
+		return powerUpContainer;
+	}
+
+	
 	
 	
 

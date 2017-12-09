@@ -27,7 +27,7 @@ public class AimLine extends Line implements Movable{
 		this.setStyle("-fx-stroke: aqua; -fx-stroke-width: 3;");
 		move();
 		Holder.getInstance().getGameStage().getChildren().add(this);
-		System.out.println("Aim line Created1!!");
+//		System.out.println("Aim line Created1!!");
 	}
 
 
@@ -38,7 +38,7 @@ public class AimLine extends Line implements Movable{
 		double rad = Math.atan2(dy , dx);
 		this.setEndX(getStartX()+dx);
 		this.setEndY(getStartY()+dy*-1);
-		System.out.println("[" +  dx + "," + dy+ "]" + rad + "   " + Math.toDegrees(rad));
+//		System.out.println("[" +  dx + "," + dy+ "]" + rad + "   " + Math.toDegrees(rad));
 	}
 	
 	
