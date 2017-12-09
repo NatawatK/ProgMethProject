@@ -10,9 +10,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Line;
 import javafx.stage.Screen;
 import logic.GameManager;
+import logic.GameManager.GameState;
 import logic.Holder;
+import model.AimLine;
 import model.Ball;
 import model.Shooter;
 
@@ -22,19 +25,17 @@ public class GameStage extends Pane{
 	public final static double GAME_WIDTH = 375 ;
 	public final static double GAME_HEIGHT = 600;
 	protected static Canvas canvas ;
-
+	
 	public GameStage() {
 		this.Initialize();
 		
+		
 		this.setOnMouseMoved(E -> {
-			//System.out.println(E.getSceneX() + " " + E.getSceneY());
-			
+			Holder.getInstance().getAimLine().aimTo(E.getSceneX(), E.getSceneY());
 		});
 		this.setOnMouseClicked(E -> {
 			if(E.getButton() == MouseButton.PRIMARY) {
-				Holder.getInstance().setShooter(new Shooter());
-				Vector2 direction = new Vector2(GAME_WIDTH/2,GAME_HEIGHT-10,E.getSceneX(), E.getSceneY());
-				Holder.getInstance().getShooter().shoot(direction);
+				Holder.getInstance().getShooter().shoot();
 				System.out.println("Shoot to" + E.getSceneX() + " " + E.getSceneY());
 //				GameManager.setState(GameManager.GameState.Shoot);
 			}
@@ -42,6 +43,10 @@ public class GameStage extends Pane{
 				for(Ball e : Holder.getInstance().getBallContainer())
 					e.down();
 				System.out.println("Retrieve!");
+			}
+			if(E.getButton() == MouseButton.MIDDLE) {
+				GameManager.setState(GameState.LvlUp);
+				System.out.println("Lvl Up!!");
 			}
 			
 			//testBall(ball);

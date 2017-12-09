@@ -8,6 +8,7 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import logic.GameManager;
 import logic.Holder;
 import scene.GameStage;
 
@@ -15,7 +16,7 @@ public class Ball extends CollidableEntity implements Movable{
 	
 	final static double INIT_SPEED = 10;
 	final static Paint BALL_COLOR = Color.WHITE;
-	final static double INIT_RADIUS = 5.0;
+	final static double INIT_RADIUS = 5;
 	
 	protected double radius;
 	private Vector2 direction;
@@ -61,17 +62,11 @@ public class Ball extends CollidableEntity implements Movable{
 		this.speed = 0;
 		this.destroy = true;
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
-		
+		System.out.print("*");
 	}
 	
 	public void collect() {
-		if(Holder.getInstance().getShooter().newX == -1 && Holder.getInstance().getShooter().newY == -1) {
-			Holder.getInstance().getShooter().newX = x;
-			Holder.getInstance().getShooter().newY = y;
-		}
-		else {
-			this.direction = (x < Holder.getInstance().getShooter().newX)? new Vector2().right(): new Vector2().left();
-		}
+		
 		destroy();
 			
 	}
@@ -83,10 +78,10 @@ public class Ball extends CollidableEntity implements Movable{
 		canvas.setTranslateY(y - radius);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(BALL_COLOR);
-		
 
-//		gc.fillOval(xx, yy, radius, radius);
 		gc.fillOval(0, 0, 2*radius, 2*radius);
+//		gc.setStroke(Color.RED);
+//		gc.strokeRect(0, 0, radius*2, radius*2);
 	}
 	
 	
@@ -111,12 +106,12 @@ public class Ball extends CollidableEntity implements Movable{
             if (other.getRect().contains(PointRight)) {
 //                ball.setXDir(-1);
                 direction.x = -1;
-
+//                direction.x *= -1;
                 System.out.println("Right");
             } else if (other.getRect().contains(PointLeft)) {
 //                ball.setXDir(1);
             	direction.x = 1;
-
+//            	direction.x *= -1;
             	System.out.println("Left");
             }
 
@@ -145,8 +140,8 @@ public class Ball extends CollidableEntity implements Movable{
 		}
 	}
 	public void checkFrame() {
-		if(y + radius >= GameStage.GAME_HEIGHT) {
-			collect();
+		if(y > GameManager.START_Y) {
+			destroy();
 		}
 		if(y - radius <= 0) direction.y *= -1;
 		if(x - radius <=0 || x + radius >= GameStage.GAME_WIDTH) direction.x *= -1;

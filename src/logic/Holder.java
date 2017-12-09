@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import model.AimLine;
 import model.Ball;
 import model.Block;
 import model.Entity;
@@ -17,9 +18,14 @@ public class Holder {
 	
 	
 	protected GameStage gameStage;
-	protected Shooter shooter;
+	
 	protected List<Ball> ballContainer;
 	protected List<Block> blockContainer;
+	
+	
+	private Shooter shooter;
+	private AimLine aimLine;
+	
 	
 	public Holder() {
 		this.gameStage = new GameStage();
@@ -27,24 +33,16 @@ public class Holder {
 		blockContainer = new ArrayList<Block>();
 	}
 	
-	public void setShooter(Shooter shooter) {
-		this.shooter = shooter;
-	}
-
 	public static Holder getInstance () {
 		return instance;
 	}
 	
-	public void spawnBlocks() {
-		int N_BLOCKS = 7;
-		double blockSize = GameStage.GAME_WIDTH/N_BLOCKS;
-		double SPAWN_RATE = 70;
+	public void setup() {
+		shooter = new Shooter();
+		aimLine = new AimLine();
 		
-		for(int i = 0 ;i<= N_BLOCKS; i++) {
-			if(new Random().nextDouble()*100 <= SPAWN_RATE)
-				this.add(new Block(blockSize*i, 100 ,blockSize ,blockSize));
-		}
 	}
+
 	
 	public void add(Entity entity) {
 		if(entity instanceof Ball) {
@@ -82,6 +80,15 @@ public class Holder {
 	public List<Block> getBlockContainer() {
 		return blockContainer;
 	}
+
+	public AimLine getAimLine() {
+		return aimLine;
+	}
+
+	
+	
+
+	
 	
 	
 

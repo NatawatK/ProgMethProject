@@ -7,10 +7,14 @@ import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
+import javafx.scene.text.Font;
+import logic.GameManager;
 import logic.Holder;
 
 public class Block extends CollidableEntity{
 	
+	private static final Font font = new Font("res/font/spacebar.ttf",20);
+	private static final double LINE_WIDTH = 3;
 	protected int life;
 	
 	protected double width;
@@ -41,6 +45,11 @@ public class Block extends CollidableEntity{
 		if(this.life <= 0) this.destroy();
 		draw();
 	}
+	
+	public void down() {
+		this.y += GameManager.BLOCK_SIZE;
+		canvas.setTranslateY(y);
+	}
 
 	@Override
 	protected void draw() {
@@ -48,11 +57,16 @@ public class Block extends CollidableEntity{
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, width, height);
+		
 		gc.setStroke(color);
+		gc.setLineWidth(LINE_WIDTH);
 		gc.strokeRect(0, 0, width, height);
+		
 		gc.setFill(Color.WHITE);
+		gc.setFont(font);
 		gc.fillText(""+life, 20, height/2);
 	}
 	@Override
