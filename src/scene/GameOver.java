@@ -2,6 +2,7 @@ package scene;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -17,54 +18,48 @@ public class GameOver extends Pane{
 	private final double BTN_WIDTH = 75;
 	private final double BTN_HEIGHT = 75;
 	public static final Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
-	private Image BGImg;
 	private Canvas BGCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	private Canvas ReplayBtn;
 	private Canvas HomeBtn;
-	private Image ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
 	
 	public GameOver() {
 		
-		BGImg = new Image("BG3.jpg");
 		GraphicsContext gc = BGCanvas.getGraphicsContext2D();
-		gc.drawImage(BGImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
+		gc.drawImage(ResLoader.GameOverImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 		getChildren().add(BGCanvas);
 		
-		Canvas GameOverLabel = new Canvas(400,200);
+		Canvas GameOverLabel = new Canvas(SceneManager.SCENE_WIDTH,200);
 		GraphicsContext gc2 = GameOverLabel.getGraphicsContext2D();
 		
 		gc2.setFont(headFont);
 		gc2.setFill(Color.WHITE);
 		gc2.setTextBaseline(VPos.CENTER);
 		gc2.setTextAlign(TextAlignment.CENTER);
-		gc2.fillText("GAME OVER", 200, 100);
+		gc2.fillText("GAME OVER", SceneManager.SCENE_WIDTH/2, 100);
 		
 		changeCenter(GameOverLabel, 0, 0);
 		getChildren().add(GameOverLabel);
 		
-		Canvas sth = new Canvas(300,300);
-		sth.setOpacity(0.5);
-		GraphicsContext gcSth = sth.getGraphicsContext2D();
+		Canvas field = new Canvas(300,300);
+		field.setOpacity(0.5);
+		GraphicsContext gcSth = field.getGraphicsContext2D();
 		gcSth.setFill(Color.WHITE);
 		gcSth.fillRoundRect(1, 1, 300-2, 300-2, 20, 20);
-		changeCenter(sth, 50, 150);
-		getChildren().add(sth);
 		
-		ReplayBtn1 = new Image("ReplayBtn1.png");
-		ReplayBtn2 = new Image("ReplayBtn2.png");
-		ReplayBtn = drawButton(ReplayBtn1);	
-		addCanvasEvents(ReplayBtn, "Replay", ReplayBtn1, ReplayBtn2);
+		changeCenter(field, (SceneManager.SCENE_WIDTH-300)/2, 150);
+		getChildren().add(field);
+		
+		ReplayBtn = drawButton(ResLoader.ReplayBtn1);	
+		addCanvasEvents(ReplayBtn, "Replay", ResLoader.ReplayBtn1, ResLoader.ReplayBtn2);
 		
 		getChildren().add(ReplayBtn);
-		changeCenter(ReplayBtn, 100, 475);
+		changeCenter(ReplayBtn, (SceneManager.SCENE_WIDTH-BTN_WIDTH)/4, 475);
 		
-		HomeBtn1 = new Image("HomeBtn1.png");
-		HomeBtn2 = new Image("HomeBtn2.png");
-		HomeBtn = drawButton(HomeBtn1);	
-		addCanvasEvents(HomeBtn, "Home", HomeBtn1, HomeBtn2);
+		HomeBtn = drawButton(ResLoader.HomeBtn1);	
+		addCanvasEvents(HomeBtn, "Home", ResLoader.HomeBtn1, ResLoader.HomeBtn2);
 		
 		getChildren().add(HomeBtn);
-		changeCenter(HomeBtn, 225, 475);
+		changeCenter(HomeBtn, 3*(SceneManager.SCENE_WIDTH-BTN_WIDTH)/4, 475);
 		
 		
 	}

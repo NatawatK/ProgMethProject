@@ -9,7 +9,7 @@ import javafx.stage.Stage;
 
 public class SceneManager{
 	private static Stage primaryStage;
-	public static final int SCENE_WIDTH = 400;
+	public static final int SCENE_WIDTH = 375;
 	public static final int SCENE_HEIGHT = 600;
 	
 	private static Pane mainMenuGrid = new MainMenu();

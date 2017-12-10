@@ -4,6 +4,7 @@ import java.awt.Label;
 
 import javafx.application.Platform;
 import javafx.geometry.VPos;
+import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
@@ -19,26 +20,20 @@ public class SelectBall extends Pane{
 	private final double CHAR_WIDTH = 100;
 	private final double CHAR_HEIGHT = 100;
 	public static final Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
-	private Canvas SelectBallBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
-	private Image BGImg;
 	private Canvas BGCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
-	private Image EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
 	private Canvas EarthBoard, EarthBorder, EarthImgCanvas;
 	private Canvas MarsBoard, MarsBorder, MarsImgCanvas;
 	private Canvas MoonBoard, MoonBorder, MoonImgCanvas;
 	private Canvas PlutoBoard, PlutoBorder, PlutoImgCanvas;
 	private Canvas SaturnBoard, SaturnBorder, SaturnImgCanvas;
 	private Canvas UranusBoard, UranusBorder, UranusImgCanvas;
-	private Canvas StartBtn, StartBorder, StartLabel;
 	private String ballState = "";
 	
 	public SelectBall() {
 		super();
 		
-		loadImg();
-		
 		GraphicsContext gc = BGCanvas.getGraphicsContext2D();
-		gc.drawImage(BGImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
+		gc.drawImage(ResLoader.SelectBallImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 		getChildren().add(BGCanvas);
 		
 		Canvas SelectBallLabel = new Canvas(400,200);
@@ -48,128 +43,83 @@ public class SelectBall extends Pane{
 		gc2.setFill(Color.WHITE);
 		gc2.setTextBaseline(VPos.CENTER);
 		gc2.setTextAlign(TextAlignment.CENTER);
-		gc2.fillText("SELECT BALL", 200, 100);
+		gc2.fillText("SELECT BALL", SceneManager.SCENE_WIDTH/2, 100);
 		
 		changeCenter(SelectBallLabel, 0, 0);
 		getChildren().add(SelectBallLabel);
 		
 		String Earth = "Earth";
 		EarthBoard = drawField();
-		EarthImgCanvas = drawImg(EarthImg);
+		EarthImgCanvas = drawImg(ResLoader.EarthImg);
 		EarthBorder = drawBorder();
 		addCanvasEvents(EarthBoard, EarthBorder, Earth);
 		
-		changeCenter(EarthBoard, 50, 200);
-		changeCenter(EarthBorder, 50, 200);
-		changeCenter(EarthImgCanvas, 50, 200);
+		changeCenter(EarthBoard, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2, 200);
+		changeCenter(EarthBorder, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2, 200);
+		changeCenter(EarthImgCanvas, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2, 200);
 		getChildren().addAll(EarthBoard, EarthImgCanvas, EarthBorder);
 
 		String Mars = "Mars";
 		MarsBoard = drawField();
-		MarsImgCanvas = drawImg(MarsImg);
+		MarsImgCanvas = drawImg(ResLoader.MarsImg);
 		MarsBorder = drawBorder();
 		addCanvasEvents(MarsBoard, MarsBorder, Mars);
 		
-		this.changeCenter(MarsBoard, 150, 200);
-		this.changeCenter(MarsBorder, 150, 200);
-		this.changeCenter(MarsImgCanvas, 150, 200);
+		this.changeCenter(MarsBoard, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+CHAR_WIDTH, 200);
+		this.changeCenter(MarsBorder, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+CHAR_WIDTH, 200);
+		this.changeCenter(MarsImgCanvas, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+CHAR_WIDTH, 200);
 		this.getChildren().addAll(MarsBoard, MarsImgCanvas, MarsBorder);
 		
 		String Moon = "Moon";
 		MoonBoard = drawField();
-		MoonImgCanvas = drawImg(MoonImg);
+		MoonImgCanvas = drawImg(ResLoader.MoonImg);
 		MoonBorder = drawBorder();
 		this.addCanvasEvents(MoonBoard, MoonBorder, Moon);
 		
-		this.changeCenter(MoonBoard, 250, 200);
-		this.changeCenter(MoonBorder, 250, 200);
-		this.changeCenter(MoonImgCanvas, 250, 200);
+		this.changeCenter(MoonBoard, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+2*CHAR_WIDTH, 200);
+		this.changeCenter(MoonBorder, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+2*CHAR_WIDTH, 200);
+		this.changeCenter(MoonImgCanvas, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+2*CHAR_WIDTH, 200);
 		this.getChildren().addAll(MoonBoard, MoonImgCanvas, MoonBorder);
 		
 		String Pluto = "Pluto";
 		PlutoBoard = drawField();
-		PlutoImgCanvas = drawImg(PlutoImg);
+		PlutoImgCanvas = drawImg(ResLoader.PlutoImg);
 		PlutoBorder = drawBorder();
 		this.addCanvasEvents(PlutoBoard, PlutoBorder, Pluto);
 		
-		this.changeCenter(PlutoBoard, 50, 300);
-		this.changeCenter(PlutoBorder, 50, 300);
-		this.changeCenter(PlutoImgCanvas, 50, 300);
+		this.changeCenter(PlutoBoard, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2, 300);
+		this.changeCenter(PlutoBorder, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2, 300);
+		this.changeCenter(PlutoImgCanvas, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2, 300);
 		this.getChildren().addAll(PlutoBoard, PlutoImgCanvas, PlutoBorder);
 		
 		String Saturn = "Saturn";
 		SaturnBoard = drawField();
-		SaturnImgCanvas = drawImg(SaturnImg);
+		SaturnImgCanvas = drawImg(ResLoader.SaturnImg);
 		SaturnBorder = drawBorder();
 		this.addCanvasEvents(SaturnBoard, SaturnBorder, Saturn);
 		
-		this.changeCenter(SaturnBoard, 150, 300);
-		this.changeCenter(SaturnBorder, 150, 300);
-		this.changeCenter(SaturnImgCanvas, 150, 300);
+		this.changeCenter(SaturnBoard, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+CHAR_WIDTH, 300);
+		this.changeCenter(SaturnBorder, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+CHAR_WIDTH, 300);
+		this.changeCenter(SaturnImgCanvas, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+CHAR_WIDTH, 300);
 		this.getChildren().addAll(SaturnBoard, SaturnImgCanvas, SaturnBorder);
 		
 		String Uranus = "Uranus";
 		UranusBoard = drawField();
-		UranusImgCanvas = drawImg(UranusImg);
+		UranusImgCanvas = drawImg(ResLoader.UranusImg);
 		UranusBorder = drawBorder();
 		this.addCanvasEvents(UranusBoard, UranusBorder, Uranus);
 		
-		this.changeCenter(UranusBoard, 250, 300);
-		this.changeCenter(UranusBorder, 250, 300);
-		this.changeCenter(UranusImgCanvas, 250, 300);
+		this.changeCenter(UranusBoard, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+2*CHAR_WIDTH, 300);
+		this.changeCenter(UranusBorder, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+2*CHAR_WIDTH, 300);
+		this.changeCenter(UranusImgCanvas, (SceneManager.SCENE_WIDTH-3*CHAR_WIDTH)/2+2*CHAR_WIDTH, 300);
 		this.getChildren().addAll(UranusBoard, UranusImgCanvas, UranusBorder);
 		
-		String Start = "Start";
-		StartBtn = new Canvas(200,70);
-		StartBorder = new Canvas(200,70);
-		StartLabel = new Canvas(200,70);
-		drawButton(StartBtn, StartLabel, StartBorder, Start);
-		this.addCanvasEvents(StartBtn, StartBorder, Start);
 		
-		this.changeCenter(StartBtn, 100, 450);
-		this.changeCenter(StartBorder, 100, 450);
-		this.changeCenter(StartLabel, 100, 450);
-//		this.getChildren().addAll(StartBtn, StartLabel, StartBorder);
-		
-		
-	}
-	
-	private void loadImg() {
-		BGImg = new Image("BG6.jpg");
-		EarthImg = new Image("Earth.png");
-		MarsImg = new Image("Mars.png");
-		MoonImg = new Image("Moon.png");
-		PlutoImg = new Image("Pluto.png");
-		SaturnImg = new Image("Saturn.png");
-		UranusImg = new Image("Uranus.png");
 	}
 	
 	private void changeCenter(Canvas canvas,double x, double y) {
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
-	}
-	
-	private void drawButton(Canvas btn, Canvas label, Canvas border, String name) {
-		GraphicsContext gc = btn.getGraphicsContext2D();
-		
-		gc.setFill(Color.DARKSALMON);
-		gc.fillRoundRect(1, 1, 200-2, 70-2, 20, 20);
-	
-		GraphicsContext gc2 = label.getGraphicsContext2D();
-		
-		//gc.setFont(SceneManager.theFont); **will get font later**
-		gc2.setFont(headFont);
-		gc2.setFill(Color.WHITE);
-		gc2.setTextBaseline(VPos.CENTER);
-		gc2.setTextAlign(TextAlignment.CENTER);
-		gc2.fillText(name, 100, 37.5);
-		
-		GraphicsContext gc3 = border.getGraphicsContext2D();
-		gc3.setFill(Color.WHITE);
-		gc3.setLineWidth(2);
-		gc3.strokeRoundRect(1, 1, 200-2, 70-2, 20, 20);
-		
-
 	}
 	
 	private Canvas drawBorder() {
@@ -221,13 +171,7 @@ public class SelectBall extends Pane{
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				if(buttonName == "Start") {
-					Pane gameOver = new GameOver();
-					Pane gameStage = new GameStage();
-					SceneManager.gotoSceneOf(gameOver);
-//					SceneManager.gotoSceneOf(gameStage);
-				}
-				else if(ballState=="" || ballState!=buttonName) {
+				if(ballState=="" || ballState!=buttonName) {
 					undrawHoverIndicator(EarthBoard);
 					undrawHoverIndicator(MarsBoard);
 					undrawHoverIndicator(MoonBoard);
