@@ -18,9 +18,16 @@ public class GameManager {
 	public enum GameState{
 		aim, shoot, wait, endShot;
 	}
+	
+	
+	
 	private final static int BLOCKS_PER_ROW = 7;
+	public final static double GRID_SIZE = GameStage.GAME_WIDTH/BLOCKS_PER_ROW;
 	private final static double BLOCK_SPAWN_RATE = 50;
-	public final static double BLOCK_SIZE = GameStage.GAME_WIDTH/BLOCKS_PER_ROW;
+	public final static double BLOCK_SIZE = GRID_SIZE - 5;
+	
+	
+	public final static double SPAWN_Y = 100;
 	
 	public final static double START_X = GameStage.GAME_WIDTH/2;
 	public final static double START_Y = GameStage.GAME_HEIGHT - 20;
@@ -60,20 +67,22 @@ public class GameManager {
 	public static void update() {
 		switch(currentState) {
 			case aim :
-				
+				Holder.getInstance().getAimLine().setVisible(true);
 				break;
 			case shoot :
+				Holder.getInstance().getAimLine().setVisible(false);
 				ballUpdate();
 				break;
 			case wait :
 				break;
 			case endShot :
+				System.out.println("endshot");
 				Level++;
-				blocksDown();
+				objectsDown();
 				spawnBlocks();
 				checkLose();
+				Holder.getInstance().getShooter().move();
 				currentState = GameState.aim;
-				System.out.println("Ball plus is map : " + Holder.getInstance().getPowerUpContainer().size());
 				break;
 				
 		}
@@ -86,7 +95,7 @@ public class GameManager {
 		for(Ball e : Holder.getInstance().ballContainer) {
 			e.move();
 		}
-		if(Holder.getInstance().getBallContainer().size() <= 0) 
+		if(Holder.getInstance().getShooter().isFinishShoot() && Holder.getInstance().getBallContainer().size() <= 0) 
 			currentState = GameState.endShot;
 	}
 	
@@ -103,19 +112,19 @@ public class GameManager {
 		for(int i = 0 ;i< BLOCKS_PER_ROW; i++) {
 			double rate = new Random().nextDouble()*100;
 			if(rate <= BLOCK_SPAWN_RATE)
-				Holder.getInstance().add(new Block(BLOCK_SIZE*i, 100 ,BLOCK_SIZE ,BLOCK_SIZE, Level));
+				Holder.getInstance().add(new Block(GRID_SIZE*i + (GRID_SIZE-BLOCK_SIZE)/2, SPAWN_Y + (GRID_SIZE-BLOCK_SIZE)/2 ,BLOCK_SIZE ,BLOCK_SIZE, Level));
 			else if(rate <= 60)
-				Holder.getInstance().add(new BallPlus(BLOCK_SIZE*i + 20, 100+20));
+				Holder.getInstance().add(new BallPlus(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
 			else if(rate <= 70)
-				Holder.getInstance().add(new VLightning(BLOCK_SIZE*i + 20, 100+20));
+				Holder.getInstance().add(new VLightning(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
 			else if(rate <= 80)
-				Holder.getInstance().add(new HLightning(BLOCK_SIZE*i + 20, 100+20));
+				Holder.getInstance().add(new HLightning(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
 			else if(rate <= 90)
-				Holder.getInstance().add(new RandomReflector(BLOCK_SIZE*i + 20, 100+20));
+				Holder.getInstance().add(new RandomReflector(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
 		}
 	}
 	
-	public static void blocksDown() {
+	public static void objectsDown() {
 		Holder.getInstance().clearObject();
 		for(Block e : Holder.getInstance().getBlockContainer())
 			e.move();

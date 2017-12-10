@@ -24,29 +24,20 @@ public class Ball extends CollidableEntity implements Movable{
 	protected double radius;
 	private Vector2 direction;
 	private double speed;
-	
-	public Ball() {
-		this.speed = INIT_SPEED;
-		this.radius = INIT_RADIUS;
-		this.x = GameStage.GAME_WIDTH /2;
-		this.y = GameStage.GAME_HEIGHT - 100;
-		this.direction = new Vector2(0,0);
-		draw();
-	}
+	private boolean retrieved; 
 	
 	public Ball(double x, double y , Vector2 direction) {
-		
 		this.speed = INIT_SPEED;
 		this.radius = INIT_RADIUS;
 		this.x = x;
 		this.y = y;
 		this.direction = direction.getNormalized();
-		
 		this.draw();
+//		System.out.println("Ball Added!");
 	}
 	public void move() {
 		checkFrame();
-		checkCollision();
+		if(!retrieved) checkCollision();
 		this.x += direction.x*speed; 
 		this.y += direction.y*speed;
 		
@@ -57,6 +48,7 @@ public class Ball extends CollidableEntity implements Movable{
 	
 	}
 	public void down() {
+		this.retrieved = true;
 		this.speed *= 4;
 		this.direction = new Vector2(0,1);
 	}
@@ -103,23 +95,23 @@ public class Ball extends CollidableEntity implements Movable{
 	        if (!other.isDestroyed()) {
 	            if (other.getRect().contains(PointRight)) {
 	//                ball.setXDir(-1);
-	                direction.x = -1;
+	                	direction.x = Math.abs(direction.x)*-1;
 	//                direction.x *= -1;
 //	                System.out.println("Right");
 	            } else if (other.getRect().contains(PointLeft)) {
 	//                ball.setXDir(1);
-	            	direction.x = 1;
+	            		direction.x = Math.abs(direction.x);
 	//            	direction.x *= -1;
 //	            	System.out.println("Left");
 	            }
 	
 	            if (other.getRect().contains(PointTop)) {
 	//                ball.setYDir(1);
-	            	direction.y = 1;
+	            	direction.y = Math.abs(direction.y);
 //	            	System.out.println("Top");
 	            } else if (other.getRect().contains(PointBottom)) {
 	//                ball.setYDir(-1);
-	                direction.y = -1;
+	                direction.y = Math.abs(direction.y)*-1;
 //	                System.out.println("Bottom");
 	            }     
 	        }
@@ -139,7 +131,7 @@ public class Ball extends CollidableEntity implements Movable{
 		for(PowerUp e: Holder.getInstance().getPowerUpContainer()) {
 			if(e.isDestroyed()) continue;
 			if(e.getRect().intersects(this.getRect())) {
-				System.out.println("Hit " + e.getClass());
+//				System.out.println("Hit " + e.getClass());
 				onCollision(e);
 				e.onCollision(this);
 			}
@@ -149,8 +141,18 @@ public class Ball extends CollidableEntity implements Movable{
 		if(y > GameManager.START_Y) {
 			destroy();
 		}
-		if(y - radius <= 0) direction.y *= -1;
-		if(x - radius <=0 || x + radius >= GameStage.GAME_WIDTH) direction.x *= -1;
+		if(y - radius <= 0) {
+			direction.y *= -1;
+			y = radius;
+		}
+		if(x - radius <=0) {
+			direction.x *= -1;
+			x = radius;
+		}
+		if(x + radius >= GameStage.GAME_WIDTH) {
+			direction.x *= -1;
+			x = GameStage.GAME_WIDTH - radius;
+		}
 
 	}
 	
@@ -167,7 +169,7 @@ public class Ball extends CollidableEntity implements Movable{
 	
 	public void randomDirection() {
 		float x = new Random().nextFloat() - 0.5f;
-		float y = new Random().nextFloat()*-1 /2;
+		float y = new Random().nextFloat() - 0.1f ;
 		direction = new Vector2(x,y);
 		direction.normalize();
 	}

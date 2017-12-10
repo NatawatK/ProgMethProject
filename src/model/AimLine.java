@@ -9,7 +9,6 @@ import logic.Holder;
 public class AimLine extends Line implements Movable{
 	private static final double LIMITE_DEGREE = 15;
 	private static final double MIN_RADIAN = Math.toRadians(LIMITE_DEGREE);
-	private static final double MAX_RADIAN = Math.toRadians(180-LIMITE_DEGREE);
 	@Override
 	
 	
@@ -17,14 +16,14 @@ public class AimLine extends Line implements Movable{
 		// TODO Auto-generated method stub
 		setStartX(Holder.getInstance().getShooter().x);
 		setStartY(Holder.getInstance().getShooter().y);
-		setEndX(0);
-		setEndY(0);
+		setEndX(Holder.getInstance().getShooter().x);
+		setEndY(Holder.getInstance().getShooter().y);
 	}
 	
 	public AimLine() {
 		super();
 		// TODO Auto-generated constructor stub
-		this.setStyle("-fx-stroke: aqua; -fx-stroke-width: 3;");
+		this.setStyle("-fx-stroke: aqua; -fx-stroke-width: 3;" );
 		move();
 		Holder.getInstance().getGameStage().getChildren().add(this);
 //		System.out.println("Aim line Created1!!");

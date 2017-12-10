@@ -6,6 +6,7 @@ import javafx.stage.Stage;
 import logic.Holder;
 import scene.GameStage;
 import scene.MainMenu;
+import scene.ResLoader;
 import scene.SceneManager;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
@@ -16,8 +17,10 @@ public class MainToGameScene extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 		try {
+			ResLoader.loadResource();
 			GameStage game = Holder.getInstance().getGameStage();
-			Scene scene = new Scene(game,game.getGAME_WIDTH(), game.getGAME_HEIGHT());
+			
+			Scene scene = new Scene(game);
 			primaryStage.setResizable(false);
 			primaryStage.setTitle("GameScene");
 			primaryStage.setScene(scene);

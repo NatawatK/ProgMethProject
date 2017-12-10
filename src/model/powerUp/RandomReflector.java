@@ -3,6 +3,7 @@ package model.powerUp;
 import javafx.scene.paint.Color;
 import model.Ball;
 import model.CollidableEntity;
+import scene.ResLoader;
 
 public class RandomReflector extends PowerUp{
 
@@ -10,6 +11,7 @@ public class RandomReflector extends PowerUp{
 		super(x, y);
 		// TODO Auto-generated constructor stub.
 		this.color = Color.BROWN;
+		this.img = ResLoader.RandomReflectorImg;
 		draw();
 	}
 

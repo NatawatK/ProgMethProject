@@ -15,10 +15,12 @@ public class Shooter extends Entity implements Movable{
 	
 	private final static double SPEED = 10;
 	
-	private int maxBall;	
+	private int maxBall, nowBall;	
+	private boolean finishShoot;
 	
 	public Shooter() {
 		this.maxBall = 1;
+		this.nowBall = maxBall;
 		this.x = GameManager.START_X;
 		this.y = GameManager.START_Y;
 		canvas = new Canvas(GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
@@ -30,20 +32,24 @@ public class Shooter extends Entity implements Movable{
 	public void draw() {
 		// TODO Auto-generated method stub
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+		gc.setFill(Color.BLACK);
+		gc.fillRect(0, 0, GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
 		gc.setFill(Color.RED);
 		gc.fillRect(x-5, y-5, 10, 10);
+		gc.fillText("x"+nowBall, x+10 , y);
 //		System.out.println("Shooter Canvas Add!! " + x + " " + y);
 	}
 	public void shoot() {
-		
+		nowBall = maxBall;
+		finishShoot = false;
 		Vector2 direction = Holder.getInstance().getAimLine().getVector();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				int nowBall = 0;
-				while(nowBall < maxBall) {
+				while(nowBall > 0) {
 					Platform.runLater(() -> Holder.getInstance().add(new Ball(x , y, direction)));
-					nowBall++;
+					nowBall--;
+					draw();
 					try {
 						Thread.sleep(COOLTIME);
 					} catch (InterruptedException e) {
@@ -53,7 +59,7 @@ public class Shooter extends Entity implements Movable{
 				}
 			}
 		}).start();
-		
+		finishShoot = true;
 	}
 	
 	public void retrieve() {
@@ -67,6 +73,9 @@ public class Shooter extends Entity implements Movable{
 		System.out.println("Now maxBall is "+maxBall);
 	}
 	
+	public boolean isFinishShoot() {
+		return finishShoot;
+	}
 
 	@Override
 	public void destroy() {
@@ -76,8 +85,11 @@ public class Shooter extends Entity implements Movable{
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
-		
+		nowBall = maxBall; 
+		draw();
 	}
+	
+	
 	
 	
 	

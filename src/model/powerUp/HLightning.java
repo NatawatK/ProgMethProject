@@ -6,6 +6,7 @@ import logic.Holder;
 import model.Block;
 import model.CollidableEntity;
 import scene.GameStage;
+import scene.ResLoader;
 
 public class HLightning extends PowerUp{
 	
@@ -13,6 +14,7 @@ public class HLightning extends PowerUp{
 		super(x, y);
 		// TODO Auto-generated constructor stub
 		this.color = Color.PURPLE;
+		this.img = ResLoader.HLightningImg;
 		draw();
 	}
 

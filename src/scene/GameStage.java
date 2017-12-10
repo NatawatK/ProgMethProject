@@ -51,12 +51,9 @@ public class GameStage extends Pane{
 	
 	private void setEvent() {
 		this.setOnMouseMoved(E -> {
-			if(GameManager.getCurrentState() == GameState.aim) {
+			if(GameManager.getCurrentState() == GameState.aim) 
 				Holder.getInstance().getAimLine().aimTo(E.getSceneX(), E.getSceneY());
-				Holder.getInstance().getAimLine().setVisible(true);
-			}
-			else 
-				Holder.getInstance().getAimLine().setVisible(false);
+	
 		});
 		this.setOnMouseClicked(E -> {
 			if(E.getButton() == MouseButton.SECONDARY) { Holder.getInstance().getShooter().retrieve();}
@@ -69,16 +66,11 @@ public class GameStage extends Pane{
 			
 		});
 		
-		this.setOnKeyPressed(E -> System.out.println(E.toString()));
-		this.requestFocus();
-	}
-	public double getGAME_WIDTH() {
-		return GAME_WIDTH;
+		this.setOnMouseDragged(E -> {
+			
+		});
 	}
 
-	public double getGAME_HEIGHT() {
-		return GAME_HEIGHT;
-	}
 	
 	
 }

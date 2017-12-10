@@ -2,12 +2,15 @@ package model;
 
 import java.util.Random;
 
+import javafx.geometry.Pos;
 import javafx.geometry.Rectangle2D;
+import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 import logic.GameManager;
 import logic.Holder;
 
@@ -46,7 +49,7 @@ public class Block extends CollidableEntity implements Movable{
 	}
 	
 	public void move() {
-		this.y += GameManager.BLOCK_SIZE;
+		this.y += GameManager.GRID_SIZE;
 		canvas.setTranslateY(y);
 	}
 
@@ -56,7 +59,6 @@ public class Block extends CollidableEntity implements Movable{
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, width, height);
 		
@@ -66,7 +68,11 @@ public class Block extends CollidableEntity implements Movable{
 		
 		gc.setFill(Color.WHITE);
 		gc.setFont(font);
-		gc.fillText(""+life, 20, height/2);
+		gc.setTextAlign(TextAlignment.CENTER);
+		gc.setTextBaseline(VPos.CENTER);
+		gc.fillText(""+life, width/2 , height/2);
+		
+		
 	}
 	@Override
 	public Rectangle2D getRect() {
