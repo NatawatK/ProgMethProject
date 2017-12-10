@@ -38,7 +38,7 @@ public class ResLoader {
 		RandomReflectorImg = new Image(ClassLoader.getSystemResource("RandomReflector.png").toString());
 		VLightningImg = new Image(ClassLoader.getSystemResource("VLightning.png").toString());
 		HLightningImg = new Image(ClassLoader.getSystemResource("HLightning.png").toString());
-		VLightningAniImg = new Image(ClassLoader.getSystemResource("VLightningAni.png").toString());
+		VLightningAniImg = new Image(ClassLoader.getSystemResource("VLightningAni.png").toString()); // 375x432 pixel 8 frame
 		
 //		mapSprite = new Image(ClassLoader.getSystemResource("Map.png").toString());
 //		mineSprite = new Image(ClassLoader.getSystemResource("Mine.png").toString());
