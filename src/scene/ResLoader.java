@@ -6,9 +6,10 @@ import javafx.scene.media.AudioClip;
 public class ResLoader {
 	
 	public static Image MenuImg, PlayBtn1, PlayBtn2;
+	public static Image SpaceCraftImg;
 	public static Image SelectBallImg, EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
 	public static Image GameOverImg ,ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
-	public static Image RetriveImg ,RandReflectorImg ,LightningColImg ,LightningRowImg ,LightningColAniImg ;
+	public static Image RetriveBallImg ,RandomReflectorImg ,VLightningImg ,HLightningImg ,VLightningAniImg ;
 	
 	
 	public static void loadResource() {
@@ -31,11 +32,13 @@ public class ResLoader {
 		SaturnImg = new Image(ClassLoader.getSystemResource("Saturn.png").toString());
 		UranusImg = new Image(ClassLoader.getSystemResource("Uranus.png").toString());
 		
-		RetriveImg = new Image(ClassLoader.getSystemResource("Retrive").toString());
-		RandReflectorImg = new Image(ClassLoader.getSystemResource("RandomReflector").toString());
-		LightningColImg = new Image(ClassLoader.getSystemResource("LightningColumn").toString());
-		LightningRowImg = new Image(ClassLoader.getSystemResource("LightningRow").toString());
-		LightningColAniImg = new Image(ClassLoader.getSystemResource("LightningColAni").toString());
+		SpaceCraftImg = new Image(ClassLoader.getSystemResource("SpaceCraft.png").toString());
+		
+		RetriveBallImg = new Image(ClassLoader.getSystemResource("RetrieveBall.png").toString());
+		RandomReflectorImg = new Image(ClassLoader.getSystemResource("RandomReflector.png").toString());
+		VLightningImg = new Image(ClassLoader.getSystemResource("VLightning.png").toString());
+		HLightningImg = new Image(ClassLoader.getSystemResource("HLightning.png").toString());
+		VLightningAniImg = new Image(ClassLoader.getSystemResource("VLightningAni.png").toString());
 		
 //		mapSprite = new Image(ClassLoader.getSystemResource("Map.png").toString());
 //		mineSprite = new Image(ClassLoader.getSystemResource("Mine.png").toString());
