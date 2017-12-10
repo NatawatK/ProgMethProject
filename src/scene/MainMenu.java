@@ -27,8 +27,8 @@ public class MainMenu extends Pane {
 	
 	private final double BTN_WIDTH = 100;
 	private final double BTN_HEIGHT = 100;
-	public static final Font headFont = Font.loadFont("file:res/fonts/SPACEBAR.ttf",50);
-	public static final Font bodyFont = Font.loadFont("file:res/fonts/SPACEBAR.ttf",10);
+	public static final Font headFont = Font.loadFont("file:res/font/SPACEBAR.ttf",50);
+	public static final Font bodyFont = Font.loadFont("file:res/font/SPACEBAR.ttf",10);
 	private Canvas PlayBtn;
 	private Canvas MenuBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	

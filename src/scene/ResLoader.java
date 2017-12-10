@@ -9,46 +9,47 @@ public class ResLoader {
 	public static Image SpaceCraftImg;
 	public static Image SelectBallImg, EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
 	public static Image GameOverImg, ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
-	public static Image RetriveBallImg, RandomReflectorImg, VLightningImg, HLightningImg;
+	public static Image RetriveBallImg, RandomReflectorImg, VLightningImg, HLightningImg, BallPlusImg;
 	public static Image HLightningAniImg, VLightningAniImg, ExplosionAniImg;
 	public static AudioClip electricSound, bangSound, collectSound, bounceWallSound, bounceBlockSound, reflectorSound;
 	
 	public static void loadResource() {
 		
-		MenuImg = new Image(ClassLoader.getSystemResource("MainBG.jpg").toString());
-		PlayBtn1 = new Image(ClassLoader.getSystemResource("PlayBtn1.png").toString());
-		PlayBtn2 = new Image(ClassLoader.getSystemResource("PlayBtn2.png").toString());
+		MenuImg = new Image(ClassLoader.getSystemResource("img/MainBG.jpg").toString());
+		PlayBtn1 = new Image(ClassLoader.getSystemResource("img/PlayBtn1.png").toString());
+		PlayBtn2 = new Image(ClassLoader.getSystemResource("img/PlayBtn2.png").toString());
 		
-		GameOverImg = new Image(ClassLoader.getSystemResource("BG3.jpg").toString());
-		ReplayBtn1 = new Image(ClassLoader.getSystemResource("ReplayBtn1.png").toString());
-		ReplayBtn2 = new Image(ClassLoader.getSystemResource("ReplayBtn2.png").toString());
-		HomeBtn1 = new Image(ClassLoader.getSystemResource("HomeBtn1.png").toString());
-		HomeBtn2 = new Image(ClassLoader.getSystemResource("HomeBtn2.png").toString());
+		GameOverImg = new Image(ClassLoader.getSystemResource("img/BG3.jpg").toString());
+		ReplayBtn1 = new Image(ClassLoader.getSystemResource("img/ReplayBtn1.png").toString());
+		ReplayBtn2 = new Image(ClassLoader.getSystemResource("img/ReplayBtn2.png").toString());
+		HomeBtn1 = new Image(ClassLoader.getSystemResource("img/HomeBtn1.png").toString());
+		HomeBtn2 = new Image(ClassLoader.getSystemResource("img/HomeBtn2.png").toString());
 		
-		SelectBallImg = new Image(ClassLoader.getSystemResource("BG6.jpg").toString());
-		EarthImg = new Image(ClassLoader.getSystemResource("Earth.png").toString());
-		MarsImg = new Image(ClassLoader.getSystemResource("Mars.png").toString());
-		MoonImg = new Image(ClassLoader.getSystemResource("Moon.png").toString());
-		PlutoImg = new Image(ClassLoader.getSystemResource("Pluto.png").toString());
-		SaturnImg = new Image(ClassLoader.getSystemResource("Saturn.png").toString());
-		UranusImg = new Image(ClassLoader.getSystemResource("Uranus.png").toString());
+		SelectBallImg = new Image(ClassLoader.getSystemResource("img/BG6.jpg").toString());
+		EarthImg = new Image(ClassLoader.getSystemResource("img/Earth.png").toString());
+		MarsImg = new Image(ClassLoader.getSystemResource("img/Mars.png").toString());
+		MoonImg = new Image(ClassLoader.getSystemResource("img/Moon.png").toString());
+		PlutoImg = new Image(ClassLoader.getSystemResource("img/Pluto.png").toString());
+		SaturnImg = new Image(ClassLoader.getSystemResource("img/Saturn.png").toString());
+		UranusImg = new Image(ClassLoader.getSystemResource("img/Uranus.png").toString());
 		
-		SpaceCraftImg = new Image(ClassLoader.getSystemResource("SpaceCraft.png").toString());
+		SpaceCraftImg = new Image(ClassLoader.getSystemResource("img/SpaceCraft.png").toString());
 		
-		RetriveBallImg = new Image(ClassLoader.getSystemResource("Retrieve.png").toString());
-		RandomReflectorImg = new Image(ClassLoader.getSystemResource("RandomReflector.png").toString());
-		VLightningImg = new Image(ClassLoader.getSystemResource("VLightning.png").toString());
-		HLightningImg = new Image(ClassLoader.getSystemResource("HLightning.png").toString());
+		RetriveBallImg = new Image(ClassLoader.getSystemResource("img/Retrieve.png").toString());
+		RandomReflectorImg = new Image(ClassLoader.getSystemResource("img/BallPlus.png").toString());
+		BallPlusImg = new Image(ClassLoader.getSystemResource("img/RandomReflector.png").toString());
+		VLightningImg = new Image(ClassLoader.getSystemResource("img/VLightning.png").toString());
+		HLightningImg = new Image(ClassLoader.getSystemResource("img/HLightning.png").toString());
 		
-		VLightningAniImg = new Image(ClassLoader.getSystemResource("VLightningAni.png").toString()); // 375x432 pixel 8 frame
-		HLightningAniImg = new Image(ClassLoader.getSystemResource("HLightningAni.png").toString());
-		ExplosionAniImg = new Image(ClassLoader.getSystemResource("ExplosionAni.png").toString());
+		VLightningAniImg = new Image(ClassLoader.getSystemResource("img/VLightningAni.png").toString()); // 375x432 pixel 8 frame
+		HLightningAniImg = new Image(ClassLoader.getSystemResource("img/HLightningAni.png").toString());
+		ExplosionAniImg = new Image(ClassLoader.getSystemResource("img/ExplosionAni.png").toString());
 		
-		electricSound = new AudioClip(ClassLoader.getSystemResource("ESPARK1.wav").toString());
-		bangSound = new AudioClip(ClassLoader.getSystemResource("bang1.wav").toString());
-		collectSound = new AudioClip(ClassLoader.getSystemResource("collect.wav").toString());
-		bounceWallSound = new AudioClip(ClassLoader.getSystemResource("bing2.wav").toString());
-		bounceBlockSound = new AudioClip(ClassLoader.getSystemResource("bing.wav").toString());
+		electricSound = new AudioClip(ClassLoader.getSystemResource("sound/ESPARK1.wav").toString());
+		bangSound = new AudioClip(ClassLoader.getSystemResource("sound/bang1.wav").toString());
+		collectSound = new AudioClip(ClassLoader.getSystemResource("sound/collect.wav").toString());
+		bounceWallSound = new AudioClip(ClassLoader.getSystemResource("sound/bing2.wav").toString());
+		bounceBlockSound = new AudioClip(ClassLoader.getSystemResource("sound/bing.wav").toString());
 //		reflectorSound = new AudioClip(ClassLoader.getSystemResource("pang.wav").toString()); 
 		
 	}
