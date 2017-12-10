@@ -1,5 +1,7 @@
 package scene;
 
+import javax.swing.GroupLayout.Alignment;
+
 import javafx.application.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.Scene;
@@ -18,9 +20,11 @@ public class GameOver extends Pane{
 	private final double BTN_WIDTH = 75;
 	private final double BTN_HEIGHT = 75;
 	public static final Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
+	public static final Font bodyFont = Font.font("Monospace" ,20);
 	private Canvas BGCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	private Canvas ReplayBtn;
 	private Canvas HomeBtn;
+	private Canvas field, gameOverLabel, result;
 	
 	public GameOver() {
 		
@@ -28,8 +32,8 @@ public class GameOver extends Pane{
 		gc.drawImage(ResLoader.GameOverImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 		getChildren().add(BGCanvas);
 		
-		Canvas GameOverLabel = new Canvas(SceneManager.SCENE_WIDTH,200);
-		GraphicsContext gc2 = GameOverLabel.getGraphicsContext2D();
+		gameOverLabel = new Canvas(SceneManager.SCENE_WIDTH,200);
+		GraphicsContext gc2 = gameOverLabel.getGraphicsContext2D();
 		
 		gc2.setFont(headFont);
 		gc2.setFill(Color.WHITE);
@@ -37,17 +41,22 @@ public class GameOver extends Pane{
 		gc2.setTextAlign(TextAlignment.CENTER);
 		gc2.fillText("GAME OVER", SceneManager.SCENE_WIDTH/2, 100);
 		
-		changeCenter(GameOverLabel, 0, 0);
-		getChildren().add(GameOverLabel);
+		changeCenter(gameOverLabel, 0, 0);
+		getChildren().add(gameOverLabel);
 		
-		Canvas field = new Canvas(300,300);
+		result = new Canvas(300,300);
+		showResult(result, 0, 0, 0);
+		
+		field = new Canvas(300,300);
 		field.setOpacity(0.5);
 		GraphicsContext gcSth = field.getGraphicsContext2D();
 		gcSth.setFill(Color.WHITE);
 		gcSth.fillRoundRect(1, 1, 300-2, 300-2, 20, 20);
 		
+		
+		changeCenter(result, (SceneManager.SCENE_WIDTH-300)/2, 150);
 		changeCenter(field, (SceneManager.SCENE_WIDTH-300)/2, 150);
-		getChildren().add(field);
+		getChildren().addAll(field,result);
 		
 		ReplayBtn = drawButton(ResLoader.ReplayBtn1);	
 		addCanvasEvents(ReplayBtn, "Replay", ResLoader.ReplayBtn1, ResLoader.ReplayBtn2);
@@ -114,6 +123,22 @@ public class GameOver extends Pane{
 			}
 			
 		});
+	}
+	
+	public void showResult(Canvas canvas, int lvl, int damage, int maxBall) {
+		GraphicsContext gc = canvas.getGraphicsContext2D();
+		
+		gc.setFill(Color.BLACK);
+		gc.setFont(bodyFont);
+		gc.setTextAlign(TextAlignment.RIGHT);
+		gc.setTextBaseline(VPos.CENTER);
+		gc.fillText("Level : "+lvl, 280, 50);
+		gc.fillText("Damage : "+damage, 280, 100);
+		gc.fillText("Max Ball : "+maxBall, 280, 150);
+		gc.setFill(Color.WHITE);
+		gc.fillRoundRect(20, 20, 100, 100, 20, 20);
+		gc.drawImage(ResLoader.MarsImg, 20, 20);
+		
 	}
 	
 }

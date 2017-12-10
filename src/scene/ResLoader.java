@@ -8,9 +8,10 @@ public class ResLoader {
 	public static Image MenuImg, PlayBtn1, PlayBtn2;
 	public static Image SpaceCraftImg;
 	public static Image SelectBallImg, EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
-	public static Image GameOverImg ,ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
-	public static Image RetriveBallImg ,RandomReflectorImg ,VLightningImg ,HLightningImg ,VLightningAniImg ;
-	
+	public static Image GameOverImg, ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
+	public static Image RetriveBallImg, RandomReflectorImg, VLightningImg, HLightningImg;
+	public static Image HLightningAniImg, VLightningAniImg, ExplosionAniImg;
+	public static AudioClip electricSound, bangSound, collectSound, bounceWallSound, bounceBlockSound, reflectorSound;
 	
 	public static void loadResource() {
 		
@@ -34,15 +35,22 @@ public class ResLoader {
 		
 		SpaceCraftImg = new Image(ClassLoader.getSystemResource("SpaceCraft.png").toString());
 		
-		RetriveBallImg = new Image(ClassLoader.getSystemResource("RetrieveBall.png").toString());
+		RetriveBallImg = new Image(ClassLoader.getSystemResource("Retrieve.png").toString());
 		RandomReflectorImg = new Image(ClassLoader.getSystemResource("RandomReflector.png").toString());
 		VLightningImg = new Image(ClassLoader.getSystemResource("VLightning.png").toString());
 		HLightningImg = new Image(ClassLoader.getSystemResource("HLightning.png").toString());
-		VLightningAniImg = new Image(ClassLoader.getSystemResource("VLightningAni.png").toString()); // 375x432 pixel 8 frame
 		
-//		mapSprite = new Image(ClassLoader.getSystemResource("Map.png").toString());
-//		mineSprite = new Image(ClassLoader.getSystemResource("Mine.png").toString());
-//		explosionSound = new AudioClip(ClassLoader.getSystemResource("Explosion.wav").toString());
+		VLightningAniImg = new Image(ClassLoader.getSystemResource("VLightningAni.png").toString()); // 375x432 pixel 8 frame
+		HLightningAniImg = new Image(ClassLoader.getSystemResource("HLightningAni.png").toString());
+		ExplosionAniImg = new Image(ClassLoader.getSystemResource("ExplosionAni.png").toString());
+		
+		electricSound = new AudioClip(ClassLoader.getSystemResource("ESPARK1.wav").toString());
+		bangSound = new AudioClip(ClassLoader.getSystemResource("bang1.wav").toString());
+		collectSound = new AudioClip(ClassLoader.getSystemResource("collect.wav").toString());
+		bounceWallSound = new AudioClip(ClassLoader.getSystemResource("bing2.wav").toString());
+		bounceBlockSound = new AudioClip(ClassLoader.getSystemResource("bing.wav").toString());
+//		reflectorSound = new AudioClip(ClassLoader.getSystemResource("pang.wav").toString()); 
+		
 	}
 	
 }

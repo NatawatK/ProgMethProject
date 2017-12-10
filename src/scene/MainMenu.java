@@ -28,13 +28,12 @@ public class MainMenu extends Pane {
 	private final double BTN_WIDTH = 100;
 	private final double BTN_HEIGHT = 100;
 	public static final Font headFont = Font.loadFont("file:res/fonts/SPACEBAR.ttf",50);
+	public static final Font bodyFont = Font.loadFont("file:res/fonts/SPACEBAR.ttf",10);
 	private Canvas PlayBtn;
-	private Canvas QuitBtn;
 	private Canvas MenuBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	
-	private static int width = SceneManager.SCENE_WIDTH;
-	private static int height = SceneManager.SCENE_HEIGHT;
-	private Canvas exitMenu, yesBtn, noBtn;
+	private Canvas bgWindow, exitMenu, yesBtn, noBtn;
+	private int state = 0;
 	
 	public MainMenu() {
 		super();
@@ -56,29 +55,91 @@ public class MainMenu extends Pane {
 		
 		changeCenter(MainLabel, 0, 0);
 		getChildren().add(MainLabel);
+		
+		bgWindow = new Canvas(SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5);
+		bgWindow.setVisible(false);
+		
+		exitMenu = new Canvas(SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5);
+		exitMenu.setVisible(false);
+
+		yesBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
+		addCanvasEvents(yesBtn, "Yes");
+		yesBtn.setVisible(false);
+		
+		yesBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
+		addCanvasEvents(yesBtn, "Yes");
+		yesBtn.setVisible(false);
+
+		noBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
+		addCanvasEvents(noBtn, "No");
+		noBtn.setVisible(false);
+		
+		drawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
+		getChildren().addAll(bgWindow, exitMenu, yesBtn, noBtn);
+
 
 		PlayBtn = drawButton(ResLoader.PlayBtn1);	
+		PlayBtn.setFocusTraversable(true);
 		addCanvasEvents(PlayBtn, "Play", ResLoader.PlayBtn1, ResLoader.PlayBtn2);
 		
 		getChildren().add(PlayBtn);
 		changeCenter(PlayBtn, (SceneManager.SCENE_WIDTH-BTN_WIDTH)/2, SceneManager.SCENE_HEIGHT/2);
+
+
 		
-		exitMenu = drawButton("Exit", width / 3 + 40, height / 6, width / 3 - 20, height / 3);
-//		addCanvasEvents(exitMenu, "Exit");
+	}
+	
+	public static void drawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
+		bgWindow.setOpacity(0.5);
+		
+		GraphicsContext gc = bgWindow.getGraphicsContext2D();
+		GraphicsContext gc2 = exitMenu.getGraphicsContext2D();
+		GraphicsContext gc3 = yesBtn.getGraphicsContext2D();
+		GraphicsContext gc4 = noBtn.getGraphicsContext2D();
+
+		bgWindow.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2);
+		bgWindow.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2);
+		exitMenu.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2);
+		exitMenu.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2);
+		yesBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+10);
+		yesBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+50);
+		noBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+SceneManager.SCENE_WIDTH/2-SceneManager.SCENE_WIDTH/8-10);
+		noBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+50);
+			
+			gc.setFill(Color.DARKGRAY);
+			gc.fillRoundRect(0, 0, SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5, 30, 30);
+			
+			gc2.setFill(Color.BLACK);
+			gc2.strokeRoundRect(0, 0, SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5, 30, 30);
+			gc2.setFill(Color.WHITE);
+			gc2.setFont(bodyFont);
+			gc2.setTextAlign(TextAlignment.CENTER);
+			gc2.setTextBaseline(VPos.CENTER);
+			gc2.fillText("EXIT", SceneManager.SCENE_WIDTH / 4, SceneManager.SCENE_HEIGHT / 10 - 20);
+			
+			gc3.setFill(Color.BLACK);
+			gc3.fillRoundRect(0, 0, SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14, 30, 30);
+			gc3.setFill(Color.WHITE);
+			gc3.setFont(bodyFont);
+			gc3.setTextAlign(TextAlignment.CENTER);
+			gc3.setTextBaseline(VPos.CENTER);
+			gc3.fillText("YES", SceneManager.SCENE_WIDTH / 16, SceneManager.SCENE_HEIGHT / 28);
+		
+			gc4.setFill(Color.BLACK);
+			gc4.fillRoundRect(0, 0, SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14, 30, 30);
+			gc4.setFill(Color.WHITE);
+			gc4.setFont(bodyFont);
+			gc4.setTextAlign(TextAlignment.CENTER);
+			gc4.setTextBaseline(VPos.CENTER);
+			gc4.fillText("NO", SceneManager.SCENE_WIDTH / 16, SceneManager.SCENE_HEIGHT / 28);
+			
+	}
+	
+	public static void undrawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
+		bgWindow.setVisible(false);
 		exitMenu.setVisible(false);
-
-		yesBtn = drawButton("Yes", width / 12, height / 18, width / 3 + 60, height / 3 + 50);
-//		addCanvasEvents(yesBtn, "Yes");
 		yesBtn.setVisible(false);
-
-		noBtn = drawButton("No", width / 12, height / 18, width / 3 + width / 3 - width / 12 - 60, height / 3 + 50);
-//		addCanvasEvents(noBtn, "No");
 		noBtn.setVisible(false);
-		
-		getChildren().addAll(exitMenu, yesBtn, noBtn);
-
-
-		
 	}
 	
 
@@ -88,10 +149,11 @@ public class MainMenu extends Pane {
 
 		canvas.setTranslateX(posX);
 		canvas.setTranslateY(posY);
-
-			gc.setFill(Color.DARKSALMON);
+			
+			gc.setFill(Color.BLACK);
 			gc.fillRoundRect(0, 0, width, height, 30, 30);
 			gc.setFill(Color.WHITE);
+			gc.setFont(bodyFont);
 			gc.setTextAlign(TextAlignment.CENTER);
 			gc.setTextBaseline(VPos.CENTER);
 			gc.fillText(name, width / 2, height / 2);
@@ -128,7 +190,7 @@ public class MainMenu extends Pane {
 				// TODO Auto-generated method stub
 				Pane selectBall = new SelectBall();
 				if(buttonName=="Play") SceneManager.gotoSceneOf(selectBall);
-				if(buttonName=="Quit") Platform.exit();
+				
 			}
 		});
 		
@@ -154,26 +216,36 @@ public class MainMenu extends Pane {
 		canvas.setOnKeyPressed((KeyEvent e) -> {
 			System.out.println(e.getCode().getName());
 			if (e.getCode() == KeyCode.ESCAPE) {
-				System.out.println("555");
-				this.exitMenu.setVisible(true);
-				this.yesBtn.setVisible(true);
-				this.noBtn.setVisible(true);
+				if(state==0) {
+					this.bgWindow.setVisible(true);
+					this.exitMenu.setVisible(true);
+					this.yesBtn.setVisible(true);
+					this.noBtn.setVisible(true);
+					state++;
+				}else {
+					state = 0;
+					undrawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
+				}
 			}
 		});
 		
 	}
 	
-//	private void addCanvasEvents(Canvas canvas, String name) {
-//		canvas.setOnKeyPressed((KeyEvent e) -> {
-//			System.out.println(e.getCode().getName());
-//			if (e.getCode() == KeyCode.ESCAPE) {
-//				System.out.println("555");
-//				this.exitMenu.setVisible(true);
-//				this.yesBtn.setVisible(true);
-//				this.noBtn.setVisible(true);
-//			}
-//		});
-//	}
-	
+	private void addCanvasEvents(Canvas canvas, String buttonName) {
+		//TODO Fill Code
+		canvas.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				if(buttonName=="Yes") Platform.exit();
+				if(buttonName=="No") {
+					state = 0;
+					undrawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
+				}
+			}
+		});
+		
+	}
 	
 }
