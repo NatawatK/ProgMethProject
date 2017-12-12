@@ -1,5 +1,6 @@
 package model;
 
+import java.util.Map;
 import java.util.Random;
 
 import org.dyn4j.geometry.Vector2;
@@ -20,7 +21,7 @@ public class Ball extends CollidableEntity implements Movable{
 	
 	final static double INIT_SPEED = 10;
 	final static Paint BALL_COLOR = Color.WHITE;
-	final static double INIT_RADIUS = 5;
+	final static double INIT_RADIUS = 7;
 	
 	protected double radius;
 	private Vector2 direction;
@@ -63,18 +64,23 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	
 	public void collect() {
-//		this.y = GameManager.START_Y;
-//		if(GameManager.stopPoint == -1)
-//			GameManager.stopPoint = this.x;
-//		else {
-//			if(Math.abs(this.x - GameManager.stopPoint) < INIT_SPEED ) {
-//				this.speed = 0;
-//				destroy();
-//			}
-//			this.direction.x = (x < GameManager.stopPoint)? 1 : -1;
-//			this.direction.y = 0;
-//		}
-		destroy();
+		this.y = GameManager.START_Y;
+		if(GameManager.stopPoint == -1) //is first ball landed
+			GameManager.stopPoint = this.x;
+		else {
+			if(Math.abs(this.x - GameManager.stopPoint) <= INIT_SPEED ) { //if this ball reach first ball
+				destroy();
+			}
+			else {
+				this.direction.x = (x < GameManager.stopPoint)? 1 : -1;
+				System.out.println(this + "    /   "  + this.x + "    /  "   + GameManager.stopPoint);
+			}
+			
+		}
+		/*
+		 * BUG : when retrieve ball and ball come to under START_Y 
+		 * BUG2 : first landed ball canvas is deleted!!???
+		*/
 			
 	}
 	@Override
@@ -151,8 +157,8 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	public void checkFrame() {
 		if(y > GameManager.START_Y) {
+			this.y = GameManager.START_Y;
 			collect();
-			ResLoader.bounceWallSound.play();
 		}
 		if(y - radius <= 0) {
 			direction.y *= -1;
@@ -167,6 +173,7 @@ public class Ball extends CollidableEntity implements Movable{
 		if(x + radius >= GameStage.GAME_WIDTH) {
 			direction.x *= -1;
 			x = GameStage.GAME_WIDTH - radius;
+			ResLoader.bounceWallSound.play();
 		}
 
 	}

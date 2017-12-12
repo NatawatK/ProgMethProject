@@ -92,9 +92,16 @@ public class Block extends CollidableEntity implements Movable{
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
+		/*******new animation**********
+		if(!isDestroyed()) {
+			Holder.getInstance().getAnimation().drawBomb((int)x, (int)y);
+			System.out.println(this.toString() + "  " + "Play animation");
+		}
+		/******************************/
 		this.destroy = true;
 //		destroySound.play();
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
+		
 	}
 	
 	public double getBottom() {

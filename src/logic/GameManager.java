@@ -13,7 +13,9 @@ import model.Movable;
 import model.Shooter;
 import model.Shooter.ShooterState;
 import model.powerUp.*;
+import scene.GameOver;
 import scene.GameStage;
+import scene.SceneManager;
 
 public class GameManager {
 	
@@ -70,21 +72,21 @@ public class GameManager {
 	public static void update() {
 		switch(currentState) {
 			case aim :
-				System.out.println("aim");
+//				System.out.println("aim");
 				Holder.getInstance().getAimLine().setVisible(true);
 				break;
 			case shoot :
 				
 				Holder.getInstance().getAimLine().setVisible(false);
 				ballUpdate();
-				System.out.println(stopPoint);
+//				System.out.println(stopPoint);
 				break;
 			case wait :
 				
 			case move :
 				Holder.getInstance().getShooter().move();
-				System.out.println("move");
-//				if(Holder.getInstance().getShooter().getState() == ShooterState.wait)
+				System.out.println("GameState : move");
+				if(Holder.getInstance().getShooter().getState() == ShooterState.wait)
 					currentState = GameState.aim;
 				break;
 			case endShot :
@@ -152,7 +154,7 @@ public class GameManager {
 	public static void checkLose() {
 		for( Block e : Holder.getInstance().getBlockContainer()) {
 			if(e.getBottom() >= GameStage.LOSE_LINE)
-				Platform.exit();
+				SceneManager.gotoSceneOf(new GameOver());
 			
 		}
 	}

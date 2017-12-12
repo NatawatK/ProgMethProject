@@ -46,15 +46,20 @@ public class AimLine extends Line implements Movable{
 		
 		return Math.toDegrees(Math.atan2(getEndY() - getStartY(), getEndX() - getStartX()));
 	}
-	private double[] rotateLine(double radAngle) {
+	/*private double[] rotateLine(double radAngle) {
 	    double x, y;
 	    x = Math.cos(radAngle) * (this.getEndX() - this.getStartX()) - Math.sin(radAngle) * (this.getEndY() - this.getStartY()) + this.getStartX();
 	    y = Math.sin(radAngle) * (getEndX() - getStartX()) + Math.cos(radAngle) * (getEndY() - getStartY()) + getStartY();
 	    return new double[]{x, y};
-	}
+	}*/
 	
 	public Vector2 getVector() {
 		return new Vector2(getStartX(), getStartY(), getEndX(), getEndY());
+	}
+	
+	public void reCenter() {
+		this.setStartX(Holder.getInstance().getShooter().x);
+		this.setStartY(Holder.getInstance().getShooter().y);
 	}
 	
 	

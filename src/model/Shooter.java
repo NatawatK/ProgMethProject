@@ -21,7 +21,7 @@ public class Shooter extends Entity implements Movable{
 	public ShooterState nowState;
 	private static final int COOLTIME = 100;
 	private static final double IMG_SIZE = 60;
-	private final static double SPEED = 10;
+	private final static double SPEED = 5;
 	
 	private int maxBall, nowBall;	
 
@@ -29,7 +29,7 @@ public class Shooter extends Entity implements Movable{
 	
 	
 	public Shooter() {
-		this.maxBall = 10;
+		this.maxBall = 1;
 		this.nowBall = maxBall;
 		this.x = GameManager.START_X;
 		this.y = GameManager.START_Y;
@@ -42,6 +42,9 @@ public class Shooter extends Entity implements Movable{
 //		System.out.println(this.getClass().getName());
 	}
 	@Override
+	
+	
+	
 	public void draw() {
 		// TODO Auto-generated method stub
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -63,7 +66,7 @@ public class Shooter extends Entity implements Movable{
 			if(nowState != ShooterState.shoot)
 				spaceCraftCanvas.setRotate(Holder.getInstance().getAimLine().getDegree()+90);
 		}
-		catch (Exception e){
+		catch (NullPointerException e){
 			spaceCraftCanvas.setRotate(0);
 			e.printStackTrace();
 		}
@@ -102,7 +105,6 @@ public class Shooter extends Entity implements Movable{
 	
 	public void increaseMaxBall() {
 		this.maxBall ++;
-		System.out.println("Now maxBall is "+maxBall);
 	}
 	
 	public ShooterState getState() {
@@ -117,12 +119,19 @@ public class Shooter extends Entity implements Movable{
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
-//		if(Math.abs(x - GameManager.stopPoint) <=  SPEED) {
-//			nowState = ShooterState.wait;
-//		}
-//		nowState = ShooterState.move;
-		nowBall = maxBall; 
-//		this.x += SPEED * ((x < GameManager.stopPoint)? 1 : -1);
+//		System.out.println("shooter : " +nowState);
+		nowBall = maxBall;
+		if(Math.abs(x - GameManager.stopPoint) <=  SPEED) {
+			this.x = GameManager.stopPoint;
+			Holder.getInstance().getAimLine().reCenter();
+			nowState = ShooterState.wait;
+		}
+		else {
+			nowState = ShooterState.move;
+			this.x += SPEED * ((x < GameManager.stopPoint)? 1 : -1);
+//			System.out.println(x + "   /  " + GameManager.stopPoint + "(" + Math.abs(x - GameManager.stopPoint) + ")");
+			
+		}
 		draw();
 	}
 	

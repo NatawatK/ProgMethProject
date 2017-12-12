@@ -190,8 +190,9 @@ public class SelectBall extends Pane{
 					undrawHoverIndicator(UranusBoard);
 					drawHoverIndicator(board);
 					ballState = buttonName;
-					Pane gameOver = new GameOver();
-					SceneManager.gotoSceneOf(gameOver);
+//					Pane gameOver = new GameOver();
+//					SceneManager.gotoSceneOf(gameOver);
+					SceneManager.goToGameScene();
 				}
 				
 			}

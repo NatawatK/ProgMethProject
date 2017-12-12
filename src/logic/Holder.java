@@ -11,6 +11,7 @@ import model.Entity;
 import model.Movable;
 import model.Shooter;
 import model.powerUp.PowerUp;
+import scene.Animation;
 import scene.GameStage;
 
 
@@ -20,6 +21,7 @@ public class Holder {
 	
 	
 	protected GameStage gameStage;
+	protected Animation animation;
 	
 	protected List<Ball> ballContainer;
 	protected List<Block> blockContainer;
@@ -34,6 +36,7 @@ public class Holder {
 		ballContainer = new ArrayList<>();
 		blockContainer = new ArrayList<>();
 		powerUpContainer = new ArrayList<>();
+		animation = new Animation();
 	}
 	
 	public static Holder getInstance () {
@@ -43,10 +46,12 @@ public class Holder {
 	public void setup() {
 		shooter = new Shooter();
 		aimLine = new AimLine();
-		
+		gameStage.getChildren().add(animation);
 	}
 
 	
+	
+
 	public void add(Entity entity) {
 		if(entity instanceof Ball) {
 			Holder.getInstance().ballContainer.add((Ball)entity);
@@ -72,11 +77,7 @@ public class Holder {
 		powerUpContainer.removeIf(e ->{ return e.isDestroyed(); } );
 	}
 	
-	public void remove(Entity entity) {
-		if(entity instanceof Ball) {
-			ballContainer.remove(entity);
-		}
-	}
+	
 
 	public Shooter getShooter() {
 		return shooter;
@@ -102,14 +103,10 @@ public class Holder {
 		return powerUpContainer;
 	}
 
+	public Animation getAnimation() {
+		return animation;
+	}
 	
-	
-	
-
-	
-	
-	
-
 	
 	
 	
