@@ -23,6 +23,7 @@ public class VLightning extends PowerUp{
 		// TODO Auto-generated method stub
 		this.hitted = true;
 		System.out.println("VLightning active!!");
+		ResLoader.electricSound.play();
 		Rectangle2D lightning = new Rectangle2D(x, 0, 1, GameStage.GAME_HEIGHT);
 		for( Block e : Holder.getInstance().getBlockContainer()) {
 			if(e.getRect().intersects(lightning))

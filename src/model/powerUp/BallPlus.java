@@ -15,6 +15,8 @@ public class BallPlus extends PowerUp{
 		canvas.setTranslateX(x-radius);
 		canvas.setTranslateY(y-radius);
 		color = Color.LIGHTSKYBLUE;
+		this.img = ResLoader.BallPlusImg;
+		this.sound = ResLoader.collectSound;
 		draw();
 	}
 
@@ -22,6 +24,7 @@ public class BallPlus extends PowerUp{
 	public void onCollision(CollidableEntity other) {
 		// TODO Auto-generated method stub
 		Holder.getInstance().getShooter().increaseMaxBall();
+		sound.play();
 		this.destroy();
 	}
 

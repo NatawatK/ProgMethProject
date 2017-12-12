@@ -6,6 +6,7 @@ import org.dyn4j.geometry.Vector2;
 import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.Pane;
@@ -26,6 +27,7 @@ public class GameStage extends Pane{
 	public final static double GAME_HEIGHT = 600;
 	public final static double LOSE_LINE = GAME_HEIGHT - 50;
 	protected static Canvas canvas ;
+	protected Image gameBG;
 	
 	public GameStage() {
 		this.Initialize();
@@ -39,11 +41,15 @@ public class GameStage extends Pane{
 		canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
 		this.getChildren().add(canvas);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(Color.BLACK);
-		gc.setStroke(Color.RED);
+		gameBG = ResLoader.GameBG;
+//		gc.setFill(Color.BLACK);
 		
-		gc.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
-		gc.strokeRect(0, 0, getWidth(), getHeight());
+//		gc.setStroke(Color.RED);
+		
+//		gc.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
+//		gc.strokeRect(0, 0, getWidth(), getHeight());
+		
+		gc.drawImage(gameBG, 0, 0, GAME_WIDTH, GAME_HEIGHT);
 		
 		gc.setFill(Color.WHEAT);
 		gc.fillText("BBTAN", 290, 600);
@@ -51,8 +57,8 @@ public class GameStage extends Pane{
 	
 	private void setEvent() {
 		this.setOnMouseMoved(E -> {
-			if(GameManager.getCurrentState() == GameState.aim) 
-				Holder.getInstance().getAimLine().aimTo(E.getSceneX(), E.getSceneY());
+//			if(GameManager.getCurrentState() == GameState.aim) 
+			Holder.getInstance().getAimLine().aimTo(E.getSceneX(), E.getSceneY());
 	
 		});
 		this.setOnMouseClicked(E -> {
@@ -66,9 +72,7 @@ public class GameStage extends Pane{
 			
 		});
 		
-		this.setOnMouseDragged(E -> {
-			
-		});
+		
 	}
 
 	

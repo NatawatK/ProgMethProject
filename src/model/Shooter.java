@@ -1,5 +1,7 @@
 package model;
 
+import java.awt.HeadlessException;
+
 import org.dyn4j.geometry.Vector2;
 
 import javafx.application.Platform;
@@ -8,23 +10,34 @@ import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import logic.GameManager;
 import logic.Holder;
+import logic.GameManager.GameState;
 import scene.GameStage;
+import scene.ResLoader;
 
 public class Shooter extends Entity implements Movable{
+	public enum ShooterState {
+		shoot, finishShoot, move, wait; 
+	}
+	public ShooterState nowState;
 	private static final int COOLTIME = 100;
-	
+	private static final double IMG_SIZE = 60;
 	private final static double SPEED = 10;
 	
 	private int maxBall, nowBall;	
-	private boolean finishShoot;
+
+	private Canvas spaceCraftCanvas; 
+	
 	
 	public Shooter() {
-		this.maxBall = 1;
+		this.maxBall = 10;
 		this.nowBall = maxBall;
 		this.x = GameManager.START_X;
 		this.y = GameManager.START_Y;
 		canvas = new Canvas(GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
+		spaceCraftCanvas = new Canvas(IMG_SIZE, IMG_SIZE);
 		Holder.getInstance().getGameStage().getChildren().add(canvas);
+		Holder.getInstance().getGameStage().getChildren().add(spaceCraftCanvas);
+		this.nowState = ShooterState.wait;
 		draw();
 //		System.out.println(this.getClass().getName());
 	}
@@ -32,16 +45,33 @@ public class Shooter extends Entity implements Movable{
 	public void draw() {
 		// TODO Auto-generated method stub
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(Color.BLACK);
-		gc.fillRect(0, 0, GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
+		gc.drawImage(ResLoader.GameBG, 0, 0, GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
 		gc.setFill(Color.RED);
 		gc.fillRect(x-5, y-5, 10, 10);
-		gc.fillText("x"+nowBall, x+10 , y);
+		
+		gc.fillText("x"+nowBall, x+20 , y);
+		drawSpaceCraft();
 //		System.out.println("Shooter Canvas Add!! " + x + " " + y);
 	}
+	
+	public void drawSpaceCraft() {
+		GraphicsContext gc = spaceCraftCanvas.getGraphicsContext2D();
+		spaceCraftCanvas.setTranslateX(x - IMG_SIZE/2);
+		spaceCraftCanvas.setTranslateY(y - IMG_SIZE/2);
+		gc.drawImage(ResLoader.SpaceCraftImg, 0, 0, spaceCraftCanvas.getWidth() , spaceCraftCanvas.getHeight());
+		try{
+			if(nowState != ShooterState.shoot)
+				spaceCraftCanvas.setRotate(Holder.getInstance().getAimLine().getDegree()+90);
+		}
+		catch (Exception e){
+			spaceCraftCanvas.setRotate(0);
+			e.printStackTrace();
+		}
+		
+	}
 	public void shoot() {
-		nowBall = maxBall;
-		finishShoot = false;
+		GameManager.stopPoint = -1;
+		this.nowState = ShooterState.shoot;
 		Vector2 direction = Holder.getInstance().getAimLine().getVector();
 		new Thread(new Runnable() {
 			@Override
@@ -57,9 +87,11 @@ public class Shooter extends Entity implements Movable{
 						e.printStackTrace();
 					}
 				}
+				nowState = ShooterState.finishShoot;
 			}
 		}).start();
-		finishShoot = true;
+		
+		
 	}
 	
 	public void retrieve() {
@@ -73,8 +105,8 @@ public class Shooter extends Entity implements Movable{
 		System.out.println("Now maxBall is "+maxBall);
 	}
 	
-	public boolean isFinishShoot() {
-		return finishShoot;
+	public ShooterState getState() {
+		return nowState;
 	}
 
 	@Override
@@ -85,7 +117,12 @@ public class Shooter extends Entity implements Movable{
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
+//		if(Math.abs(x - GameManager.stopPoint) <=  SPEED) {
+//			nowState = ShooterState.wait;
+//		}
+//		nowState = ShooterState.move;
 		nowBall = maxBall; 
+//		this.x += SPEED * ((x < GameManager.stopPoint)? 1 : -1);
 		draw();
 	}
 	

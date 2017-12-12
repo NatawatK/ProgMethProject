@@ -12,6 +12,7 @@ public class RandomReflector extends PowerUp{
 		// TODO Auto-generated constructor stub.
 		this.color = Color.BROWN;
 		this.img = ResLoader.RandomReflectorImg;
+		this.sound = ResLoader.reflectorSound;
 		draw();
 	}
 
@@ -20,6 +21,7 @@ public class RandomReflector extends PowerUp{
 		// TODO Auto-generated method stub
 		this.hitted = true;
 		((Ball)other).randomDirection();
+		sound.play();
 	}
 
 }

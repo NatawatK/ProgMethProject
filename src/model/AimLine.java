@@ -4,6 +4,7 @@ import org.dyn4j.geometry.Vector2;
 
 import javafx.scene.shape.Line;
 import logic.GameManager;
+import logic.GameManager.GameState;
 import logic.Holder;
 
 public class AimLine extends Line implements Movable{
@@ -34,13 +35,17 @@ public class AimLine extends Line implements Movable{
 		double dx = xx - getStartX();
 		double dy = (yy - getStartY())*-1;
 		dy = Math.max(dy, Math.abs(dx) * Math.tan(MIN_RADIAN));
-		double rad = Math.atan2(dy , dx);
+//		double rad = Math.atan2(dy , dx);
 		this.setEndX(getStartX()+dx);
 		this.setEndY(getStartY()+dy*-1);
+		if(GameManager.getCurrentState() == GameState.aim) Holder.getInstance().getShooter().drawSpaceCraft();;
 //		System.out.println("[" +  dx + "," + dy+ "]" + rad + "   " + Math.toDegrees(rad));
 	}
 	
-	
+	public double getDegree() {
+		
+		return Math.toDegrees(Math.atan2(getEndY() - getStartY(), getEndX() - getStartX()));
+	}
 	private double[] rotateLine(double radAngle) {
 	    double x, y;
 	    x = Math.cos(radAngle) * (this.getEndX() - this.getStartX()) - Math.sin(radAngle) * (this.getEndY() - this.getStartY()) + this.getStartX();

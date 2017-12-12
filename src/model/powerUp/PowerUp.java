@@ -4,6 +4,7 @@ import javafx.geometry.Rectangle2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Paint;
 import logic.GameManager;
 import logic.Holder;
@@ -18,6 +19,7 @@ public abstract class PowerUp extends CollidableEntity implements Movable{
 	protected double radius;
 	protected Paint color;
 	protected Image img;
+	protected AudioClip sound;
 	protected boolean hitted;
 	
 	
@@ -48,8 +50,8 @@ public abstract class PowerUp extends CollidableEntity implements Movable{
 	protected void draw() {
 		// TODO Auto-generated method stub
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.setFill(color);
-		gc.fillOval(0, 0, 2*radius, 2*radius);
+//		gc.setFill(color);
+//		gc.fillOval(0, 0, 2*radius, 2*radius);
 		gc.drawImage(img, 0, 0, canvas.getWidth(), canvas.getHeight());
 	}
 

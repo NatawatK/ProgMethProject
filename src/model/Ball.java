@@ -14,6 +14,7 @@ import logic.GameManager;
 import logic.Holder;
 import model.powerUp.PowerUp;
 import scene.GameStage;
+import scene.ResLoader;
 
 public class Ball extends CollidableEntity implements Movable{
 	
@@ -31,6 +32,7 @@ public class Ball extends CollidableEntity implements Movable{
 		this.radius = INIT_RADIUS;
 		this.x = x;
 		this.y = y;
+		canvas = new Canvas(radius*2, radius*2);
 		this.direction = direction.getNormalized();
 		this.draw();
 //		System.out.println("Ball Added!");
@@ -41,8 +43,8 @@ public class Ball extends CollidableEntity implements Movable{
 		this.x += direction.x*speed; 
 		this.y += direction.y*speed;
 		
-		canvas.setTranslateX(x);
-		canvas.setTranslateY(y);
+		canvas.setTranslateX(x - radius);
+		canvas.setTranslateY(y - radius);
 //		System.out.println("Moving");
 //		print();
 	
@@ -61,13 +63,23 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	
 	public void collect() {
-		
+//		this.y = GameManager.START_Y;
+//		if(GameManager.stopPoint == -1)
+//			GameManager.stopPoint = this.x;
+//		else {
+//			if(Math.abs(this.x - GameManager.stopPoint) < INIT_SPEED ) {
+//				this.speed = 0;
+//				destroy();
+//			}
+//			this.direction.x = (x < GameManager.stopPoint)? 1 : -1;
+//			this.direction.y = 0;
+//		}
 		destroy();
 			
 	}
 	@Override
 	public void draw() {
-		canvas = new Canvas(radius*2, radius*2);
+		
 		canvas.setTranslateX(x - radius);
 		canvas.setTranslateY(y - radius);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -139,15 +151,18 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	public void checkFrame() {
 		if(y > GameManager.START_Y) {
-			destroy();
+			collect();
+			ResLoader.bounceWallSound.play();
 		}
 		if(y - radius <= 0) {
 			direction.y *= -1;
 			y = radius;
+			ResLoader.bounceWallSound.play();
 		}
 		if(x - radius <=0) {
 			direction.x *= -1;
 			x = radius;
+			ResLoader.bounceWallSound.play();
 		}
 		if(x + radius >= GameStage.GAME_WIDTH) {
 			direction.x *= -1;
@@ -157,9 +172,7 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	
 	
-	public void print() {
-		System.out.println(x + "," +y);
-	}
+	
 
 	@Override
 	public Rectangle2D getRect() {
@@ -169,7 +182,7 @@ public class Ball extends CollidableEntity implements Movable{
 	
 	public void randomDirection() {
 		float x = new Random().nextFloat() - 0.5f;
-		float y = new Random().nextFloat() - 0.1f ;
+		float y = new Random().nextFloat()/-2 ;
 		direction = new Vector2(x,y);
 		direction.normalize();
 	}

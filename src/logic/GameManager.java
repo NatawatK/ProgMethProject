@@ -10,13 +10,15 @@ import model.Ball;
 import model.Block;
 import model.Entity;
 import model.Movable;
+import model.Shooter;
+import model.Shooter.ShooterState;
 import model.powerUp.*;
 import scene.GameStage;
 
 public class GameManager {
 	
 	public enum GameState{
-		aim, shoot, wait, endShot;
+		aim, shoot, wait, endShot, retrieve, move;
 	}
 	
 	
@@ -24,14 +26,15 @@ public class GameManager {
 	private final static int BLOCKS_PER_ROW = 7;
 	public final static double GRID_SIZE = GameStage.GAME_WIDTH/BLOCKS_PER_ROW;
 	private final static double BLOCK_SPAWN_RATE = 50;
-	public final static double BLOCK_SIZE = GRID_SIZE - 5;
+	public final static double BLOCK_SIZE = GRID_SIZE -5;
 	
 	
 	public final static double SPAWN_Y = 100;
 	
 	public final static double START_X = GameStage.GAME_WIDTH/2;
-	public final static double START_Y = GameStage.GAME_HEIGHT - 20;
+	public final static double START_Y = GameStage.GAME_HEIGHT - 50;
 	
+	public static double stopPoint;
 	
 	private final static long FPS = 60;
 	private final static long LOOP_TIME = 1000000000/FPS;
@@ -67,13 +70,22 @@ public class GameManager {
 	public static void update() {
 		switch(currentState) {
 			case aim :
+				System.out.println("aim");
 				Holder.getInstance().getAimLine().setVisible(true);
 				break;
 			case shoot :
+				
 				Holder.getInstance().getAimLine().setVisible(false);
 				ballUpdate();
+				System.out.println(stopPoint);
 				break;
 			case wait :
+				
+			case move :
+				Holder.getInstance().getShooter().move();
+				System.out.println("move");
+//				if(Holder.getInstance().getShooter().getState() == ShooterState.wait)
+					currentState = GameState.aim;
 				break;
 			case endShot :
 				System.out.println("endshot");
@@ -81,9 +93,9 @@ public class GameManager {
 				objectsDown();
 				spawnBlocks();
 				checkLose();
-				Holder.getInstance().getShooter().move();
-				currentState = GameState.aim;
+				currentState = GameState.move;
 				break;
+				
 				
 		}
 	}
@@ -95,7 +107,7 @@ public class GameManager {
 		for(Ball e : Holder.getInstance().ballContainer) {
 			e.move();
 		}
-		if(Holder.getInstance().getShooter().isFinishShoot() && Holder.getInstance().getBallContainer().size() <= 0) 
+		if(Holder.getInstance().getShooter().getState() == ShooterState.finishShoot && Holder.getInstance().getBallContainer().size() <= 0) 
 			currentState = GameState.endShot;
 	}
 	
