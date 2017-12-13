@@ -2,13 +2,10 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
 import model.AimLine;
 import model.Ball;
 import model.Block;
 import model.Entity;
-import model.Movable;
 import model.Shooter;
 import model.powerUp.PowerUp;
 import scene.Animation;
@@ -19,20 +16,18 @@ public class Holder {
 	
 	private static Holder instance = new Holder();
 	
-	
-	protected GameStage gameStage;
+	private GameStage gameStage;
 	protected Animation animation;
 	
-	protected List<Ball> ballContainer;
-	protected List<Block> blockContainer;
-	protected List<PowerUp> powerUpContainer;
+	private List<Ball> ballContainer;
+	private List<Block> blockContainer;
+	private List<PowerUp> powerUpContainer;
 	
 	private Shooter shooter;
 	private AimLine aimLine;
 	
 	
 	public Holder() {
-		this.gameStage = new GameStage();
 		ballContainer = new ArrayList<>();
 		blockContainer = new ArrayList<>();
 		powerUpContainer = new ArrayList<>();
@@ -43,15 +38,14 @@ public class Holder {
 		return instance;
 	}
 	
-	public void setup() {
+	protected void setup() {
+		gameStage = new GameStage();
 		shooter = new Shooter();
 		aimLine = new AimLine();
 		gameStage.getChildren().add(animation);
 	}
 
 	
-	
-
 	public void add(Entity entity) {
 		if(entity instanceof Ball) {
 			Holder.getInstance().ballContainer.add((Ball)entity);
@@ -71,13 +65,21 @@ public class Holder {
 		}
 	}
 	
-	public void clearObject() {
+	protected void reset() {
+		gameStage = null;
+		aimLine = null;
+		shooter = null;
+		ballContainer.clear();
+		blockContainer.clear();
+		powerUpContainer.clear();
+		
+	}
+	
+	protected void clearObject() {
 		ballContainer.removeIf(e -> { return e.isDestroyed(); });
 		blockContainer.removeIf(e -> { return e.isDestroyed(); });
 		powerUpContainer.removeIf(e ->{ return e.isDestroyed(); } );
 	}
-	
-	
 
 	public Shooter getShooter() {
 		return shooter;

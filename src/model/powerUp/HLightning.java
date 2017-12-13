@@ -24,7 +24,7 @@ public class HLightning extends PowerUp{
 		this.hitted = true;
 //		ResLoader.electricSound.setVolume(50);
 //		ResLoader.electricSound.play();
-		/********* new animation **********/
+		/********* new animation **********
 		Holder.getInstance().getAnimation().drawHLightning((int)x);
 		
 		/**********************************/

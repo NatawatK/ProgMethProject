@@ -99,8 +99,7 @@ public class GameOver extends Pane{
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
 				Pane selectBall = new SelectBall();
-				Pane gameStage = new GameStage();
-				if(buttonName=="Replay") SceneManager.gotoSceneOf(gameStage);
+				if(buttonName=="Replay") SceneManager.goToGameScene();
 				if(buttonName=="Home") SceneManager.gotoMainMenu();
 			}
 		});

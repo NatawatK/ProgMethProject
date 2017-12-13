@@ -1,16 +1,17 @@
 package model;
 
-import java.awt.HeadlessException;
 
 import org.dyn4j.geometry.Vector2;
 
+import exception.RetrieveException;
+import exception.ShootException;
 import javafx.application.Platform;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import logic.GameManager;
-import logic.Holder;
 import logic.GameManager.GameState;
+import logic.Holder;
 import scene.GameStage;
 import scene.ResLoader;
 
@@ -18,7 +19,7 @@ public class Shooter extends Entity implements Movable{
 	public enum ShooterState {
 		shoot, finishShoot, move, wait; 
 	}
-	public ShooterState nowState;
+	private ShooterState nowState;
 	private static final int COOLTIME = 100;
 	private static final double IMG_SIZE = 60;
 	private final static double SPEED = 5;
@@ -39,7 +40,6 @@ public class Shooter extends Entity implements Movable{
 		Holder.getInstance().getGameStage().getChildren().add(spaceCraftCanvas);
 		this.nowState = ShooterState.wait;
 		draw();
-//		System.out.println(this.getClass().getName());
 	}
 	@Override
 	
@@ -68,18 +68,23 @@ public class Shooter extends Entity implements Movable{
 		}
 		catch (NullPointerException e){
 			spaceCraftCanvas.setRotate(0);
-			e.printStackTrace();
+			System.out.println("Aim-line not created yet!");
 		}
 		
 	}
-	public void shoot() {
+	
+	
+	public void shoot() throws ShootException{
+		if(GameManager.getCurrentState() != GameState.aim) 
+			throw new ShootException();
+		
 		GameManager.stopPoint = -1;
 		this.nowState = ShooterState.shoot;
 		Vector2 direction = Holder.getInstance().getAimLine().getVector();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				while(nowBall > 0) {
+				while(nowBall > 0 && nowState == ShooterState.shoot) {
 					Platform.runLater(() -> Holder.getInstance().add(new Ball(x , y, direction)));
 					nowBall--;
 					draw();
@@ -97,14 +102,16 @@ public class Shooter extends Entity implements Movable{
 		
 	}
 	
-	public void retrieve() {
-		for(Ball e : Holder.getInstance().getBallContainer())
+	public void retrieve() throws RetrieveException{
+		if(nowState != ShooterState.shoot && nowState != ShooterState.finishShoot)
+			throw new RetrieveException();
+		this.nowState = ShooterState.finishShoot;
+		for(Ball e : Holder.getInstance().getBallContainer()) 
 			e.down();
-		System.out.println("Retrieve!!");
 	}
 	
 	public void increaseMaxBall() {
-		this.maxBall ++;
+		this.maxBall++;
 	}
 	
 	public ShooterState getState() {
@@ -135,6 +142,9 @@ public class Shooter extends Entity implements Movable{
 		draw();
 	}
 	
+	public int getMaxBall() {
+		return this.maxBall;
+	}
 	
 	
 	

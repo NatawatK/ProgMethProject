@@ -23,7 +23,7 @@ public class VLightning extends PowerUp{
 		// TODO Auto-generated method stub
 		this.hitted = true;
 //		ResLoader.electricSound.play();
-		/***** new anim ******/
+		/***** new anim ******
 		Holder.getInstance().getAnimation().drawVLightning((int)y);
 		/*********************/
 		Rectangle2D lightning = new Rectangle2D(x, 0, 1, GameStage.GAME_HEIGHT);

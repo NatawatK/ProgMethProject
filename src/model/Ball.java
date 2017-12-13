@@ -1,6 +1,5 @@
 package model;
 
-import java.util.Map;
 import java.util.Random;
 
 import org.dyn4j.geometry.Vector2;
@@ -19,9 +18,9 @@ import scene.ResLoader;
 
 public class Ball extends CollidableEntity implements Movable{
 	
-	final static double INIT_SPEED = 10;
-	final static Paint BALL_COLOR = Color.WHITE;
-	final static double INIT_RADIUS = 7;
+	private final static double INIT_SPEED = 10;
+	private final static Paint BALL_COLOR = Color.WHITE;
+	private final static double INIT_RADIUS = 5;
 	
 	protected double radius;
 	private Vector2 direction;
@@ -36,20 +35,18 @@ public class Ball extends CollidableEntity implements Movable{
 		canvas = new Canvas(radius*2, radius*2);
 		this.direction = direction.getNormalized();
 		this.draw();
-//		System.out.println("Ball Added!");
 	}
+	
 	public void move() {
-		checkFrame();
-		if(!retrieved) checkCollision();
 		this.x += direction.x*speed; 
 		this.y += direction.y*speed;
-		
+		if(!retrieved) checkCollision();
+		checkFrame();
 		canvas.setTranslateX(x - radius);
 		canvas.setTranslateY(y - radius);
 //		System.out.println("Moving");
-//		print();
-	
 	}
+	
 	public void down() {
 		this.retrieved = true;
 		this.speed *= 4;
@@ -64,28 +61,23 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	
 	public void collect() {
-		this.y = GameManager.START_Y;
 		if(GameManager.stopPoint == -1) //is first ball landed
 			GameManager.stopPoint = this.x;
 		else {
-			if(Math.abs(this.x - GameManager.stopPoint) <= INIT_SPEED ) { //if this ball reach first ball
+			if(Math.abs(this.x - GameManager.stopPoint) <= speed ) { //if this ball reach first ball
 				destroy();
 			}
 			else {
 				this.direction.x = (x < GameManager.stopPoint)? 1 : -1;
 				System.out.println(this + "    /   "  + this.x + "    /  "   + GameManager.stopPoint);
 			}
-			
 		}
 		/*
-		 * BUG : when retrieve ball and ball come to under START_Y 
-		 * BUG2 : first landed ball canvas is deleted!!???
-		*/
-			
+		 * BUG : first landed ball canvas is deleted!!???
+		*/	
 	}
 	@Override
-	public void draw() {
-		
+	public void draw() {	
 		canvas.setTranslateX(x - radius);
 		canvas.setTranslateY(y - radius);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -93,7 +85,6 @@ public class Ball extends CollidableEntity implements Movable{
 
 		gc.fillOval(0, 0, 2*radius, 2*radius);
 	}
-	
 	
 
 	@Override
@@ -112,30 +103,23 @@ public class Ball extends CollidableEntity implements Movable{
 
 	        if (!other.isDestroyed()) {
 	            if (other.getRect().contains(PointRight)) {
-	//                ball.setXDir(-1);
 	                	direction.x = Math.abs(direction.x)*-1;
-	//                direction.x *= -1;
 //	                System.out.println("Right");
 	            } else if (other.getRect().contains(PointLeft)) {
-	//                ball.setXDir(1);
 	            		direction.x = Math.abs(direction.x);
 	//            	direction.x *= -1;
 //	            	System.out.println("Left");
 	            }
 	
 	            if (other.getRect().contains(PointTop)) {
-	//                ball.setYDir(1);
 	            	direction.y = Math.abs(direction.y);
 //	            	System.out.println("Top");
 	            } else if (other.getRect().contains(PointBottom)) {
-	//                ball.setYDir(-1);
 	                direction.y = Math.abs(direction.y)*-1;
 //	                System.out.println("Bottom");
 	            }     
 	        }
 		}
-		
-		
 		
 	}
 	public void checkCollision() {
@@ -158,28 +142,26 @@ public class Ball extends CollidableEntity implements Movable{
 	public void checkFrame() {
 		if(y > GameManager.START_Y) {
 			this.y = GameManager.START_Y;
+			canvas.setTranslateY(y-radius);
 			collect();
 		}
 		if(y - radius <= 0) {
-			direction.y *= -1;
+			direction.y = Math.abs(direction.y);
 			y = radius;
 			ResLoader.bounceWallSound.play();
 		}
 		if(x - radius <=0) {
-			direction.x *= -1;
+			direction.x = Math.abs(direction.x);
 			x = radius;
 			ResLoader.bounceWallSound.play();
 		}
 		if(x + radius >= GameStage.GAME_WIDTH) {
-			direction.x *= -1;
+			direction.x = -1* Math.abs(direction.x);
 			x = GameStage.GAME_WIDTH - radius;
 			ResLoader.bounceWallSound.play();
 		}
 
 	}
-	
-	
-	
 
 	@Override
 	public Rectangle2D getRect() {
