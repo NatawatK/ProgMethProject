@@ -1,16 +1,13 @@
 package logic;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
+import exception.MinDegreeExceedException;
+import exception.RetrieveException;
+import exception.ShootException;
 import javafx.animation.AnimationTimer;
-import javafx.application.Platform;
 import model.Ball;
 import model.Block;
-import model.Entity;
-import model.Movable;
-import model.Shooter;
 import model.Shooter.ShooterState;
 import model.powerUp.*;
 import scene.GameOver;
@@ -24,12 +21,10 @@ public class GameManager {
 	}
 	
 	
-	
 	private final static int BLOCKS_PER_ROW = 7;
 	public final static double GRID_SIZE = GameStage.GAME_WIDTH/BLOCKS_PER_ROW;
 	private final static double BLOCK_SPAWN_RATE = 50;
-	public final static double BLOCK_SIZE = GRID_SIZE -5;
-	
+	private final static double BLOCK_SIZE = GRID_SIZE -5;
 	
 	public final static double SPAWN_Y = 100;
 	
@@ -42,41 +37,38 @@ public class GameManager {
 	private final static long LOOP_TIME = 1000000000/FPS;
 	
 	private static long startTime;
+	private static AnimationTimer timer;
 	
-	protected static GameState currentState ;
-	protected static int Level;
+	private static GameState currentState ;
+	private static int level;
+	
 	public static void startGame() {
 		Holder.getInstance().setup();
-		Level = 1;
-		spawnBlocks();
+		level = 1;
+		spawnObjects();
 		currentState = GameState.aim;
 		
-		
 		startTime = System.nanoTime();
-		AnimationTimer timer = new AnimationTimer() {
-			
+		timer = new AnimationTimer() {	
 			@Override
 			public void handle(long now) {
 				// TODO Auto-generated method stub
 				if(now - startTime > LOOP_TIME) {
 					startTime += LOOP_TIME;
 					update();
-					//print();
 				}
-				
 			}
 		};
 		timer.start();
 	}
 	
-	public static void update() {
+	private static void update() {
 		switch(currentState) {
 			case aim :
 //				System.out.println("aim");
 				Holder.getInstance().getAimLine().setVisible(true);
 				break;
 			case shoot :
-				
 				Holder.getInstance().getAimLine().setVisible(false);
 				ballUpdate();
 //				System.out.println(stopPoint);
@@ -85,28 +77,27 @@ public class GameManager {
 				
 			case move :
 				Holder.getInstance().getShooter().move();
-				System.out.println("GameState : move");
+//				System.out.println("GameState : move");
 				if(Holder.getInstance().getShooter().getState() == ShooterState.wait)
 					currentState = GameState.aim;
 				break;
 			case endShot :
 				System.out.println("endshot");
-				Level++;
+				level++;
 				objectsDown();
-				spawnBlocks();
+				spawnObjects();
 				checkLose();
 				currentState = GameState.move;
 				break;
-				
-				
 		}
 	}
 	
-	public static void ballUpdate() {
-		Holder.getInstance().ballContainer.removeIf(e -> {
+
+	private static void ballUpdate() {
+		Holder.getInstance().getBallContainer().removeIf(e -> {
 			return e.isDestroyed();
 		});
-		for(Ball e : Holder.getInstance().ballContainer) {
+		for(Ball e : Holder.getInstance().getBallContainer()) {
 			e.move();
 		}
 		if(Holder.getInstance().getShooter().getState() == ShooterState.finishShoot && Holder.getInstance().getBallContainer().size() <= 0) 
@@ -114,50 +105,88 @@ public class GameManager {
 	}
 	
 	public static void shoot() {
-		Holder.getInstance().getShooter().shoot();
-		currentState = GameState.shoot;
+		try {
+			Holder.getInstance().getShooter().shoot();
+			currentState = GameState.shoot;
+		}
+		catch (ShootException e) {
+			// TODO: handle exception
+			System.out.println(e.getErrorMessage());
+		}
+		
 	}
 	
-	public static void setCurrentState(GameState currentState) {
-		GameManager.currentState = currentState;
+	public static void retrieve() {
+		try {
+			Holder.getInstance().getShooter().retrieve();
+		}
+		catch (RetrieveException e) {
+			// TODO: handle exception
+			System.out.println(e.getErrorMessage());
+		}
+		
+	}
+	
+	public static void aim(double x, double y) {
+		try {
+			Holder.getInstance().getAimLine().aimTo(x, y);
+		}
+		catch (MinDegreeExceedException e) {
+			// TODO: handle exception
+			System.out.println(e.getError());
+		}
+		
 	}
 
-	public static void spawnBlocks() {
+	private static void spawnObjects() {
 		for(int i = 0 ;i< BLOCKS_PER_ROW; i++) {
 			double rate = new Random().nextDouble()*100;
 			if(rate <= BLOCK_SPAWN_RATE)
-				Holder.getInstance().add(new Block(GRID_SIZE*i + (GRID_SIZE-BLOCK_SIZE)/2, SPAWN_Y + (GRID_SIZE-BLOCK_SIZE)/2 ,BLOCK_SIZE ,BLOCK_SIZE, Level));
+				Holder.getInstance().add(new Block(GRID_SIZE*i + (GRID_SIZE-BLOCK_SIZE)/2, SPAWN_Y + (GRID_SIZE-BLOCK_SIZE)/2 ,BLOCK_SIZE ,BLOCK_SIZE, level));
 			else if(rate <= 60)
 				Holder.getInstance().add(new BallPlus(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
-			else if(rate <= 70)
+			else if(rate <= 65)
 				Holder.getInstance().add(new VLightning(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
-			else if(rate <= 80)
+			else if(rate <= 70)
 				Holder.getInstance().add(new HLightning(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
-			else if(rate <= 90)
+			else if(rate <= 75)
 				Holder.getInstance().add(new RandomReflector(GRID_SIZE*i + GRID_SIZE/2, SPAWN_Y + GRID_SIZE/2));
 		}
 	}
 	
-	public static void objectsDown() {
+	private static void objectsDown() {
 		Holder.getInstance().clearObject();
 		for(Block e : Holder.getInstance().getBlockContainer())
 			e.move();
 		for(PowerUp e : Holder.getInstance().getPowerUpContainer())
-			e.move();
-		
+			e.move();	
 	}
 
 	public static GameState getCurrentState() {
 		return currentState;
 	}
 	
-	public static void checkLose() {
+	private static void checkLose() {
 		for( Block e : Holder.getInstance().getBlockContainer()) {
-			if(e.getBottom() >= GameStage.LOSE_LINE)
-				SceneManager.gotoSceneOf(new GameOver());
-			
+			if(e.getBottom() >= GameStage.LOSE_LINE) {
+				gameOver();
+				return;
+			}
 		}
 	}
 	
+	private static void gameOver() {
+		timer.stop();
+		Holder.getInstance().reset();
+		SceneManager.gotoSceneOf(new GameOver());
+	}
+	
+	public static int getLevel() {
+		return level;
+	}
+	
+	public static int getMaxBall() {
+		return Holder.getInstance().getShooter().getMaxBall();
+	}
 	
 }

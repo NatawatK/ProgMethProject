@@ -6,6 +6,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
+import logic.GameManager;
 import logic.Holder;
 
 public class SceneManager{
@@ -24,23 +25,20 @@ public class SceneManager{
 	}
 	
 	public static void gotoMainMenu() {
-		//TODO Fill Code
 		primaryStage.setScene(mainMenuScene);
 	}
 	
 	public static void gotoSceneOf(Pane pane) {
-		//TODO Fill Code
 		Scene sceneToGo = new Scene(pane,SCENE_WIDTH,SCENE_HEIGHT);
 		primaryStage.setScene(sceneToGo);
 	}
 	
 	public static void goToGameScene() {
-		ResLoader.loadResource();
-		GameStage game = Holder.getInstance().getGameStage();
-		Scene scene = new Scene(game);
+		GameManager.startGame();
+//		Scene scene = new Scene(Holder.getInstance().getGameStage());
 		primaryStage.setTitle("GameScene");
-		primaryStage.setScene(scene);
-		logic.GameManager.startGame();
+		primaryStage.setScene(new Scene(Holder.getInstance().getGameStage()));
+		
 	}
 	
 	

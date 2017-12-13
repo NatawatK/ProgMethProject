@@ -2,43 +2,42 @@ package model;
 
 import org.dyn4j.geometry.Vector2;
 
+import exception.MinDegreeExceedException;
 import javafx.scene.shape.Line;
 import logic.GameManager;
 import logic.GameManager.GameState;
 import logic.Holder;
 
-public class AimLine extends Line implements Movable{
+public class AimLine extends Line{
 	private static final double LIMITE_DEGREE = 15;
 	private static final double MIN_RADIAN = Math.toRadians(LIMITE_DEGREE);
-	@Override
-	
-	
-	public void move() {
-		// TODO Auto-generated method stub
-		setStartX(Holder.getInstance().getShooter().x);
-		setStartY(Holder.getInstance().getShooter().y);
-		setEndX(Holder.getInstance().getShooter().x);
-		setEndY(Holder.getInstance().getShooter().y);
-	}
 	
 	public AimLine() {
 		super();
 		// TODO Auto-generated constructor stub
 		this.setStyle("-fx-stroke: aqua; -fx-stroke-width: 3;" );
-		move();
+//		move();
+		setStartX(Holder.getInstance().getShooter().x);
+		setStartY(Holder.getInstance().getShooter().y);
+		setEndX(Holder.getInstance().getShooter().x);
+		setEndY(Holder.getInstance().getShooter().y-1);
 		Holder.getInstance().getGameStage().getChildren().add(this);
-//		System.out.println("Aim line Created1!!");
+//		System.out.println("Aim-line Created!!");
 	}
-
-
-	public void aimTo(double xx,double yy) {
+	
+	
+	public void aimTo(double xx,double yy) throws MinDegreeExceedException{
 		double dx = xx - getStartX();
 		double dy = (yy - getStartY())*-1;
-		dy = Math.max(dy, Math.abs(dx) * Math.tan(MIN_RADIAN));
-//		double rad = Math.atan2(dy , dx);
-		this.setEndX(getStartX()+dx);
+		//		double rad = Math.atan2(dy , dx);
+		if( dy < Math.abs(dx) * Math.tan(MIN_RADIAN))
+			throw new MinDegreeExceedException();
+		else {
+			this.setEndX(getStartX()+dx);
 		this.setEndY(getStartY()+dy*-1);
-		if(GameManager.getCurrentState() == GameState.aim) Holder.getInstance().getShooter().drawSpaceCraft();;
+		if(GameManager.getCurrentState() == GameState.aim) 
+			Holder.getInstance().getShooter().drawSpaceCraft();;
+		}
 //		System.out.println("[" +  dx + "," + dy+ "]" + rad + "   " + Math.toDegrees(rad));
 	}
 	

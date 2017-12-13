@@ -1,10 +1,7 @@
 package scene;
 
-import java.awt.Label;
 
-import javafx.application.Platform;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
