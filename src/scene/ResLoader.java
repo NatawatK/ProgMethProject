@@ -37,11 +37,11 @@ public class ResLoader {
 		SpaceCraftImg = new Image(ClassLoader.getSystemResource("img/SpaceCraft.png").toString());
 		
 		BlockImg = new Image(ClassLoader.getSystemResource("img/SquareGrey.png").toString());
-		GameBG = new  Image(ClassLoader.getSystemResource("img/BG8.jpg").toString());
+		GameBG = new  Image(ClassLoader.getSystemResource("img/BG13.png").toString());
 		
 		RetriveBallImg = new Image(ClassLoader.getSystemResource("img/Retrieve.png").toString());
 		RandomReflectorImg = new Image(ClassLoader.getSystemResource("img/RandomReflector.png").toString());
-		BallPlusImg = new Image(ClassLoader.getSystemResource("img/BallPlus.png").toString());
+		BallPlusImg = new Image(ClassLoader.getSystemResource("img/BallPlus3.png").toString());
 		VLightningImg = new Image(ClassLoader.getSystemResource("img/VLightning.png").toString());
 		HLightningImg = new Image(ClassLoader.getSystemResource("img/HLightning.png").toString());
 		
@@ -49,7 +49,7 @@ public class ResLoader {
 		HLightningAniImg = new Image(ClassLoader.getSystemResource("img/HLightningAni.png").toString());
 		ExplosionAniImg = new Image(ClassLoader.getSystemResource("img/ExplosionAni.png").toString());
 		
-		electricSound = new AudioClip(ClassLoader.getSystemResource("sound/ESPARK1.wav").toString());
+		electricSound = new AudioClip(ClassLoader.getSystemResource("sound/zap2.mp3").toString());
 		bangSound = new AudioClip(ClassLoader.getSystemResource("sound/bang1.wav").toString());
 		collectSound = new AudioClip(ClassLoader.getSystemResource("sound/collect.wav").toString());
 		bounceWallSound = new AudioClip(ClassLoader.getSystemResource("sound/bing2.wav").toString());
