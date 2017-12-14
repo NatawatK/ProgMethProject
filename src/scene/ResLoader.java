@@ -2,6 +2,7 @@ package scene;
 
 import javafx.scene.image.Image;
 import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
 
 public class ResLoader {
 	
@@ -12,7 +13,7 @@ public class ResLoader {
 	public static Image SelectBallImg, EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
 	public static Image GameOverImg, ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
 	public static Image RetriveBallImg, RandomReflectorImg, VLightningImg, HLightningImg, BallPlusImg;
-	public static AudioClip electricSound, bangSound, collectSound, bounceWallSound, bounceBlockSound, reflectorSound;
+	public static AudioClip electricSound, bangSound, collectSound, bounceWallSound, bounceBlockSound, reflectorSound,bgmSound;
 	
 	public static void loadResource() {
 		
@@ -56,6 +57,8 @@ public class ResLoader {
 		bounceBlockSound = new AudioClip(ClassLoader.getSystemResource("sound/bing.wav").toString());
 		reflectorSound = new AudioClip(ClassLoader.getSystemResource("sound/pang.wav").toString()); 
 		
+		bgmSound = new AudioClip(ClassLoader.getSystemResource("sound/bgm.mp3").toString());
+		bgmSound.setVolume(0.15);
 	}
 	
 }

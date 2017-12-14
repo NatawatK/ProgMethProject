@@ -1,6 +1,9 @@
 package application;
 	
+import com.sun.media.jfxmedia.MediaPlayer;
+
 import javafx.application.Application;
+import javafx.scene.media.Media;
 import javafx.stage.Stage;
 import scene.ResLoader;
 import scene.SceneManager;
