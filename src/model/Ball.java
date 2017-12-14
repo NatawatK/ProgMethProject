@@ -145,9 +145,9 @@ public class Ball extends CollidableEntity implements Movable{
 			canvas.setTranslateY(y-radius);
 			collect();
 		}
-		if(y - radius <= 0) {
+		if(y - radius <= 50) {
 			direction.y = Math.abs(direction.y);
-			y = radius;
+			y = radius+50;
 			ResLoader.bounceWallSound.play();
 		}
 		if(x - radius <=0) {

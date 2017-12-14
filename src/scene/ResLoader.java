@@ -12,7 +12,6 @@ public class ResLoader {
 	public static Image SelectBallImg, EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
 	public static Image GameOverImg, ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
 	public static Image RetriveBallImg, RandomReflectorImg, VLightningImg, HLightningImg, BallPlusImg;
-	public static Image HLightningAniImg, VLightningAniImg, ExplosionAniImg;
 	public static AudioClip electricSound, bangSound, collectSound, bounceWallSound, bounceBlockSound, reflectorSound;
 	
 	public static void loadResource() {
@@ -49,10 +48,6 @@ public class ResLoader {
 		BallPlusImg = new Image(ClassLoader.getSystemResource("img/BallPlus3.png").toString());
 		VLightningImg = new Image(ClassLoader.getSystemResource("img/VLightning.png").toString());
 		HLightningImg = new Image(ClassLoader.getSystemResource("img/HLightning.png").toString());
-		
-		VLightningAniImg = new Image(ClassLoader.getSystemResource("img/VLightningAni.png").toString()); // 375x432 pixel 8 frame
-		HLightningAniImg = new Image(ClassLoader.getSystemResource("img/HLightningAni.png").toString());
-		ExplosionAniImg = new Image(ClassLoader.getSystemResource("img/ExplosionAni.png").toString());
 		
 		electricSound = new AudioClip(ClassLoader.getSystemResource("sound/zap2.mp3").toString());
 		bangSound = new AudioClip(ClassLoader.getSystemResource("sound/bang1.wav").toString());

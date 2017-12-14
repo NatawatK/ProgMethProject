@@ -11,8 +11,8 @@ public class SceneManager{
 	public static final double SCENE_WIDTH = 375;
 	public static final double SCENE_HEIGHT = 600;
 	
-	private static Pane mainMenuGrid = new MainMenu();
-	private static Scene mainMenuScene = new Scene(mainMenuGrid,SCENE_WIDTH,SCENE_HEIGHT);
+	private static Pane mainMenu = new MainMenu();
+	private static Scene mainMenuScene = new Scene(mainMenu,SCENE_WIDTH,SCENE_HEIGHT);
 	
 	public static void initialize(Stage stage) {
 		primaryStage = stage;

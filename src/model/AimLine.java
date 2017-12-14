@@ -27,6 +27,7 @@ public class AimLine extends Line{
 	
 	
 	public void aimTo(double xx,double yy) throws MinDegreeExceedException{
+		if(yy<50) return;
 		double dx = xx - getStartX();
 		double dy = (yy - getStartY())*-1;
 		//		double rad = Math.atan2(dy , dx);

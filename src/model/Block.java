@@ -5,10 +5,9 @@ import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import logic.GameManager;
 import logic.Holder;
@@ -16,24 +15,23 @@ import scene.ResLoader;
 
 public class Block extends CollidableEntity implements Movable{
 	
-	private static final Font font = new Font("res/font/spacebar.ttf",20);
+	private static final Font font = Font.font("Monospace", FontWeight.BOLD,20);
 	private int life;
+	private int startLife;
 	
 	private double width;
 	private double height;
 	
 	protected Image img;
-	protected AudioClip bounceSound, destroySound;
 	
 	public Block(double x, double y, double width, double height, int life) {
 		this.life = life;
+		this.startLife = life;
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
 		this.img = ResLoader.BlockImg;
-		this.bounceSound = ResLoader.bounceBlockSound;
-		this.destroySound = ResLoader.bangSound;
 		canvas = new Canvas(width, height);
 		draw();
 	}
@@ -55,13 +53,10 @@ public class Block extends CollidableEntity implements Movable{
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		/***********************************/
-		if(life<3) img = ResLoader.BlockRed;
-		else if(life<6) img = ResLoader.BlockPurple;
+		if(life<0.3*startLife) img = ResLoader.BlockRed;
+		else if(life<0.6*startLife) img = ResLoader.BlockPurple;
 		else img = ResLoader.BlockBlue;
 		gc.drawImage(img, 0, 0, width, height);
-		/***********************************/
-//		gc.drawImage(ResLoader.BlockImg, 0, 0, width, height);//delete this line
 		gc.setFill(Color.BLACK);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -77,28 +72,10 @@ public class Block extends CollidableEntity implements Movable{
 	@Override
 	public void destroy() {
 		// TODO Auto-generated method stub
-		/*******new animation**********
 		if(!isDestroyed()) {
-			Holder.getInstance().getAnimation().drawBomb((int)x, (int)y);
-			System.out.println(this.toString() + "  " + "Play animation");
+			Holder.getInstance().getAnimation().drawBomb(x, y);
 		}
-		/******************************/
-		
-		/***********************************/
-		if(!isDestroyed()) {
-			ResLoader.bangSound.play();
-			ImageView iv = new ImageView();
-			Image i = new Image(ClassLoader.getSystemResource("img/newBomb.gif").toString());
-			iv.setImage(i);
-			iv.setFitHeight((double) GameManager.GRID_SIZE);
-			iv.setFitWidth((double) GameManager.GRID_SIZE);
-			iv.setTranslateX(x);
-			iv.setTranslateY(y);
-			Holder.getInstance().getGameStage().getChildren().add(iv);
-		}
-		/***********************************/
 		this.destroy = true;
-//		destroySound.play();
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
 		
 	}
@@ -107,7 +84,6 @@ public class Block extends CollidableEntity implements Movable{
 	public void onCollision(CollidableEntity other) {
 		// TODO Auto-generated method stub
 		if(other instanceof Ball) decreaseLife();
-//		bounceSound.play();
 		ResLoader.bounceBlockSound.play();
 	}
 	public double getBottom() {

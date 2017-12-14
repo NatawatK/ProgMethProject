@@ -48,8 +48,8 @@ public class Holder {
 	
 	public void add(Entity entity) {
 		if(entity instanceof Ball) {
-			Holder.getInstance().ballContainer.add((Ball)entity);
-			Holder.getInstance().gameStage.getChildren().add(entity.canvas);
+			ballContainer.add((Ball)entity);
+			gameStage.getChildren().add(entity.canvas);
 //			System.out.println("Ball added  " + System.nanoTime());
 		}
 		if(entity instanceof Block) {

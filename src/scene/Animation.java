@@ -8,7 +8,7 @@ import logic.Holder;
 
 public class Animation extends Pane {
 	
-	public void drawVLightning(int x) {
+	public void drawVLightning(double x) {
 		ResLoader.electricSound.play();
 		ImageView iv = new ImageView();
 		Image i = new Image(ClassLoader.getSystemResource("img/newV.gif").toString());
@@ -20,7 +20,7 @@ public class Animation extends Pane {
 		Holder.getInstance().getGameStage().getChildren().add(iv);
 	}
 	
-	public void drawHLightning(int y) {
+	public void drawHLightning(double y) {
 		ResLoader.electricSound.play();
 		ImageView iv = new ImageView();
 		Image i = new Image(ClassLoader.getSystemResource("img/newH.gif").toString());
@@ -31,10 +31,10 @@ public class Animation extends Pane {
 		Holder.getInstance().getGameStage().getChildren().add(iv);
 	}
 	
-	public void drawBomb(int x, int y) {
+	public void drawBomb(double x, double y) {
 		ResLoader.bangSound.play();
 		ImageView iv = new ImageView();
-		Image i = new Image(ClassLoader.getSystemResource("img/newBomb.gif").toString());
+		Image i = new Image(ClassLoader.getSystemResource("img/newBomb2.gif").toString());
 		iv.setImage(i);
 		iv.setFitHeight((double) GameManager.GRID_SIZE);
 		iv.setFitWidth((double) GameManager.GRID_SIZE);

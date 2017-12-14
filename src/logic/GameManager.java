@@ -6,6 +6,7 @@ import exception.MinDegreeExceedException;
 import exception.RetrieveException;
 import exception.ShootException;
 import javafx.animation.AnimationTimer;
+import javafx.scene.layout.Pane;
 import model.Ball;
 import model.Block;
 import model.Shooter.ShooterState;
@@ -74,7 +75,8 @@ public class GameManager {
 //				System.out.println(stopPoint);
 				break;
 			case wait :
-				
+				Holder.getInstance().getAimLine().setVisible(false);
+				break;
 			case move :
 				Holder.getInstance().getShooter().move();
 //				System.out.println("GameState : move");
@@ -86,6 +88,7 @@ public class GameManager {
 				level++;
 				objectsDown();
 				spawnObjects();
+				Holder.getInstance().getGameStage().redrawLevel(getLevel());
 				checkLose();
 				currentState = GameState.move;
 				break;
@@ -129,6 +132,7 @@ public class GameManager {
 	
 	public static void aim(double x, double y) {
 		try {
+//			if(currentState == GameState.aim)
 			Holder.getInstance().getAimLine().aimTo(x, y);
 		}
 		catch (MinDegreeExceedException e) {
@@ -177,8 +181,9 @@ public class GameManager {
 	
 	private static void gameOver() {
 		timer.stop();
+		Pane gameOver = new GameOver(getLevel(),getMaxBall());
 		Holder.getInstance().reset();
-		SceneManager.gotoSceneOf(new GameOver());
+		SceneManager.gotoSceneOf(gameOver);
 	}
 	
 	public static int getLevel() {
@@ -187,6 +192,14 @@ public class GameManager {
 	
 	public static int getMaxBall() {
 		return Holder.getInstance().getShooter().getMaxBall();
+	}
+	public static GameState tmp;
+	public static void pause() {
+		tmp = currentState;
+		currentState = GameState.wait;
+	}
+	public static void unpause() {
+		currentState = tmp;
 	}
 	
 }

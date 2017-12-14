@@ -35,6 +35,7 @@ public class Shooter extends Entity implements Movable{
 		this.x = GameManager.START_X;
 		this.y = GameManager.START_Y;
 		canvas = new Canvas(GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
+		canvas.setTranslateY(50);
 		spaceCraftCanvas = new Canvas(IMG_SIZE, IMG_SIZE);
 		Holder.getInstance().getGameStage().getChildren().add(canvas);
 		Holder.getInstance().getGameStage().getChildren().add(spaceCraftCanvas);
@@ -50,9 +51,9 @@ public class Shooter extends Entity implements Movable{
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.drawImage(ResLoader.GameBG, 0, 0, GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
 		gc.setFill(Color.RED);
-		gc.fillRect(x-5, y-5, 10, 10);
+//		gc.fillRect(x-5, y-55, 10, 10);
 		
-		gc.fillText("x"+nowBall, x+20 , y);
+		gc.fillText("x"+nowBall, x+20 , y-50);
 		drawSpaceCraft();
 //		System.out.println("Shooter Canvas Add!! " + x + " " + y);
 	}
