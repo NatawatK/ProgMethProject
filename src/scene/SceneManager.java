@@ -1,22 +1,18 @@
 package scene;
 
 import javafx.scene.Scene;
-import javafx.scene.canvas.Canvas;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
-import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import logic.GameManager;
 import logic.Holder;
 
 public class SceneManager{
 	private static Stage primaryStage;
-	public static final int SCENE_WIDTH = 375;
-	public static final int SCENE_HEIGHT = 600;
+	public static final double SCENE_WIDTH = 375;
+	public static final double SCENE_HEIGHT = 600;
 	
 	private static Pane mainMenuGrid = new MainMenu();
 	private static Scene mainMenuScene = new Scene(mainMenuGrid,SCENE_WIDTH,SCENE_HEIGHT);
-	public static final Font theFont = Font.font("Monospace",16);
 	
 	public static void initialize(Stage stage) {
 		primaryStage = stage;

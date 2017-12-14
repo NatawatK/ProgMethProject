@@ -1,24 +1,14 @@
 package scene;
 
-import com.sun.javafx.tk.FontLoader;
-import com.sun.javafx.tk.Toolkit;
-
 import javafx.application.Platform;
-import javafx.geometry.Insets;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
@@ -27,10 +17,10 @@ public class MainMenu extends Pane {
 	
 	private final double BTN_WIDTH = 100;
 	private final double BTN_HEIGHT = 100;
-	public static final Font headFont = Font.loadFont("file:res/font/SPACEBAR.ttf",50);
-	public static final Font bodyFont = Font.loadFont("file:res/font/SPACEBAR.ttf",10);
-	private Canvas PlayBtn;
-	private Canvas MenuBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
+	private static Font headFont = Font.loadFont("file:res/font/SPACEBAR.ttf",50);
+	private static Font bodyFont = Font.loadFont("file:res/font/SPACEBAR.ttf",10);
+	private Canvas playBtn;
+	private Canvas menuBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	
 	private Canvas bgWindow, exitMenu, yesBtn, noBtn;
 	private int state = 0;
@@ -38,9 +28,9 @@ public class MainMenu extends Pane {
 	public MainMenu() {
 		super();
 		
-		GraphicsContext gc = MenuBG.getGraphicsContext2D();
+		GraphicsContext gc = menuBG.getGraphicsContext2D();
 		gc.drawImage(ResLoader.MenuImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
-		getChildren().add(MenuBG);
+		getChildren().add(menuBG);
 		
 		Canvas MainLabel = new Canvas(SceneManager.SCENE_WIDTH,300);
 		GraphicsContext gc2 = MainLabel.getGraphicsContext2D();
@@ -73,24 +63,23 @@ public class MainMenu extends Pane {
 		noBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
 		addCanvasEvents(noBtn, "No");
 		noBtn.setVisible(false);
+
+
+		playBtn = drawButton(ResLoader.PlayBtn1);	
+		playBtn.setFocusTraversable(true);
+		addCanvasEvents(playBtn, "Play", ResLoader.PlayBtn1, ResLoader.PlayBtn2);
+		
+		getChildren().add(playBtn);
+		changeCenter(playBtn, (SceneManager.SCENE_WIDTH-BTN_WIDTH)/2, SceneManager.SCENE_HEIGHT/2);
 		
 		drawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
 		getChildren().addAll(bgWindow, exitMenu, yesBtn, noBtn);
 
-
-		PlayBtn = drawButton(ResLoader.PlayBtn1);	
-		PlayBtn.setFocusTraversable(true);
-		addCanvasEvents(PlayBtn, "Play", ResLoader.PlayBtn1, ResLoader.PlayBtn2);
-		
-		getChildren().add(PlayBtn);
-		changeCenter(PlayBtn, (SceneManager.SCENE_WIDTH-BTN_WIDTH)/2, SceneManager.SCENE_HEIGHT/2);
-
-
 		
 	}
 	
-	public static void drawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
-		bgWindow.setOpacity(0.5);
+	private void drawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
+//		bgWindow.setOpacity(0.8);
 		
 		GraphicsContext gc = bgWindow.getGraphicsContext2D();
 		GraphicsContext gc2 = exitMenu.getGraphicsContext2D();
@@ -101,17 +90,19 @@ public class MainMenu extends Pane {
 		bgWindow.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2);
 		exitMenu.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2);
 		exitMenu.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2);
-		yesBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+10);
-		yesBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+50);
-		noBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+SceneManager.SCENE_WIDTH/2-SceneManager.SCENE_WIDTH/8-10);
-		noBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+50);
+		yesBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+15);
+		yesBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+65);
+		noBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+SceneManager.SCENE_WIDTH/2-SceneManager.SCENE_WIDTH/8-15);
+		noBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+65);
 			
-			gc.setFill(Color.DARKGRAY);
-			gc.fillRoundRect(0, 0, SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5, 30, 30);
+			gc.setFill(Color.WHITE);
+			gc.setLineWidth(5);
+			gc.fillRoundRect(2.5, 2.5, SceneManager.SCENE_WIDTH/2-5, SceneManager.SCENE_HEIGHT/5-5, 30, 30);
 			
 			gc2.setFill(Color.BLACK);
-			gc2.strokeRoundRect(0, 0, SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5, 30, 30);
-			gc2.setFill(Color.WHITE);
+			gc2.setLineWidth(5);
+			gc2.strokeRoundRect(2.5, 2.5, SceneManager.SCENE_WIDTH/2-5, SceneManager.SCENE_HEIGHT/5-5, 30, 30);
+			gc2.setFill(Color.BLACK);
 			gc2.setFont(bodyFont);
 			gc2.setTextAlign(TextAlignment.CENTER);
 			gc2.setTextBaseline(VPos.CENTER);
@@ -135,34 +126,14 @@ public class MainMenu extends Pane {
 			
 	}
 	
-	public static void undrawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
+	private void undrawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
 		bgWindow.setVisible(false);
 		exitMenu.setVisible(false);
 		yesBtn.setVisible(false);
 		noBtn.setVisible(false);
 	}
 	
-
-	public static Canvas drawButton(String name, double width, double height, double posX, double posY) {
-		Canvas canvas = new Canvas(width, height);
-		GraphicsContext gc = canvas.getGraphicsContext2D();
-
-		canvas.setTranslateX(posX);
-		canvas.setTranslateY(posY);
-			
-			gc.setFill(Color.BLACK);
-			gc.fillRoundRect(0, 0, width, height, 30, 30);
-			gc.setFill(Color.WHITE);
-			gc.setFont(bodyFont);
-			gc.setTextAlign(TextAlignment.CENTER);
-			gc.setTextBaseline(VPos.CENTER);
-			gc.fillText(name, width / 2, height / 2);
-
-		return canvas;
-
-	}
-	
-	public void changeCenter(Canvas canvas,double x, double y) {
+	private void changeCenter(Canvas canvas,double x, double y) {
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 	}

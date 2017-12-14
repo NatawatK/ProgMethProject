@@ -16,7 +16,7 @@ public class SelectBall extends Pane{
 	
 	private final double CHAR_WIDTH = 100;
 	private final double CHAR_HEIGHT = 100;
-	public static final Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
+	public static Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
 	private Canvas BGCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	private Canvas EarthBoard, EarthBorder, EarthImgCanvas;
 	private Canvas MarsBoard, MarsBorder, MarsImgCanvas;

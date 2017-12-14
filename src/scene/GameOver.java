@@ -1,13 +1,12 @@
 package scene;
 
-import javax.swing.GroupLayout.Alignment;
-
 import javafx.application.Platform;
 import javafx.geometry.VPos;
-import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -19,18 +18,22 @@ public class GameOver extends Pane{
 	
 	private final double BTN_WIDTH = 75;
 	private final double BTN_HEIGHT = 75;
-	public static final Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
-	public static final Font bodyFont = Font.font("Monospace" ,20);
-	private Canvas BGCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
-	private Canvas ReplayBtn;
-	private Canvas HomeBtn;
+	private static Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
+//	public static final Font bodyFont = Font.font("Monospace" ,20);
+	private static Font bodyFont = Font.loadFont("file:res/font/SPACEBAR.ttf",10);
+	private Canvas bgCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
+	private Canvas replayBtn;
+	private Canvas homeBtn;
 	private Canvas field, gameOverLabel, result;
+	
+	private int state = 0;
+	private Canvas bgWindow, exitMenu, yesBtn, noBtn;
 	
 	public GameOver() {
 		
-		GraphicsContext gc = BGCanvas.getGraphicsContext2D();
+		GraphicsContext gc = bgCanvas.getGraphicsContext2D();
 		gc.drawImage(ResLoader.GameOverImg, 0, 0, SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
-		getChildren().add(BGCanvas);
+		getChildren().add(bgCanvas);
 		
 		gameOverLabel = new Canvas(SceneManager.SCENE_WIDTH,200);
 		GraphicsContext gc2 = gameOverLabel.getGraphicsContext2D();
@@ -58,24 +61,101 @@ public class GameOver extends Pane{
 		changeCenter(field, (SceneManager.SCENE_WIDTH-300)/2, 150);
 		getChildren().addAll(field,result);
 		
-		ReplayBtn = drawButton(ResLoader.ReplayBtn1);	
-		addCanvasEvents(ReplayBtn, "Replay", ResLoader.ReplayBtn1, ResLoader.ReplayBtn2);
+		replayBtn = drawButton(ResLoader.ReplayBtn1);	
+		replayBtn.setFocusTraversable(true);
+		addCanvasEvents(replayBtn, "Replay", ResLoader.ReplayBtn1, ResLoader.ReplayBtn2);
 		
-		getChildren().add(ReplayBtn);
-		changeCenter(ReplayBtn, (SceneManager.SCENE_WIDTH-BTN_WIDTH)/4, 475);
+		getChildren().add(replayBtn);
+		changeCenter(replayBtn, (SceneManager.SCENE_WIDTH-BTN_WIDTH)/4, 475);
 		
-		HomeBtn = drawButton(ResLoader.HomeBtn1);	
-		addCanvasEvents(HomeBtn, "Home", ResLoader.HomeBtn1, ResLoader.HomeBtn2);
+		homeBtn = drawButton(ResLoader.HomeBtn1);	
+		addCanvasEvents(homeBtn, "Home", ResLoader.HomeBtn1, ResLoader.HomeBtn2);
 		
-		getChildren().add(HomeBtn);
-		changeCenter(HomeBtn, 3*(SceneManager.SCENE_WIDTH-BTN_WIDTH)/4, 475);
+		getChildren().add(homeBtn);
+		changeCenter(homeBtn, 3*(SceneManager.SCENE_WIDTH-BTN_WIDTH)/4, 475);
+		
+		bgWindow = new Canvas(SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5);
+		bgWindow.setVisible(false);
+		
+		exitMenu = new Canvas(SceneManager.SCENE_WIDTH/2, SceneManager.SCENE_HEIGHT/5);
+		exitMenu.setVisible(false);
+
+		yesBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
+		addCanvasEvents(yesBtn, "Yes");
+		yesBtn.setVisible(false);
+		
+		yesBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
+		addCanvasEvents(yesBtn, "Yes");
+		yesBtn.setVisible(false);
+
+		noBtn = new Canvas(SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14);
+		addCanvasEvents(noBtn, "No");
+		noBtn.setVisible(false);
+		
+		drawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
+		getChildren().addAll(bgWindow, exitMenu, yesBtn, noBtn);
 		
 		
 	}
 	
-	public void changeCenter(Canvas canvas,double x, double y) {
+	private void changeCenter(Canvas canvas,double x, double y) {
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
+	}
+	
+	private void drawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
+//		bgWindow.setOpacity(0.8);
+		
+		GraphicsContext gc = bgWindow.getGraphicsContext2D();
+		GraphicsContext gc2 = exitMenu.getGraphicsContext2D();
+		GraphicsContext gc3 = yesBtn.getGraphicsContext2D();
+		GraphicsContext gc4 = noBtn.getGraphicsContext2D();
+
+		bgWindow.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2);
+		bgWindow.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2);
+		exitMenu.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2);
+		exitMenu.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2);
+		yesBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+15);
+		yesBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+65);
+		noBtn.setTranslateX((SceneManager.SCENE_WIDTH-SceneManager.SCENE_WIDTH/2)/2+SceneManager.SCENE_WIDTH/2-SceneManager.SCENE_WIDTH/8-15);
+		noBtn.setTranslateY((SceneManager.SCENE_HEIGHT-SceneManager.SCENE_HEIGHT/5)/2+65);
+			
+			gc.setFill(Color.WHITE);
+			gc.setLineWidth(5);
+			gc.fillRoundRect(2.5, 2.5, SceneManager.SCENE_WIDTH/2-5, SceneManager.SCENE_HEIGHT/5-5, 30, 30);
+			
+			gc2.setFill(Color.BLACK);
+			gc2.setLineWidth(5);
+			gc2.strokeRoundRect(2.5, 2.5, SceneManager.SCENE_WIDTH/2-5, SceneManager.SCENE_HEIGHT/5-5, 30, 30);
+			gc2.setFill(Color.BLACK);
+			gc2.setFont(bodyFont);
+			gc2.setTextAlign(TextAlignment.CENTER);
+			gc2.setTextBaseline(VPos.CENTER);
+			gc2.fillText("EXIT", SceneManager.SCENE_WIDTH / 4, SceneManager.SCENE_HEIGHT / 10 - 20);
+			
+			gc3.setFill(Color.BLACK);
+			gc3.fillRoundRect(0, 0, SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14, 30, 30);
+			gc3.setFill(Color.WHITE);
+			gc3.setFont(bodyFont);
+			gc3.setTextAlign(TextAlignment.CENTER);
+			gc3.setTextBaseline(VPos.CENTER);
+			gc3.fillText("YES", SceneManager.SCENE_WIDTH / 16, SceneManager.SCENE_HEIGHT / 28);
+		
+			gc4.setFill(Color.BLACK);
+			gc4.fillRoundRect(0, 0, SceneManager.SCENE_WIDTH/8, SceneManager.SCENE_HEIGHT/14, 30, 30);
+			gc4.setFill(Color.WHITE);
+			gc4.setFont(bodyFont);
+			gc4.setTextAlign(TextAlignment.CENTER);
+			gc4.setTextBaseline(VPos.CENTER);
+			gc4.fillText("NO", SceneManager.SCENE_WIDTH / 16, SceneManager.SCENE_HEIGHT / 28);
+			
+	}
+	
+	private void undrawPauseWindow(Canvas bgWindow, Canvas exitMenu, Canvas yesBtn, Canvas noBtn) {
+		bgWindow.setVisible(false);
+		exitMenu.setVisible(false);
+		yesBtn.setVisible(false);
+		noBtn.setVisible(false);
 	}
 	
 	private Canvas drawButton(Image img) {
@@ -98,7 +178,6 @@ public class GameOver extends Pane{
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
-				Pane selectBall = new SelectBall();
 				if(buttonName=="Replay") SceneManager.goToGameScene();
 				if(buttonName=="Home") SceneManager.gotoMainMenu();
 			}
@@ -122,21 +201,56 @@ public class GameOver extends Pane{
 			}
 			
 		});
+		
+		canvas.setOnKeyPressed((KeyEvent e) -> {
+			System.out.println(e.getCode().getName());
+			if (e.getCode() == KeyCode.ESCAPE) {
+				if(state==0) {
+					this.bgWindow.setVisible(true);
+					this.exitMenu.setVisible(true);
+					this.yesBtn.setVisible(true);
+					this.noBtn.setVisible(true);
+					state++;
+				}else {
+					state = 0;
+					undrawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
+				}
+			}
+		});
+		
 	}
 	
-	public void showResult(Canvas canvas, int lvl, int damage, int maxBall) {
+	private void addCanvasEvents(Canvas canvas, String buttonName) {
+		//TODO Fill Code
+		canvas.setOnMouseClicked(new javafx.event.EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				// TODO Auto-generated method stub
+				if(buttonName=="Yes") Platform.exit();
+				if(buttonName=="No") {
+					state = 0;
+					undrawPauseWindow(bgWindow, exitMenu, yesBtn, noBtn);
+				}
+			}
+		});
+		
+	}
+	
+	private void showResult(Canvas canvas, int lvl, int damage, int maxBall) {
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		
 		gc.setFill(Color.BLACK);
-		gc.setFont(bodyFont);
-		gc.setTextAlign(TextAlignment.RIGHT);
+//		gc.setFont(bodyFont);
+		gc.setFont(Font.font(30));
+		gc.setTextAlign(TextAlignment.LEFT);
 		gc.setTextBaseline(VPos.CENTER);
-		gc.fillText("Level : "+lvl, 280, 50);
-		gc.fillText("Damage : "+damage, 280, 100);
-		gc.fillText("Max Ball : "+maxBall, 280, 150);
-		gc.setFill(Color.WHITE);
-		gc.fillRoundRect(20, 20, 100, 100, 20, 20);
-		gc.drawImage(ResLoader.MarsImg, 20, 20);
+		gc.fillText("Level : "+lvl, 50, 50);
+		gc.fillText("Damage : "+damage, 50, 100);
+		gc.fillText("Max Ball : "+maxBall, 50, 150);
+//		gc.setFill(Color.WHITE);
+//		gc.fillRoundRect(20, 20, 100, 100, 20, 20);
+//		gc.drawImage(ResLoader.MarsImg, 20, 20);
 		
 	}
 	

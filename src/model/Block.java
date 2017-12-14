@@ -5,6 +5,7 @@ import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -54,7 +55,13 @@ public class Block extends CollidableEntity implements Movable{
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
-		gc.drawImage(ResLoader.BlockImg, 0, 0, width, height);
+		/***********************************/
+		if(life<3) img = ResLoader.BlockRed;
+		else if(life<6) img = ResLoader.BlockPurple;
+		else img = ResLoader.BlockBlue;
+		gc.drawImage(img, 0, 0, width, height);
+		/***********************************/
+//		gc.drawImage(ResLoader.BlockImg, 0, 0, width, height);//delete this line
 		gc.setFill(Color.BLACK);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -76,6 +83,20 @@ public class Block extends CollidableEntity implements Movable{
 			System.out.println(this.toString() + "  " + "Play animation");
 		}
 		/******************************/
+		
+		/***********************************/
+		if(!isDestroyed()) {
+			ResLoader.bangSound.play();
+			ImageView iv = new ImageView();
+			Image i = new Image(ClassLoader.getSystemResource("img/newBomb.gif").toString());
+			iv.setImage(i);
+			iv.setFitHeight((double) GameManager.GRID_SIZE);
+			iv.setFitWidth((double) GameManager.GRID_SIZE);
+			iv.setTranslateX(x);
+			iv.setTranslateY(y);
+			Holder.getInstance().getGameStage().getChildren().add(iv);
+		}
+		/***********************************/
 		this.destroy = true;
 //		destroySound.play();
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);

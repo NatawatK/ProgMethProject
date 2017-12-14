@@ -8,6 +8,7 @@ public class ResLoader {
 	public static Image MenuImg, PlayBtn1, PlayBtn2;
 	public static Image SpaceCraftImg;
 	public static Image GameBG, BlockImg;
+	public static Image BlockPurple, BlockRed, BlockBlue;
 	public static Image SelectBallImg, EarthImg, MarsImg, MoonImg, PlutoImg, SaturnImg, UranusImg;
 	public static Image GameOverImg, ReplayBtn1, ReplayBtn2, HomeBtn1, HomeBtn2;
 	public static Image RetriveBallImg, RandomReflectorImg, VLightningImg, HLightningImg, BallPlusImg;
@@ -36,8 +37,12 @@ public class ResLoader {
 		
 		SpaceCraftImg = new Image(ClassLoader.getSystemResource("img/SpaceCraft.png").toString());
 		
-		BlockImg = new Image(ClassLoader.getSystemResource("img/SquareGrey.png").toString());
+		BlockImg = new Image(ClassLoader.getSystemResource("img/SquareGrey2.png").toString());
 		GameBG = new  Image(ClassLoader.getSystemResource("img/BG13.png").toString());
+		
+		BlockPurple = new Image(ClassLoader.getSystemResource("img/SquarePurple.png").toString());
+		BlockRed = new Image(ClassLoader.getSystemResource("img/SquareRed.png").toString());
+		BlockBlue = new Image(ClassLoader.getSystemResource("img/SquareBlue.png").toString());
 		
 		RetriveBallImg = new Image(ClassLoader.getSystemResource("img/Retrieve.png").toString());
 		RandomReflectorImg = new Image(ClassLoader.getSystemResource("img/RandomReflector.png").toString());
