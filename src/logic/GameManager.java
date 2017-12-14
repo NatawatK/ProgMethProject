@@ -18,7 +18,7 @@ import scene.SceneManager;
 public class GameManager {
 	
 	public enum GameState{
-		aim, shoot, wait, endShot, retrieve, move;
+		aim, shoot, endShot, retrieve, move;
 	}
 	
 	
@@ -73,9 +73,6 @@ public class GameManager {
 				Holder.getInstance().getAimLine().setVisible(false);
 				ballUpdate();
 //				System.out.println(stopPoint);
-				break;
-			case wait :
-				Holder.getInstance().getAimLine().setVisible(false);
 				break;
 			case move :
 				Holder.getInstance().getShooter().move();
@@ -132,7 +129,6 @@ public class GameManager {
 	
 	public static void aim(double x, double y) {
 		try {
-//			if(currentState == GameState.aim)
 			Holder.getInstance().getAimLine().aimTo(x, y);
 		}
 		catch (MinDegreeExceedException e) {
@@ -193,13 +189,4 @@ public class GameManager {
 	public static int getMaxBall() {
 		return Holder.getInstance().getShooter().getMaxBall();
 	}
-	public static GameState tmp;
-	public static void pause() {
-		tmp = currentState;
-		currentState = GameState.wait;
-	}
-	public static void unpause() {
-		currentState = tmp;
-	}
-	
 }

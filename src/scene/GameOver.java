@@ -16,9 +16,7 @@ public class GameOver extends Pane{
 	private final double BTN_WIDTH = 75;
 	private final double BTN_HEIGHT = 75;
 	private static Font headFont = Font.font("Monospace", FontWeight.BOLD,36);
-//	public static final Font bodyFont = Font.font("Monospace" ,20);
 	private static Font bodyFont = Font.font("Monospace", FontWeight.BOLD,24);
-//	private static Font bodyFont = Font.loadFont("file:res/font/SPACEBAR.ttf",10);
 	private Canvas bgCanvas = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	private Canvas replayBtn;
 	private Canvas homeBtn;

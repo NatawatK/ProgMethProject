@@ -20,9 +20,9 @@ public class GameStage extends Pane{
 	public final static double GAME_HEIGHT = 550;
 	public final static double LOSE_LINE = GAME_HEIGHT - 50;
 
-	protected static Canvas canvas, canvas2;
+	protected static Canvas canvas;
 	
-	private Canvas aboveBar1, aboveBar2;
+	private Canvas topBar1, topBar2;
 	public GraphicsContext gc, gc2;
 
 	public GameStage() {
@@ -38,16 +38,16 @@ public class GameStage extends Pane{
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.drawImage(ResLoader.GameBG, 0, 0, GAME_WIDTH, GAME_HEIGHT);
 		
-		aboveBar1 = new Canvas(GAME_WIDTH, 50);
-		gc = aboveBar1.getGraphicsContext2D();
-		aboveBar1.setOpacity(0.5);
+		topBar1 = new Canvas(GAME_WIDTH, 50);
+		gc = topBar1.getGraphicsContext2D();
+		topBar1.setOpacity(0.5);
 		
-		aboveBar2 = new Canvas(GAME_WIDTH, 50);
-		gc2 = aboveBar2.getGraphicsContext2D();
+		topBar2 = new Canvas(GAME_WIDTH, 50);
+		gc2 = topBar2.getGraphicsContext2D();
 		
-		getChildren().addAll(aboveBar1,aboveBar2);
+		getChildren().addAll(topBar1,topBar2);
 		
-		drawAboveBar(gc, gc2);
+		drawTopBar(gc, gc2);
 	}
 	
 	private void setEvent() {
@@ -55,7 +55,6 @@ public class GameStage extends Pane{
 		this.setOnMouseClicked(E -> {
 			if(E.getButton() == MouseButton.PRIMARY) {
 				GameManager.shoot();
-//				System.out.println("Shoot to : " + E.getSceneX() + " " + E.getSceneY());
 			}	
 			if(E.getButton() == MouseButton.SECONDARY) {
 				GameManager.retrieve();
@@ -64,7 +63,7 @@ public class GameStage extends Pane{
 
 	}
 	
-	public void drawAboveBar(GraphicsContext gc, GraphicsContext gc2) {
+	public void drawTopBar(GraphicsContext gc, GraphicsContext gc2) {
 
 		gc.setFill(Color.BLACK);
 		gc.fillRect(0, 0, GAME_WIDTH, 50);

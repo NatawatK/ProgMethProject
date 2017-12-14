@@ -2,6 +2,8 @@ package logic;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import javafx.scene.image.ImageView;
 import model.AimLine;
 import model.Ball;
 import model.Block;
@@ -79,6 +81,7 @@ public class Holder {
 		ballContainer.removeIf(e -> { return e.isDestroyed(); });
 		blockContainer.removeIf(e -> { return e.isDestroyed(); });
 		powerUpContainer.removeIf(e ->{ return e.isDestroyed(); } );
+		gameStage.getChildren().removeIf(e-> { return e instanceof ImageView; });
 	}
 
 	public Shooter getShooter() {

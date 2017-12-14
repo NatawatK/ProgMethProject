@@ -47,15 +47,11 @@ public class Shooter extends Entity implements Movable{
 	
 	
 	public void draw() {
-		// TODO Auto-generated method stub
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.drawImage(ResLoader.GameBG, 0, 0, GameStage.GAME_WIDTH, GameStage.GAME_HEIGHT);
 		gc.setFill(Color.RED);
-//		gc.fillRect(x-5, y-55, 10, 10);
-		
 		gc.fillText("x"+nowBall, x+20 , y-50);
 		drawSpaceCraft();
-//		System.out.println("Shooter Canvas Add!! " + x + " " + y);
 	}
 	
 	public void drawSpaceCraft() {
@@ -92,7 +88,6 @@ public class Shooter extends Entity implements Movable{
 					try {
 						Thread.sleep(COOLTIME);
 					} catch (InterruptedException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 				}
@@ -121,13 +116,10 @@ public class Shooter extends Entity implements Movable{
 
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
-		
+		//Do nothing
 	}
 	@Override
 	public void move() {
-		// TODO Auto-generated method stub
-//		System.out.println("shooter : " +nowState);
 		nowBall = maxBall;
 		if(Math.abs(x - GameManager.stopPoint) <=  SPEED) {
 			this.x = GameManager.stopPoint;
@@ -137,8 +129,6 @@ public class Shooter extends Entity implements Movable{
 		else {
 			nowState = ShooterState.move;
 			this.x += SPEED * ((x < GameManager.stopPoint)? 1 : -1);
-//			System.out.println(x + "   /  " + GameManager.stopPoint + "(" + Math.abs(x - GameManager.stopPoint) + ")");
-			
 		}
 		draw();
 	}

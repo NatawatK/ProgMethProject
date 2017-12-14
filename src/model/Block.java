@@ -49,7 +49,6 @@ public class Block extends CollidableEntity implements Movable{
 
 	@Override
 	protected void draw() {
-		// TODO Auto-generated method stub
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
@@ -71,7 +70,6 @@ public class Block extends CollidableEntity implements Movable{
 	
 	@Override
 	public void destroy() {
-		// TODO Auto-generated method stub
 		if(!isDestroyed()) {
 			Holder.getInstance().getAnimation().drawBomb(x, y);
 		}
@@ -82,7 +80,6 @@ public class Block extends CollidableEntity implements Movable{
 	
 	@Override
 	public void onCollision(CollidableEntity other) {
-		// TODO Auto-generated method stub
 		if(other instanceof Ball) decreaseLife();
 		ResLoader.bounceBlockSound.play();
 	}

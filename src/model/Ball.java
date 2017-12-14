@@ -57,12 +57,12 @@ public class Ball extends CollidableEntity implements Movable{
 		this.speed = 0;
 		this.destroy = true;
 		Holder.getInstance().getGameStage().getChildren().remove(canvas);
-//		System.out.print("*");
 	}
 	
 	public void collect() {
-		if(GameManager.stopPoint == -1) //is first ball landed
+		if(GameManager.stopPoint == -1){ //is first ball landed	
 			GameManager.stopPoint = this.x;
+		}
 		else {
 			if(Math.abs(this.x - GameManager.stopPoint) <= speed ) { //if this ball reach first ball
 				destroy();
@@ -72,9 +72,6 @@ public class Ball extends CollidableEntity implements Movable{
 				System.out.println(this + "    /   "  + this.x + "    /  "   + GameManager.stopPoint);
 			}
 		}
-		/*
-		 * BUG : first landed ball canvas is deleted!!???
-		*/	
 	}
 	@Override
 	public void draw() {	
@@ -82,7 +79,6 @@ public class Ball extends CollidableEntity implements Movable{
 		canvas.setTranslateY(y - radius);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
 		gc.setFill(BALL_COLOR);
-
 		gc.fillOval(0, 0, 2*radius, 2*radius);
 	}
 	
@@ -107,7 +103,6 @@ public class Ball extends CollidableEntity implements Movable{
 //	                System.out.println("Right");
 	            } else if (other.getRect().contains(PointLeft)) {
 	            		direction.x = Math.abs(direction.x);
-	//            	direction.x *= -1;
 //	            	System.out.println("Left");
 	            }
 	
@@ -133,7 +128,6 @@ public class Ball extends CollidableEntity implements Movable{
 		for(PowerUp e: Holder.getInstance().getPowerUpContainer()) {
 			if(e.isDestroyed()) continue;
 			if(e.getRect().intersects(this.getRect())) {
-//				System.out.println("Hit " + e.getClass());
 				onCollision(e);
 				e.onCollision(this);
 			}
@@ -165,7 +159,6 @@ public class Ball extends CollidableEntity implements Movable{
 
 	@Override
 	public Rectangle2D getRect() {
-		// TODO Auto-generated method stub
 		return new Rectangle2D(x-radius, y-radius, 2*radius, 2*radius);
 	}
 	
