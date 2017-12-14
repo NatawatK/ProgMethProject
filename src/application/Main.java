@@ -2,10 +2,8 @@ package application;
 	
 import javafx.application.Application;
 import javafx.stage.Stage;
-import scene.MainMenu;
 import scene.ResLoader;
 import scene.SceneManager;
-import javafx.scene.layout.BorderPane;
 
 
 public class Main extends Application {
@@ -15,7 +13,7 @@ public class Main extends Application {
 			ResLoader.loadResource();
 			SceneManager.initialize(primaryStage);
 			SceneManager.gotoMainMenu();
-			primaryStage.setTitle("Shoot!!!");
+			primaryStage.setTitle("SHOOTING STAR");
 			primaryStage.centerOnScreen();
 		} catch (Exception e) {
 			e.printStackTrace();

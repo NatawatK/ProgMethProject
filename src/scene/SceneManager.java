@@ -32,7 +32,6 @@ public class SceneManager{
 	public static void goToGameScene() {
 		GameManager.startGame();
 //		Scene scene = new Scene(Holder.getInstance().getGameStage());
-		primaryStage.setTitle("GameScene");
 		primaryStage.setScene(new Scene(Holder.getInstance().getGameStage()));
 		
 	}

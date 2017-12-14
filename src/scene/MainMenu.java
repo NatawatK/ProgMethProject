@@ -14,7 +14,7 @@ public class MainMenu extends Pane {
 	
 	private final double BTN_WIDTH = 100;
 	private final double BTN_HEIGHT = 100;
-	private static Font headFont = Font.loadFont(ClassLoader.getSystemResourceAsStream("font/SPACEBAR.ttf"),50);
+	private static Font headFont = Font.loadFont(ClassLoader.getSystemResourceAsStream("font/SPACEBAR.ttf"),40);
 	private Canvas playBtn;
 	private Canvas menuBG = new Canvas(SceneManager.SCENE_WIDTH,SceneManager.SCENE_HEIGHT);
 	
@@ -31,8 +31,8 @@ public class MainMenu extends Pane {
 		gc2.setFill(Color.WHITE);
 		gc2.setTextBaseline(VPos.CENTER);
 		gc2.setTextAlign(TextAlignment.CENTER);
-		gc2.fillText("THE\nSTAR", SceneManager.SCENE_WIDTH/2, 150);
-		gc2.strokeText("THE\nSTAR", SceneManager.SCENE_WIDTH/2, 150);
+		gc2.fillText("SHOOTING\nSTAR", SceneManager.SCENE_WIDTH/2, 150);
+		gc2.strokeText("SHOOTING\nSTAR", SceneManager.SCENE_WIDTH/2, 150);
 		
 		
 		changeCenter(MainLabel, 0, 0);

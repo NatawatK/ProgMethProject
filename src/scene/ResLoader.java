@@ -49,7 +49,7 @@ public class ResLoader {
 		VLightningImg = new Image(ClassLoader.getSystemResource("img/VLightning.png").toString());
 		HLightningImg = new Image(ClassLoader.getSystemResource("img/HLightning.png").toString());
 		
-		electricSound = new AudioClip(ClassLoader.getSystemResource("sound/zap2.mp3").toString());
+		electricSound = new AudioClip(ClassLoader.getSystemResource("sound/zap3.mp3").toString());
 		bangSound = new AudioClip(ClassLoader.getSystemResource("sound/bang1.wav").toString());
 		collectSound = new AudioClip(ClassLoader.getSystemResource("sound/collect.wav").toString());
 		bounceWallSound = new AudioClip(ClassLoader.getSystemResource("sound/bing2.wav").toString());

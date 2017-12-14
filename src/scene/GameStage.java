@@ -1,13 +1,9 @@
 package scene;
 
-import javafx.application.Platform;
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -55,6 +51,7 @@ public class GameStage extends Pane{
 		this.setOnMouseClicked(E -> {
 			if(E.getButton() == MouseButton.PRIMARY) {
 				GameManager.shoot();
+//				System.out.println("Shoot to : " + E.getSceneX() + " " + E.getSceneY());
 			}	
 			if(E.getButton() == MouseButton.SECONDARY) {
 				GameManager.retrieve();
