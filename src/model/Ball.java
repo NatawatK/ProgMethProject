@@ -60,7 +60,11 @@ public class Ball extends CollidableEntity implements Movable{
 	}
 	
 	public void collect() {
+<<<<<<< HEAD
 		if(GameManager.stopPoint == -1){ //is first ball landed	
+=======
+		if(GameManager.stopPoint == -1) //is first ball landed
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 			GameManager.stopPoint = this.x;
 		}
 		else {
@@ -72,6 +76,12 @@ public class Ball extends CollidableEntity implements Movable{
 				System.out.println(this + "    /   "  + this.x + "    /  "   + GameManager.stopPoint);
 			}
 		}
+<<<<<<< HEAD
+=======
+		/*
+		 * BUG : first landed ball canvas is deleted!!???
+		*/	
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	}
 	@Override
 	public void draw() {	
@@ -139,9 +149,15 @@ public class Ball extends CollidableEntity implements Movable{
 			canvas.setTranslateY(y-radius);
 			collect();
 		}
+<<<<<<< HEAD
 		if(y - radius <= 50) {
 			direction.y = Math.abs(direction.y);
 			y = radius+50;
+=======
+		if(y - radius <= 0) {
+			direction.y = Math.abs(direction.y);
+			y = radius;
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 			ResLoader.bounceWallSound.play();
 		}
 		if(x - radius <=0) {

@@ -1,5 +1,6 @@
 package scene;
 
+<<<<<<< HEAD
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -9,6 +10,13 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
+=======
+import javafx.scene.canvas.Canvas;
+import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseButton;
+import javafx.scene.layout.Pane;
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 import logic.GameManager;
 
 public class GameStage extends Pane{
@@ -17,6 +25,10 @@ public class GameStage extends Pane{
 	public final static double LOSE_LINE = GAME_HEIGHT - 50;
 
 	protected static Canvas canvas;
+<<<<<<< HEAD
+=======
+	protected Image gameBG;
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	
 	private Canvas topBar1, topBar2;
 	public GraphicsContext gc, gc2;
@@ -32,6 +44,7 @@ public class GameStage extends Pane{
 		canvas = new Canvas(GAME_WIDTH, GAME_HEIGHT);
 		this.getChildren().add(canvas);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+<<<<<<< HEAD
 		gc.drawImage(ResLoader.GameBG, 0, 0, GAME_WIDTH, GAME_HEIGHT);
 		
 		topBar1 = new Canvas(GAME_WIDTH, 50);
@@ -44,6 +57,10 @@ public class GameStage extends Pane{
 		getChildren().addAll(topBar1,topBar2);
 		
 		drawTopBar(gc, gc2);
+=======
+		gameBG = ResLoader.GameBG;
+		gc.drawImage(gameBG, 0, 0, GAME_WIDTH, GAME_HEIGHT);
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	}
 	
 	private void setEvent() {
@@ -57,6 +74,7 @@ public class GameStage extends Pane{
 				GameManager.retrieve();
 			}
 		});
+<<<<<<< HEAD
 
 	}
 	
@@ -82,4 +100,7 @@ public class GameStage extends Pane{
 		gc2.fillText(Integer.toString(lvl), GAME_WIDTH/2, 35);
 	}
 
+=======
+	}
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 }

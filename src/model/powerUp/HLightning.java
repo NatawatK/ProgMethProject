@@ -22,7 +22,16 @@ public class HLightning extends PowerUp{
 	public void onCollision(CollidableEntity other) {
 		// TODO Auto-generated method stub
 		this.hitted = true;
+<<<<<<< HEAD
 		Holder.getInstance().getAnimation().drawHLightning(y);
+=======
+//		ResLoader.electricSound.setVolume(50);
+//		ResLoader.electricSound.play();
+		/********* new animation **********
+		Holder.getInstance().getAnimation().drawHLightning((int)x);
+		
+		/**********************************/
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 		Rectangle2D lightning = new Rectangle2D(0, y, GameStage.GAME_HEIGHT, 1);
 		for( Block e : Holder.getInstance().getBlockContainer()) {
 			if(e.getRect().intersects(lightning))

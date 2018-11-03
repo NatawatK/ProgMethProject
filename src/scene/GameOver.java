@@ -99,6 +99,10 @@ public class GameOver extends Pane{
 			@Override
 			public void handle(MouseEvent event) {
 				// TODO Auto-generated method stub
+<<<<<<< HEAD
+=======
+				Pane selectBall = new SelectBall();
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 				if(buttonName=="Replay") SceneManager.goToGameScene();
 				if(buttonName=="Home") SceneManager.gotoMainMenu();
 			}

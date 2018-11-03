@@ -1,6 +1,10 @@
 package scene;
 
+<<<<<<< HEAD
 import javafx.application.Platform;
+=======
+
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 import javafx.geometry.VPos;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;

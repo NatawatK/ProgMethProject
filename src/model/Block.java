@@ -15,9 +15,14 @@ import scene.ResLoader;
 
 public class Block extends CollidableEntity implements Movable{
 	
+<<<<<<< HEAD
 	private static final Font font = Font.font("Monospace", FontWeight.BOLD,20);
 	private int life;
 	private int startLife;
+=======
+	private static final Font font = new Font("res/font/spacebar.ttf",20);
+	private int life;
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	
 	private double width;
 	private double height;
@@ -52,10 +57,14 @@ public class Block extends CollidableEntity implements Movable{
 		canvas.setTranslateX(x);
 		canvas.setTranslateY(y);
 		GraphicsContext gc = canvas.getGraphicsContext2D();
+<<<<<<< HEAD
 		if(life<0.3*startLife) img = ResLoader.BlockRed;
 		else if(life<0.6*startLife) img = ResLoader.BlockPurple;
 		else img = ResLoader.BlockBlue;
 		gc.drawImage(img, 0, 0, width, height);
+=======
+		gc.drawImage(ResLoader.BlockImg, 0, 0, width, height);
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 		gc.setFill(Color.BLACK);
 		gc.setFont(font);
 		gc.setTextAlign(TextAlignment.CENTER);
@@ -70,6 +79,11 @@ public class Block extends CollidableEntity implements Movable{
 	
 	@Override
 	public void destroy() {
+<<<<<<< HEAD
+=======
+		// TODO Auto-generated method stub
+		/*******new animation**********
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 		if(!isDestroyed()) {
 			Holder.getInstance().getAnimation().drawBomb(x, y);
 		}
@@ -80,7 +94,13 @@ public class Block extends CollidableEntity implements Movable{
 	
 	@Override
 	public void onCollision(CollidableEntity other) {
+<<<<<<< HEAD
 		if(other instanceof Ball) decreaseLife();
+=======
+		// TODO Auto-generated method stub
+		if(other instanceof Ball) decreaseLife();
+//		bounceSound.play();
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 		ResLoader.bounceBlockSound.play();
 	}
 	public double getBottom() {

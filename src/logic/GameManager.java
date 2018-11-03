@@ -6,7 +6,10 @@ import exception.MinDegreeExceedException;
 import exception.RetrieveException;
 import exception.ShootException;
 import javafx.animation.AnimationTimer;
+<<<<<<< HEAD
 import javafx.scene.layout.Pane;
+=======
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 import model.Ball;
 import model.Block;
 import model.Shooter.ShooterState;
@@ -85,7 +88,10 @@ public class GameManager {
 				level++;
 				objectsDown();
 				spawnObjects();
+<<<<<<< HEAD
 				Holder.getInstance().getGameStage().redrawLevel(getLevel());
+=======
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 				checkLose();
 				currentState = GameState.move;
 				break;
@@ -114,6 +120,7 @@ public class GameManager {
 			System.out.println(e.getErrorMessage());
 		}
 		
+<<<<<<< HEAD
 	}
 	
 	public static void retrieve() {
@@ -127,6 +134,21 @@ public class GameManager {
 		
 	}
 	
+=======
+	}
+	
+	public static void retrieve() {
+		try {
+			Holder.getInstance().getShooter().retrieve();
+		}
+		catch (RetrieveException e) {
+			// TODO: handle exception
+			System.out.println(e.getErrorMessage());
+		}
+		
+	}
+	
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	public static void aim(double x, double y) {
 		try {
 			Holder.getInstance().getAimLine().aimTo(x, y);
@@ -177,14 +199,26 @@ public class GameManager {
 	
 	private static void gameOver() {
 		timer.stop();
+<<<<<<< HEAD
 		Pane gameOver = new GameOver(getLevel(),getMaxBall());
 		Holder.getInstance().reset();
 		SceneManager.gotoSceneOf(gameOver);
+=======
+		Holder.getInstance().reset();
+		SceneManager.gotoSceneOf(new GameOver());
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	}
 	
 	public static int getLevel() {
 		return level;
 	}
+<<<<<<< HEAD
+=======
+	
+	public static int getMaxBall() {
+		return Holder.getInstance().getShooter().getMaxBall();
+	}
+>>>>>>> 159751500d0efa0a1717de865e78087068b3e5bb
 	
 	public static int getMaxBall() {
 		return Holder.getInstance().getShooter().getMaxBall();
